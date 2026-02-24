@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/governance/TimelockController.sol";
+
+contract BEdgeTimelockController is TimelockController {
+    constructor(address[] memory proposers, address[] memory executors)
+        TimelockController(3 days, proposers, executors, msg.sender)
+    {}
+}

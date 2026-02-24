@@ -1,0 +1,21 @@
+{
+    "name": "bnb-edge-node-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "test": "turbo run test",
+        "lint": "turbo run lint",
+        "deploy": "turbo run deploy",
+        "seed": "node scripts/seed.ts"
+    },
+    "devDependencies": {
+        "turbo": "^2.0.0"
+    },
+    "packageManager": "pnpm@9.0.0"
+}

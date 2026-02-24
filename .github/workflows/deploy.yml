@@ -1,0 +1,38 @@
+name: CD
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: pnpm install
+      - run: cd packages/contracts && npx hardhat run scripts/deploy.ts --network opbnbTestnet
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          OPBNB_RPC: ${{ secrets.OPBNB_RPC }}
+  deploy-frontend:
+    needs: deploy-contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pnpm install
+      - run: cd apps/web && pnpm build
+      - uses: vercel/vercel-action@v1
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          scope: team
+  deploy-backend:
+    needs: deploy-contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t bnb-edge-api ./apps/api
+      - run: docker push myregistry/bnb-edge-api  # Use your registry
+  # Similar for AI
