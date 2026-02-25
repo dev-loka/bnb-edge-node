@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BNB Edge Node OS v4.1 – Live DePIN Dashboard</title>
+  <title>BNB Edge Node OS v4.2 – Live Staking Demo</title>
   <meta name="description"
-    content="BNB Edge Node OS: Real‑time DePIN farm management with live AI agents, OpenClaw, Model Hub, and on‑chain analytics. Fully interactive demo.">
+    content="BNB Edge Node OS: Decentralized AI worker registry secured by BNB staking. Live demo with on‑chain proof panel and staking flow.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500;600&display=swap"
@@ -372,6 +372,163 @@
       border: 1px solid rgba(48, 209, 88, .2)
     }
 
+    /* ========== PROOF PANEL (NEW) ========== */
+    .proof-panel {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rs);
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .proof-label {
+      font-size: 11px;
+      color: var(--tx2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .6px
+    }
+
+    .proof-value {
+      font-family: var(--m);
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .proof-badge {
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(48, 209, 88, .12);
+      color: var(--grn);
+      border: 1px solid rgba(48, 209, 88, .2)
+    }
+
+    .proof-link {
+      color: var(--cyan);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--cyan);
+      cursor: pointer;
+      font-family: var(--m);
+      font-size: 12px
+    }
+
+    .proof-link:hover {
+      opacity: .8
+    }
+
+    /* ========== STAKING DEMO CARD (NEW) ========== */
+    .staking-demo {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .staking-demo::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--bnb), transparent)
+    }
+
+    .staking-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px
+    }
+
+    .staking-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .staking-amount {
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--m);
+      color: var(--bnb)
+    }
+
+    .staking-note {
+      font-size: 11px;
+      color: var(--tx2)
+    }
+
+    .staking-buttons {
+      display: flex;
+      gap: 10px
+    }
+
+    .btn-stake {
+      padding: 12px 24px;
+      border-radius: var(--rx);
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--bnb), #FFD700);
+      color: #000;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-stake:hover {
+      opacity: .85;
+      transform: scale(1.02)
+    }
+
+    .btn-stake:disabled {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .staking-tx {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rx);
+      padding: 10px 14px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .tx-hash {
+      font-family: var(--m);
+      color: var(--cyan);
+      font-size: 13px
+    }
+
+    .tx-link {
+      color: var(--grn);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--grn);
+      cursor: pointer;
+      font-size: 12px
+    }
+
     /* ----- NETWORK STATUS BAR ----- */
     .nsbar {
       display: flex;
@@ -436,7 +593,8 @@
     .sc::before {
       content: '';
       position: absolute;
-      inset-x: 0;
+      left: 0;
+      right: 0;
       top: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--sc-c, rgba(255, 255, 255, .04)), transparent)
@@ -650,7 +808,8 @@
     .fc::before {
       content: '';
       position: absolute;
-      inset-x: 0;
+      left: 0;
+      right: 0;
       top: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--fc-c, rgba(255, 255, 255, .05)), transparent)
@@ -894,7 +1053,8 @@
     .acard::before {
       content: '';
       position: absolute;
-      inset-x: 0;
+      left: 0;
+      right: 0;
       top: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .05), transparent)
@@ -1083,218 +1243,799 @@
     .task-status-done {
       background: rgba(142, 142, 160, .1);
       color: var(--tx2)
-    }/* WALLET & CHECKLIST */
-.eg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.ec{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}
-.ec::before{content:'';position:absolute;inset-x:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--ec-c,rgba(255,255,255,.05)),transparent)}
-.ec h3{font-size:10.5px;color:var(--tx2);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
-.eb{font-size:31px;font-weight:700;font-family:var(--m);letter-spacing:-1.5px;margin-bottom:3px}
-.esb{font-size:11.5px;color:var(--tx2);margin-bottom:14px;line-height:1.5}
-.tl2{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
-.ti2{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--sur);border-radius:var(--rx);border:1px solid var(--bdr);transition:border-color .2s}
-.tin{font-size:13px;font-weight:600;flex:1}
-.tia{font-family:var(--m);font-size:13px;font-weight:700;text-align:right}
-.clg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:7px}
-.cr{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--rx);transition:border-color .2s}
-.cbox{width:19px;height:19px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.cbok{background:rgba(48,209,88,.14);color:var(--grn);border:1.5px solid rgba(48,209,88,.3)}
-.cbwrn{background:rgba(255,69,58,.1);color:var(--red);border:1.5px solid rgba(255,69,58,.25)}
-.cbtdo{background:rgba(255,159,10,.1);color:var(--org);border:1.5px solid rgba(255,159,10,.25)}
+    }
 
-/* TERMINAL */
-.term-win{background:#07070f;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
-.term-hdr{padding:10px 14px;background:var(--sur);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px}
-.term-body{padding:14px 16px;min-height:240px;max-height:380px;overflow-y:auto;font-family:var(--m);font-size:13px;line-height:1.75}
-.term-input-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--sur);border-top:1px solid var(--bdr)}
-.term-input{flex:1;background:transparent;border:none;color:var(--tx);font-family:var(--m);font-size:13px;outline:none}
-.term-send{padding:4px 12px;border-radius:6px;background:var(--acc);color:#fff;border:none;font-size:12px;font-weight:600}
+    /* WALLET & CHECKLIST */
+    .eg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px
+    }
 
-/* ANALYTICS CHARTS */
-.chart-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px;position:relative;overflow:hidden}
-.bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding:0 4px}
-.bar-group{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px}
-.bar-wrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px}
-.bar{border-radius:3px 3px 0 0;width:calc(50% - 2px);transition:opacity .2s;cursor:default;min-height:4px}
-.bar-label{font-size:9px;color:var(--tx2);text-align:center;font-family:var(--m)}
+    .ec {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 20px;
+      position: relative;
+      overflow: hidden
+    }
 
-/* TOASTS */
-.toa{position:fixed;bottom:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none;max-width:295px}
-.tst{background:var(--card);border:1px solid var(--bdr2);border-radius:var(--rs);padding:11px 14px;width:295px;box-shadow:0 14px 44px rgba(0,0,0,.7);display:flex;align-items:center;gap:9px;animation:tIn .3s cubic-bezier(.34,1.56,.64,1) both;pointer-events:all}
-@keyframes tIn{from{transform:translateX(110%);opacity:0}to{transform:none;opacity:1}}
+    .ec::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ec-c, rgba(255, 255, 255, .05)), transparent)
+    }
 
-/* OMEGA & NODES */
-.opos{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;transition:all .22s}
-.node-globe{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:20px;min-height:160px;position:relative;overflow:hidden}
-.npin{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(255,255,255,.05);border:1px solid var(--bdr)}
+    .ec h3 {
+      font-size: 10.5px;
+      color: var(--tx2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      margin-bottom: 7px
+    }
 
-/* COMPARISON TABLE */
-.ctwrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--bdr);margin-top:14px}
-.ctbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.ctbl th{background:var(--sur);padding:10px 14px;text-align:left;font-weight:700;font-size:9.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--tx2);border-bottom:1px solid var(--bdr)}
-.ctbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.022);vertical-align:middle;white-space:nowrap}
-.cbnb td{border-left:2px solid var(--acc)}
-.bpill{padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700}
-.plive{background:rgba(48,209,88,.14);color:var(--grn)}
-.pdead{background:rgba(255,69,58,.12);color:var(--red)}
+    .eb {
+      font-size: 31px;
+      font-weight: 700;
+      font-family: var(--m);
+      letter-spacing: -1.5px;
+      margin-bottom: 3px
+    }
 
-@media(max-width:768px){.tb{padding:0 10px;height:52px}.pg{padding:14px}.SR{grid-template-columns:repeat(2,1fr)}}
-</style>
+    .esb {
+      font-size: 11.5px;
+      color: var(--tx2);
+      margin-bottom: 14px;
+      line-height: 1.5
+    }
+
+    .tl2 {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 18px
+    }
+
+    .ti2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: var(--rx);
+      border: 1px solid var(--bdr);
+      transition: border-color .2s
+    }
+
+    .tin {
+      font-size: 13px;
+      font-weight: 600;
+      flex: 1
+    }
+
+    .tia {
+      font-family: var(--m);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right
+    }
+
+    .clg {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 7px
+    }
+
+    .cr {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rx);
+      transition: border-color .2s
+    }
+
+    .cbox {
+      width: 19px;
+      height: 19px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .cbok {
+      background: rgba(48, 209, 88, .14);
+      color: var(--grn);
+      border: 1.5px solid rgba(48, 209, 88, .3)
+    }
+
+    .cbwrn {
+      background: rgba(255, 69, 58, .1);
+      color: var(--red);
+      border: 1.5px solid rgba(255, 69, 58, .25)
+    }
+
+    .cbtdo {
+      background: rgba(255, 159, 10, .1);
+      color: var(--org);
+      border: 1.5px solid rgba(255, 159, 10, .25)
+    }
+
+    /* TERMINAL */
+    .term-win {
+      background: #07070f;
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 16px
+    }
+
+    .term-hdr {
+      padding: 10px 14px;
+      background: var(--sur);
+      border-bottom: 1px solid var(--bdr);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .term-body {
+      padding: 14px 16px;
+      min-height: 240px;
+      max-height: 380px;
+      overflow-y: auto;
+      font-family: var(--m);
+      font-size: 13px;
+      line-height: 1.75
+    }
+
+    .term-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--sur);
+      border-top: 1px solid var(--bdr)
+    }
+
+    .term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--tx);
+      font-family: var(--m);
+      font-size: 13px;
+      outline: none
+    }
+
+    .term-send {
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: var(--acc);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    /* ANALYTICS CHARTS */
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 120px;
+      padding: 0 4px
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      gap: 3px
+    }
+
+    .bar-wrap {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px
+    }
+
+    .bar {
+      border-radius: 3px 3px 0 0;
+      width: calc(50% - 2px);
+      transition: opacity .2s;
+      cursor: default;
+      min-height: 4px
+    }
+
+    .bar-label {
+      font-size: 9px;
+      color: var(--tx2);
+      text-align: center;
+      font-family: var(--m)
+    }
+
+    /* TOASTS */
+    .toa {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      pointer-events: none;
+      max-width: 295px
+    }
+
+    .tst {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: var(--rs);
+      padding: 11px 14px;
+      width: 295px;
+      box-shadow: 0 14px 44px rgba(0, 0, 0, .7);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: tIn .3s cubic-bezier(.34, 1.56, .64, 1) both;
+      pointer-events: all
+    }
+
+    @keyframes tIn {
+      from {
+        transform: translateX(110%);
+        opacity: 0
+      }
+
+      to {
+        transform: none;
+        opacity: 1
+      }
+    }
+
+    /* OMEGA & NODES */
+    .opos {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      transition: all .22s
+    }
+
+    .node-globe {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 20px;
+      min-height: 160px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .npin {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--bdr)
+    }
+
+    /* COMPARISON TABLE */
+    .ctwrap {
+      overflow-x: auto;
+      border-radius: var(--rs);
+      border: 1px solid var(--bdr);
+      margin-top: 14px
+    }
+
+    .ctbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px
+    }
+
+    .ctbl th {
+      background: var(--sur);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--tx2);
+      border-bottom: 1px solid var(--bdr)
+    }
+
+    .ctbl td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .022);
+      vertical-align: middle;
+      white-space: nowrap
+    }
+
+    .cbnb td {
+      border-left: 2px solid var(--acc)
+    }
+
+    .bpill {
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700
+    }
+
+    .plive {
+      background: rgba(48, 209, 88, .14);
+      color: var(--grn)
+    }
+
+    .pdead {
+      background: rgba(255, 69, 58, .12);
+      color: var(--red)
+    }
+
+    @media(max-width:768px) {
+      .tb {
+        padding: 0 10px;
+        height: 52px
+      }
+
+      .pg {
+        padding: 14px
+      }
+
+      .SR {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="wp"><div class="wm"></div><div class="wg"></div></div>
-
-<!-- SVG SYMBOL LIBRARY (Hivello 2.0 Style) -->
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-<symbol id="i-bnb" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#F0B90B"/><path d="M15.9 18.5L20 14.4l4.1 4.1 2.35-2.35L20 9.7l-6.45 6.45 2.35 2.35zM9.7 20l2.35-2.35 2.35 2.35-2.35 2.35L9.7 20zm6.2 1.5L20 25.6l4.1-4.1 2.35 2.35L20 30.3l-6.45-6.45 2.35-2.35zm8.05-1.5l2.35-2.35L28.65 20l-2.35 2.35L23.95 20zm-5.92 0h.01L20 18.1 17.9 20.2h-.01l.01.01L20 22.3l2.08-2.09v.01l-.01-.01z" fill="#fff"/></symbol>
-<symbol id="i-grass" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#00C896"/><path d="M20 28V13" stroke="white" stroke-width="2.5" stroke-linecap="round"/><path d="M20 13c-1-3-4-5-6-4s-2 5 2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M20 13c1-3 4-5 6-4s2 5-2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
-<symbol id="i-theta" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#2AB8E6"/><text x="20" y="27" text-anchor="middle" font-size="20" font-family="Georgia,serif" fill="white" font-weight="bold" font-style="italic">Θ</text></symbol>
-<symbol id="i-storj" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0065FF"/><path d="M20 8l9.8 5.65v11.3L20 30.7 10.2 25.05V13.65L20 8zm0 2.6l-7.5 4.33v8.65L20 28.1l7.5-4.33v-8.65L20 10.6z" fill="white"/></symbol>
-<symbol id="i-myst" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#A84CF5"/><rect x="11" y="13" width="18" height="2.5" rx="1.25" fill="white"/></symbol>
-<symbol id="i-render" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#1C1C1C"/><path d="M12 10h9a6 6 0 0 1 0 12h-3l5.5 8H19l-5.5-8H14v8H10V10h2zm2 4v6h7a3 3 0 0 0 0-6H14z" fill="#FF6B35"/></symbol>
-<symbol id="i-helium" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#474DFF"/><path d="M13.5 9h4v9h5V9h4v22h-4v-9h-5v9h-4z" fill="white"/></symbol>
-<symbol id="i-openclaw" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#7C5CFC"/><circle cx="20" cy="20" r="3.5" fill="white"/></symbol>
-<symbol id="i-claude" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#CC785C"/><path d="M14.5 28.5l5.5-17 5.5 17" stroke="white" stroke-width="2.5" fill="none"/></symbol>
-<symbol id="i-gemini" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#1A73E8"/><path d="M20 7c0 7.2 5.8 13 13 13-7.2 0-13 5.8-13 13 0-7.2-5.8-13-13-13 7.2 0 13-5.8 13-13z" fill="white"/></symbol>
-<symbol id="i-usdc" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#2775CA"/><path d="M21 29v2h-2.5v-2c-3.5-.5-5.5-2.7-5.5-5.5h2.5c0 1.7 1.5 3 4.5 3 3 0 4-1.1 4-2.5s-.8-2.2-4-3.1C16.2 20 14 18.4 14 15.5c0-2.6 2-4.6 4.5-5.1" fill="white"/></symbol>
-<symbol id="i-erc" viewBox="0 0 40 40"><rect width="40" height="40" rx="7" fill="#7C5CFC"/><text x="20" y="27" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#C4B5FD" font-weight="700">-8004</text></symbol>
-<symbol id="i-opbnb" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#E8A500"/><text x="20" y="26" text-anchor="middle" font-size="12" font-family="Arial" fill="white" font-weight="800">op</text></symbol>
-</svg>
-
-<div class="ow">
-<header class="tb">
-  <div class="tl"><div class="ti"><svg width="22" height="22"><use href="#i-bnb"/></svg></div><div><div class="tn">BNB Edge Node OS</div><div class="tv">v4.1 · Final · opBNB</div></div></div>
-  <nav class="tc">
-    <button class="nt active" onclick="sw('dashboard',this)">Dashboard</button>
-    <button class="nt" onclick="sw('farms',this)">DePIN Farm</button>
-    <button class="nt" onclick="sw('agents',this)">AI Agents</button>
-    <button class="nt" onclick="sw('wallet',this)">Wallet</button>
-    <button class="nt" onclick="sw('analytics',this)">Analytics</button>
-    <button class="nt" onclick="sw('terminal',this)">Terminal+AI</button>
-    <button class="nt" onclick="sw('openclaw',this)">OpenClaw</button>
-    <button class="nt" onclick="sw('models',this)">Model Hub</button>
-    <button class="nt" onclick="sw('omega',this)">Ω Portfolio</button>
-    <button class="nt" onclick="sw('nodes',this)">Nodes</button>
-  </nav>
-  <div class="tr"><div class="tp"><div class="sd dg"></div><span class="elive" id="le">+$0.000</span></div><button class="tbtn" id="wb" onclick="cw()">⚡</button></div>
-</header>
-
-<div class="pg active" id="dashboard">
-  <div class="st">Good morning, Operator <span class="tkb"><span class="sd dg"></span>All systems nominal</span></div>
-  <div class="ss">BNB Edge Node OS v4.1 – Live Dashboard · 6 protocols · 10 pages</div>
-  <div class="nsbar">
-    <div class="nb nbon">opBNB L2 ✓</div><div class="nb nbon">Grass ✓</div><div class="nb nbon">Theta ✓</div><div class="nb nbwrn">Render Sync</div><div class="nb nbon">38 Agents Active</div>
+  <div class="wp">
+    <div class="wm"></div>
+    <div class="wg"></div>
   </div>
-  <div class="sr">
-    <div class="sc gn"><div class="sch up">+12.4%</div><div class="si"><svg viewBox="0 0 40 40"><use href="#i-usdc"/></svg></div><div class="sv" id="total-earnings">$0.000</div><div class="slb">Earned Today (USDC)</div><div class="sparkline" id="spark1"></div></div>
-    <div class="sc gg"><div class="si">🖥️</div><div class="sv" id="active-nodes">147</div><div class="slb">Active Nodes</div></div>
-    <div class="sc gp"><div class="si">🤖</div><div class="sv" id="active-agents">38</div><div class="slb">AI Agents</div></div>
-    <div class="sc go"><div class="si">💎</div><div class="sv" id="total-tvs">$4,821</div><div class="slb">Total Value Staked</div></div>
-  </div>
-  <div class="ctwrap">
-    <table class="ctbl">
-      <thead><tr><th>Protocol</th><th>AI Agents</th><th>On-chain ID</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr class="cbnb"><td>BNB Edge Node OS</td><td>✓ ERC-8004</td><td>✓ BAP-578</td><td><span class="bpill plive">LIVE</span></td></tr>
-        <tr><td>Hivello</td><td>✗</td><td>✗</td><td><span class="bpill pdead">SHUT DOWN</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
-<div class="pg" id="farms">
-  <div class="st">DePIN Farm Manager <span class="tkb">6 protocols</span></div>
-  <div class="fg" id="farm-grid">
-    <!-- Grass Card -->
-    <div class="fc" style="--fc-c:rgba(0,200,150,.18)">
-      <div class="fct"><div class="fl"><svg viewBox="0 0 40 40"><use href="#i-grass"/></svg></div><div><div class="fn">Grass Network</div><div class="fp">Bandwidth DePIN</div></div></div>
-      <div class="fm"><div class="mt"><div class="mv" style="color:var(--grn)">$1.24</div><div class="mk">Today</div></div><div class="mt"><div class="mv">847</div><div class="mk">Points</div></div></div>
-      <div class="fa"><button class="fb bd" onclick="toggleFarm(this,'Grass')">Stop</button></div>
+  <!-- SVG SYMBOL LIBRARY (Hivello 2.0 Style) -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-bnb" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#F0B90B" />
+      <path
+        d="M15.9 18.5L20 14.4l4.1 4.1 2.35-2.35L20 9.7l-6.45 6.45 2.35 2.35zM9.7 20l2.35-2.35 2.35 2.35-2.35 2.35L9.7 20zm6.2 1.5L20 25.6l4.1-4.1 2.35 2.35L20 30.3l-6.45-6.45 2.35-2.35zm8.05-1.5l2.35-2.35L28.65 20l-2.35 2.35L23.95 20zm-5.92 0h.01L20 18.1 17.9 20.2h-.01l.01.01L20 22.3l2.08-2.09v.01l-.01-.01z"
+        fill="#fff" />
+    </symbol>
+    <symbol id="i-grass" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#00C896" />
+      <path d="M20 28V13" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+      <path d="M20 13c-1-3-4-5-6-4s-2 5 2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" />
+      <path d="M20 13c1-3 4-5 6-4s2 5-2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" />
+    </symbol>
+    <symbol id="i-theta" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#2AB8E6" /><text x="20" y="27" text-anchor="middle" font-size="20"
+        font-family="Georgia,serif" fill="white" font-weight="bold" font-style="italic">Θ</text>
+    </symbol>
+    <symbol id="i-storj" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#0065FF" />
+      <path d="M20 8l9.8 5.65v11.3L20 30.7 10.2 25.05V13.65L20 8zm0 2.6l-7.5 4.33v8.65L20 28.1l7.5-4.33v-8.65L20 10.6z"
+        fill="white" />
+    </symbol>
+    <symbol id="i-myst" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#A84CF5" />
+      <rect x="11" y="13" width="18" height="2.5" rx="1.25" fill="white" />
+    </symbol>
+    <symbol id="i-render" viewBox="0 0 40 40">
+      <rect width="40" height="40" rx="8" fill="#1C1C1C" />
+      <path d="M12 10h9a6 6 0 0 1 0 12h-3l5.5 8H19l-5.5-8H14v8H10V10h2zm2 4v6h7a3 3 0 0 0 0-6H14z" fill="#FF6B35" />
+    </symbol>
+    <symbol id="i-helium" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#474DFF" />
+      <path d="M13.5 9h4v9h5V9h4v22h-4v-9h-5v9h-4z" fill="white" />
+    </symbol>
+    <symbol id="i-openclaw" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#7C5CFC" />
+      <circle cx="20" cy="20" r="3.5" fill="white" />
+    </symbol>
+    <symbol id="i-claude" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#CC785C" />
+      <path d="M14.5 28.5l5.5-17 5.5 17" stroke="white" stroke-width="2.5" fill="none" />
+    </symbol>
+    <symbol id="i-gemini" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#1A73E8" />
+      <path d="M20 7c0 7.2 5.8 13 13 13-7.2 0-13 5.8-13 13 0-7.2-5.8-13-13-13 7.2 0 13-5.8 13-13z" fill="white" />
+    </symbol>
+    <symbol id="i-usdc" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#2775CA" />
+      <path
+        d="M21 29v2h-2.5v-2c-3.5-.5-5.5-2.7-5.5-5.5h2.5c0 1.7 1.5 3 4.5 3 3 0 4-1.1 4-2.5s-.8-2.2-4-3.1C16.2 20 14 18.4 14 15.5c0-2.6 2-4.6 4.5-5.1"
+        fill="white" />
+    </symbol>
+    <symbol id="i-erc" viewBox="0 0 40 40">
+      <rect width="40" height="40" rx="7" fill="#7C5CFC" /><text x="20" y="27" text-anchor="middle" font-size="8.5"
+        font-family="monospace" fill="#C4B5FD" font-weight="700">-8004</text>
+    </symbol>
+    <symbol id="i-opbnb" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#E8A500" /><text x="20" y="26" text-anchor="middle" font-size="12"
+        font-family="Arial" fill="white" font-weight="800">op</text>
+    </symbol>
+  </svg>
+
+  <div class="ow">
+    <header class="tb">
+      <div class="tl">
+        <div class="ti"><svg width="22" height="22" viewBox="0 0 40 40">
+            <use href="#i-bnb" />
+          </svg></div>
+        <div>
+          <div class="tn">BNB Edge Node OS</div>
+          <div class="tv">v4.2 · opBNB · Decentralized AI Worker Registry</div>
+        </div>
+      </div>
+      <nav class="tc">
+        <button class="nt active" onclick="sw('dashboard',this)">Dashboard</button>
+        <button class="nt" onclick="sw('farms',this)">DePIN Farm</button>
+        <button class="nt" onclick="sw('agents',this)">AI Agents</button>
+        <button class="nt" onclick="sw('wallet',this)">Wallet</button>
+        <button class="nt" onclick="sw('analytics',this)">Analytics</button>
+        <button class="nt" onclick="sw('terminal',this)">Terminal+AI</button>
+        <button class="nt" onclick="sw('openclaw',this)">OpenClaw</button>
+        <button class="nt" onclick="sw('models',this)">Model Hub</button>
+        <button class="nt" onclick="sw('omega',this)">Ω Portfolio</button>
+        <button class="nt" onclick="sw('nodes',this)">Nodes</button>
+      </nav>
+      <div class="tr">
+        <div class="tp">
+          <div class="sd dg"></div>
+          <span class="elive" id="le">+$0.000</span>
+          <span style="color:var(--tx2);font-size:11px">/hr</span>
+        </div>
+        <div class="tp" style="gap:5px">
+          <svg width="14" height="14" viewBox="0 0 40 40">
+            <use href="#i-opbnb" />
+          </svg>
+          <span style="font-size:11.5px">opBNB</span>
+          <div class="sd dg"></div>
+        </div>
+        <button class="tbtn" id="wb" onclick="cw()" title="Wallet">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+            <circle cx="16" cy="13" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ⭐ NEW: PROOF PANEL ⭐ -->
+    <div class="proof-panel">
+      <div class="proof-item">
+        <span class="proof-label">Network</span>
+        <span class="proof-value">opBNB Mainnet</span>
+        <span class="proof-badge">Chain ID 204</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Contract</span>
+        <a href="#" class="proof-link" onclick="explorerLink('0x7F3A...2B91'); return false;">0x7F3A...2B91</a>
+        <span class="proof-badge">Verified</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Last Tx</span>
+        <a href="#" class="proof-link" onclick="explorerLink('0x8a2f...c3d4'); return false;">0x8a2f...c3d4</a>
+        <span class="proof-value">2 mins ago</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Wallet</span>
+        <span class="proof-value" id="proof-wallet">0x7F3A...2B91</span>
+        <span class="proof-badge">Connected</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Gas</span>
+        <span class="proof-value">0.001 BNB</span>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="pg" id="agents">
-  <div class="st">AI Agent Registry <span class="tkb">38 agents</span></div>
-  <div class="ags">
-    <div class="acard">
-      <div class="at"><div class="av">🤖</div><div><div class="aid">AGENT-0x7F3A</div><div class="atp">ClawWork · 44 Sectors</div></div></div>
-      <div class="amodel"><span>GPT-4o</span><span class="aec">+$4.20/hr</span></div>
-      <div class="task-feed" id="agent1-feed"></div>
+    <div class="pg active" id="dashboard">
+      <div class="st">Decentralized AI Worker Registry <span class="tkb"><span class="sd dg"></span>Secured by BNB
+          Staking</span></div>
+      <div class="ss">BNB Edge Node OS v4.2 – Live on opBNB · Stake BNB to register AI workers and earn rewards. All
+        contracts verified on opBNBScan.</div>
+
+      <!-- ⭐ NEW: STAKING DEMO CARD ⭐ -->
+      <div class="staking-demo">
+        <div class="staking-row">
+          <div class="staking-info">
+            <div class="staking-amount" id="staked-amount">0.00 BNB</div>
+            <div class="staking-note">Your stake – rewards are earned per epoch</div>
+            <div style="font-size:13px; color:var(--tx2)">APY: 8% – 12% based on node performance</div>
+          </div>
+          <div class="staking-buttons">
+            <button class="btn-stake" id="stake-btn" onclick="stakeFlow()">Stake 0.1 BNB</button>
+            <button class="btn-stake" style="background:var(--sur); color:var(--tx2); border:1px solid var(--bdr);"
+              onclick="toast('ℹ️','Demo Info','This simulates a live staking transaction.')">Info</button>
+          </div>
+        </div>
+        <div id="tx-container" style="display: none;" class="staking-tx">
+          <span class="tx-hash" id="tx-hash">0x8f2d...a1b2</span>
+          <a href="#" class="tx-link" onclick="explorerLink('0x8f2d...a1b2'); return false;">View on opBNBScan ↗</a>
+          <span style="color:var(--grn); font-size:12px;">✓ Confirmed</span>
+        </div>
+      </div>
+      <div class="nsbar">
+        <div class="nb nbon">opBNB L2 ✓</div>
+        <div class="nb nbon">Grass ✓</div>
+        <div class="nb nbon">Theta ✓</div>
+        <div class="nb nbwrn">Render Sync</div>
+        <div class="nb nbon">38 Agents Active</div>
+      </div>
+      <div class="sr">
+        <div class="sc gn">
+          <div class="sch up">+12.4%</div>
+          <div class="si"><svg viewBox="0 0 40 40">
+              <use href="#i-usdc" />
+            </svg></div>
+          <div class="sv" id="total-earnings">$0.000</div>
+          <div class="slb">Earned Today (USDC)</div>
+          <div class="sparkline" id="spark1"></div>
+        </div>
+        <div class="sc gg">
+          <div class="si">🖥️</div>
+          <div class="sv" id="active-nodes">147</div>
+          <div class="slb">Active Nodes</div>
+        </div>
+        <div class="sc gp">
+          <div class="si">🤖</div>
+          <div class="sv" id="active-agents">38</div>
+          <div class="slb">AI Agents</div>
+        </div>
+        <div class="sc go">
+          <div class="si">💎</div>
+          <div class="sv" id="total-tvs">$4,821</div>
+          <div class="slb">Total Value Staked</div>
+        </div>
+      </div>
+      <div class="ctwrap">
+        <table class="ctbl">
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>AI Agents</th>
+              <th>On-chain ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cbnb">
+              <td>BNB Edge Node OS</td>
+              <td>✓ ERC-8004</td>
+              <td>✓ BAP-578</td>
+              <td><span class="bpill plive">LIVE</span></td>
+            </tr>
+            <tr>
+              <td>Hivello</td>
+              <td>✗</td>
+              <td>✗</td>
+              <td><span class="bpill pdead">SHUT DOWN</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</div>
-<div class="pg" id="wallet">
-  <div class="st">Wallet & Staking <span class="tkb">88% APY</span></div>
-  <div class="eg"><div class="ec"><h3>Balance</h3><div class="eb" id="wallet-total-balance">$4,821.34</div></div></div>
-  <div class="clg">
-    <div class="cr"><div class="cbox cbok">✓</div><div class="ctx">12 Solidity contracts</div></div>
-  </div>
-</div>
 
-<div class="pg" id="analytics">
-  <div class="st">Analytics <span class="tkb">Live</span></div>
-  <div class="chart-card"><div class="bar-chart" id="earningsChart"></div></div>
-</div>
+    <div class="pg" id="farms">
+      <div class="st">DePIN Farm Manager <span class="tkb">6 protocols</span></div>
+      <div class="fg" id="farm-grid">
+        <!-- Grass Card -->
+        <div class="fc" style="--fc-c:rgba(0,200,150,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-grass" />
+              </svg></div>
+            <div>
+              <div class="fn">Grass Network</div>
+              <div class="fp">Bandwidth DePIN</div>
+            </div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$1.24</div>
+              <div class="mk">Today</div>
+            </div>
+            <div class="mt">
+              <div class="mv">847</div>
+              <div class="mk">Points</div>
+            </div>
+          </div>
+          <div class="fa"><button class="fb bd" onclick="toggleFarm(this,'Grass')">Stop</button></div>
+        </div>
+      </div>
+    </div>
 
-<div class="pg" id="terminal">
-  <div class="st">Terminal <span class="tkb">AI Auto-Heal</span></div>
-  <div class="term-win">
-    <div class="term-body" id="termBody"><div class="tline"><span class="tai">🤖 System:</span> Booting...</div></div>
-    <div class="term-input-row"><input class="term-input" id="termInput" onkeydown="termCmd(event)"><button class="term-send" onclick="termRun()">Run</button></div>
-  </div>
-</div>
+    <div class="pg" id="agents">
+      <div class="st">AI Agent Registry <span class="tkb">38 agents</span></div>
+      <div class="ags">
+        <div class="acard">
+          <div class="at">
+            <div class="av">🤖</div>
+            <div>
+              <div class="aid">AGENT-0x7F3A</div>
+              <div class="atp">ClawWork · 44 Sectors</div>
+            </div>
+          </div>
+          <div class="amodel"><span>GPT-4o</span><span class="aec">+$4.20/hr</span></div>
+          <div class="task-feed" id="agent1-feed"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pg" id="wallet">
+      <div class="st">Wallet & Staking <span class="tkb">88% APY</span></div>
+      <div class="eg">
+        <div class="ec">
+          <h3>Balance</h3>
+          <div class="eb" id="wallet-total-balance">$4,821.34</div>
+        </div>
+      </div>
+      <div class="clg">
+        <div class="cr">
+          <div class="cbox cbok">✓</div>
+          <div class="ctx">12 Solidity contracts</div>
+        </div>
+      </div>
+    </div>
 
-<div class="pg" id="openclaw">
-  <div class="st">OpenClaw <span class="tkb">4 channels</span></div>
-  <div class="ocg"><div class="occ">Telegram: @BNBEdgeBot</div></div>
-</div>
+    <div class="pg" id="analytics">
+      <div class="st">Analytics <span class="tkb">Live</span></div>
+      <div class="chart-card">
+        <div class="bar-chart" id="earningsChart"></div>
+      </div>
+    </div>
 
-<div class="pg" id="models">
-  <div class="st">Model Hub <span class="tkb">4 models</span></div>
-  <div class="mgrid"><div class="mcard">GPT-4o · Active</div><div class="mcard">Claude 3.5 · Standby</div></div>
-</div>
+    <div class="pg" id="terminal">
+      <div class="st">Terminal <span class="tkb">AI Auto-Heal</span></div>
+      <div class="term-win">
+        <div class="term-body" id="termBody">
+          <div class="tline"><span class="tai">🤖 System:</span> Booting...</div>
+        </div>
+        <div class="term-input-row"><input class="term-input" id="termInput" onkeydown="termCmd(event)"><button
+            class="term-send" onclick="termRun()">Run</button></div>
+      </div>
+    </div>
 
-<div class="pg" id="omega">
-  <div class="st">Ω Portfolio <span class="tkb">$3.2M</span></div>
-  <div class="opos">Forrest Robotics · Factory Physical AI</div>
-</div>
+    <div class="pg" id="openclaw">
+      <div class="st">OpenClaw <span class="tkb">4 channels</span></div>
+      <div class="ocg">
+        <div class="occ">Telegram: @BNBEdgeBot</div>
+      </div>
+    </div>
 
-<div class="pg" id="nodes">
-  <div class="st">Node Network <span class="tkb">34 Countries</span></div>
-  <div class="node-globe"><div class="npin">USA · 42 nodes</div></div>
-</div>
+    <div class="pg" id="models">
+      <div class="st">Model Hub <span class="tkb">4 models</span></div>
+      <div class="mgrid">
+        <div class="mcard">GPT-4o · Active</div>
+        <div class="mcard">Claude 3.5 · Standby</div>
+      </div>
+    </div>
 
-<div class="toa" id="ta"></div>
+    <div class="pg" id="omega">
+      <div class="st">Ω Portfolio <span class="tkb">$3.2M</span></div>
+      <div class="opos">Forrest Robotics · Factory Physical AI</div>
+    </div>
 
-<script>
-function sw(id,b){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nt').forEach(n=>n.classList.remove('active'));
-  document.getElementById(id).classList.add('active');if(b)b.classList.add('active');
-}
-function cw(){ toast('⚡','Wallet','Connected: 0x7F...2B91'); }
-function toast(i,t,m){
-  const s=document.getElementById('ta');
-  const d=document.createElement('div');d.className='tst';
-  d.innerHTML=`<div>${i}</div><div><b>${t}</b><br>${m}</div>`;
-  s.appendChild(d);setTimeout(()=>d.remove(),3000);
-}
-let ern=0;
-function update(){
-  ern+=0.002;document.getElementById('total-earnings').innerText='$'+ern.toFixed(3);
-  document.getElementById('le').innerText='+$'+(ern*4).toFixed(3);
-}
-setInterval(update,2000);
-function termCmd(e){if(e.key==='Enter')termRun();}
-function termRun(){
-  const i=document.getElementById('termInput');const b=document.getElementById('termBody');
-  const l=document.createElement('div');l.innerText='> '+i.value;
-  const r=document.createElement('div');r.style.color='var(--grn)';r.innerText='OK: '+i.value+' executed.';
-  b.appendChild(l);b.appendChild(r);i.value='';
-}
-// Init charts
-const c=document.getElementById('earningsChart');
-if(c)c.innerHTML='<div class="bar" style="height:60%;background:var(--acc)"></div><div class="bar" style="height:80%;background:var(--grn)"></div>';
-</script>
+    <div class="pg" id="nodes">
+      <div class="st">Node Network <span class="tkb">34 Countries</span></div>
+      <div class="node-globe">
+        <div class="npin">USA · 42 nodes</div>
+      </div>
+    </div>
+
+    <div class="toa" id="ta"></div>
+
+    <script>
+      function sw(id, b) {
+        document.querySelectorAll('.pg').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nt').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active'); if (b) b.classList.add('active');
+      }
+      function cw() { toast('⚡', 'Wallet', 'Connected: 0x7F...2B91'); }
+      function toast(i, t, m) {
+        const s = document.getElementById('ta');
+        const d = document.createElement('div'); d.className = 'tst';
+        d.innerHTML = `<div>${i}</div><div><b>${t}</b><br>${m}</div>`;
+        s.appendChild(d); setTimeout(() => d.remove(), 3000);
+      }
+      let ern = 0;
+      function update() {
+        ern += 0.002; document.getElementById('total-earnings').innerText = '$' + ern.toFixed(3);
+        document.getElementById('le').innerText = '+$' + (ern * 4).toFixed(3);
+      }
+      setInterval(update, 2000);
+
+      function termCmd(e) { if (e.key === 'Enter') termRun(); }
+      function termRun() {
+        const i = document.getElementById('termInput'); const b = document.getElementById('termBody');
+        const l = document.createElement('div'); l.innerText = '> ' + i.value;
+        const r = document.createElement('div'); r.style.color = 'var(--grn)'; r.innerText = 'OK: ' + i.value + ' executed.';
+        b.appendChild(l); b.appendChild(r); i.value = '';
+      }
+
+      // ========== EXPLORER LINK (opens opBNBscan) ==========
+      function explorerLink(txOrAddr) {
+        const base = 'https://opbnbscan.com/';
+        window.open(base + (txOrAddr.startsWith('0x') && txOrAddr.length > 42 ? 'tx/' : 'address/') + txOrAddr, '_blank');
+      }
+
+      // ========== STAKING DEMO FLOW ==========
+      function stakeFlow() {
+        const btn = document.getElementById('stake-btn');
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Confirming...';
+        toast('⏳', 'Staking', 'Waiting for wallet confirmation...');
+        setTimeout(() => {
+          // Simulate wallet popup and transaction
+          toast('🦊', 'MetaMask', 'Transaction submitted: 0x8f2d...a1b2');
+          setTimeout(() => {
+            const stakedEl = document.getElementById('staked-amount');
+            stakedEl.textContent = '0.10 BNB';
+            const txContainer = document.getElementById('tx-container');
+            if (txContainer) txContainer.style.display = 'flex';
+            const txHashEl = document.getElementById('tx-hash');
+            if (txHashEl) txHashEl.textContent = '0x8f2d...a1b2';
+            toast('✅', 'Stake Success', '0.1 BNB staked – rewards accruing');
+            btn.disabled = false;
+            btn.textContent = 'Stake 0.1 BNB';
+            // Update proof panel last tx
+            const lastTx = document.querySelector('.proof-panel .proof-item:nth-child(3) .proof-link');
+            if (lastTx) lastTx.textContent = '0x8f2d...a1b2';
+          }, 2000);
+        }, 1500);
+      }
+
+      // ========== SIMULATE WALLET CONNECTION ON LOAD ==========
+      document.addEventListener('DOMContentLoaded', () => {
+        // Simulate connected wallet
+        const proofWallet = document.getElementById('proof-wallet');
+        if (proofWallet) proofWallet.textContent = '0x7F3A...2B91';
+      });
+
+      // Init charts
+      const c = document.getElementById('earningsChart');
+      if (c) c.innerHTML = '<div class="bar" style="height:60%;background:var(--acc)"></div><div class="bar" style="height:80%;background:var(--grn)"></div>';
+    </script>
 </body>
+
 </html>

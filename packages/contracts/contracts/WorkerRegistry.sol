@@ -2,54 +2,99 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/IPFS.sol";
-import "./SlashingController.sol";
 
 contract WorkerRegistry is Ownable {
-    struct Node {
-        string nodeType;
-        string ipfsSpecCID; // IPFS CID for hardware spec
-        uint256 stake;
-        uint256 reputation; // EMA-based
-        uint256 lastHeartbeat;
-        bool slashed;
+    struct Worker {
+        address worker;
+        uint256 stake;          // in wei (BNB)
+        uint256 reputation;
+        uint256 registrationTime;
+        bool active;
+        string metadata;
     }
 
-    mapping(address => Node) public nodes;
-    SlashingController public slashing;
+    mapping(address => Worker) public workers;
+    address[] public workerList;
+    uint256 public totalStaked;
 
-    event NodeRegistered(address indexed owner, string nodeType, string ipfsCID);
-    event Heartbeat(address indexed owner, uint256 timestamp);
+    // Multiplier parameters (basis points, 100 = 1.00x)
+    uint256 public baseMultiplier = 100;
+    uint256 public stakeWeight = 10;      // per full BNB
+    uint256 public timeWeight = 5;        // per day
+    uint256 public repWeight = 20;        // per reputation point
 
-    constructor(address _slashing) Ownable(msg.sender) {
-        slashing = SlashingController(_slashing);
-    }
+    event WorkerRegistered(address indexed worker, uint256 stake);
+    event StakeIncreased(address indexed worker, uint256 additional);
+    event StakeWithdrawn(address indexed worker, uint256 amount);
+    event ReputationUpdated(address indexed worker, uint256 newRep);
 
-    function registerNode(string memory nodeType, string memory ipfsSpecCID, uint256 stakeAmount) external payable {
-        require(msg.value == stakeAmount, "Incorrect stake");
-        require(nodes[msg.sender].stake == 0, "Already registered");
-        nodes[msg.sender] = Node({
-            nodeType: nodeType,
-            ipfsSpecCID: ipfsSpecCID,
-            stake: stakeAmount,
-            reputation: 1000, // 10.00 scaled
-            lastHeartbeat: block.timestamp,
-            slashed: false
+    constructor() Ownable(msg.sender) {}
+
+    function registerNode(string calldata _metadata) external payable {
+        require(msg.value >= 0.1 ether, "Minimum stake 0.1 BNB");
+        require(workers[msg.sender].worker == address(0), "Already registered");
+
+        workers[msg.sender] = Worker({
+            worker: msg.sender,
+            stake: msg.value,
+            reputation: 50,
+            registrationTime: block.timestamp,
+            active: true,
+            metadata: _metadata
         });
-        emit NodeRegistered(msg.sender, nodeType, ipfsSpecCID);
+        workerList.push(msg.sender);
+        totalStaked += msg.value;
+
+        emit WorkerRegistered(msg.sender, msg.value);
     }
 
-    function heartbeat() external {
-        require(nodes[msg.sender].stake > 0, "Not registered");
-        require(!nodes[msg.sender].slashed, "Slashed");
-        nodes[msg.sender].lastHeartbeat = block.timestamp;
-        // Update EMA reputation
-        nodes[msg.sender].reputation = (nodes[msg.sender].reputation * 95 / 100) + (1000 * 5 / 100); // Simple EMA
-        emit Heartbeat(msg.sender, block.timestamp);
+    function increaseStake() external payable {
+        Worker storage w = workers[msg.sender];
+        require(w.active, "Not active");
+        require(msg.value > 0, "Must send BNB");
+        w.stake += msg.value;
+        totalStaked += msg.value;
+        emit StakeIncreased(msg.sender, msg.value);
     }
 
-    function slash(address node) external {
-        require(msg.sender == address(slashing), "Only slashing");
-        nodes[node].slashed = true;
+    function withdrawStake(uint256 _amount) external {
+        Worker storage w = workers[msg.sender];
+        require(w.active, "Not active");
+        require(w.stake >= _amount, "Insufficient stake");
+        require(address(this).balance >= _amount, "Contract balance insufficient");
+
+        w.stake -= _amount;
+        totalStaked -= _amount;
+        payable(msg.sender).transfer(_amount);
+        emit StakeWithdrawn(msg.sender, _amount);
     }
+
+    function getMultiplier(address _worker) public view returns (uint256) {
+        Worker storage w = workers[_worker];
+        if (!w.active) return 0;
+        uint256 daysActive = (block.timestamp - w.registrationTime) / 1 days;
+        uint256 stakeFactor = (w.stake / 1 ether) * stakeWeight;
+        uint256 timeFactor = daysActive * timeWeight;
+        uint256 repFactor = w.reputation * repWeight;
+        return baseMultiplier + stakeFactor + timeFactor + repFactor;
+    }
+
+    function getTotalWorkers() external view returns (uint256) {
+        return workerList.length;
+    }
+
+    // Admin functions
+    function updateReputation(address _worker, uint256 _newRep) external onlyOwner {
+        workers[_worker].reputation = _newRep;
+        emit ReputationUpdated(_worker, _newRep);
+    }
+
+    function setWeights(uint256 _base, uint256 _stake, uint256 _time, uint256 _rep) external onlyOwner {
+        baseMultiplier = _base;
+        stakeWeight = _stake;
+        timeWeight = _time;
+        repWeight = _rep;
+    }
+
+    receive() external payable {}
 }
