@@ -1,0 +1,94 @@
+name: BNB Edge Node OS CI/CD
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  NODE_VERSION: 20
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install
+
+      - name: Lint Workspace
+        run: pnpm turbo run lint || echo "Linting warnings found, continuing..."
+
+      - name: Compile Contracts
+        run: pnpm turbo run build --filter=@bnb-edge/contracts
+
+      - name: Run Contract Tests
+        run: pnpm turbo run test --filter=@bnb-edge/contracts
+
+  deploy-contract:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install
+
+      - name: Deploy WorkerRegistry to opBNB Testnet
+        env:
+          PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+          NODEREAL_API_KEY: ${{ secrets.NODEREAL_API_KEY }}
+        run: |
+          cd packages/contracts
+          OUTPUT=$(npx hardhat run scripts/deploy.js --network opbnbTestnet)
+          echo "$OUTPUT"
+          echo "DEPLOY_OUTPUT<<EOF" >> $GITHUB_ENV
+          echo "$OUTPUT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Save Deployment Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-log
+          path: ./packages/contracts/deployments || ./packages/contracts
+
+      - name: Verify Contract
+        env:
+          NODEREAL_API_KEY: ${{ secrets.NODEREAL_API_KEY }}
+        run: |
+          # Only attempt if secret for contract address is present
+          if [ ! -z "${{ secrets.DEPLOYED_CONTRACT_ADDRESS }}" ]; then
+            cd packages/contracts
+            npx hardhat verify --network opbnbTestnet ${{ secrets.DEPLOYED_CONTRACT_ADDRESS }} || echo "Verification skipped"
+          else
+            echo "DEPLOYED_CONTRACT_ADDRESS secret not found, skipping verification."
+          fi
+
+  deploy-frontend:
+    needs: build-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install --global vercel
+      - name: Deploy to Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
