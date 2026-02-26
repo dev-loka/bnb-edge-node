@@ -1665,6 +1665,477 @@
         grid-template-columns: repeat(2, 1fr)
       }
     }
+
+    /* === MARKETPLACE CSS === */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filter-bar label {
+      font: 700 10px/1 var(--m);
+      letter-spacing: .8px;
+      color: var(--tx2);
+      text-transform: uppercase;
+    }
+
+    .filter-sel,
+    .filter-inp {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 8px;
+      color: var(--tx);
+      font: 500 12px/1 var(--f);
+      padding: 7px 12px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .filter-sel:focus,
+    .filter-inp:focus {
+      border-color: var(--acc);
+    }
+
+    .filter-sel {
+      cursor: pointer;
+    }
+
+    .filter-inp {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .filter-inp::placeholder {
+      color: var(--tx3);
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .pcard {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 16px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: all .25s;
+    }
+
+    .pcard:hover {
+      border-color: var(--bdr2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, .1);
+    }
+
+    .pcard-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+
+    .pcard-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--pav-bg, linear-gradient(135deg, var(--acc), var(--cyan)));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .25);
+    }
+
+    .pcard-name {
+      font: 700 15px/1.2 var(--d);
+      margin-bottom: 2px;
+    }
+
+    .pcard-addr {
+      font: 400 10px/1 var(--m);
+      color: var(--cyan2);
+      margin-bottom: 3px;
+    }
+
+    .pcard-loc {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .avail-dot {
+      margin-left: auto;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--grn2);
+      box-shadow: 0 0 9px var(--grn);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .avail-dot.busy {
+      background: var(--red);
+      box-shadow: 0 0 9px var(--red);
+    }
+
+    .pcard-specs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .spec-box {
+      background: var(--sur);
+      border-radius: 8px;
+      padding: 9px;
+      border: 1px solid var(--bdr);
+    }
+
+    .spec-label {
+      font: 400 9px/1 var(--m);
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--tx2);
+      margin-bottom: 3px;
+    }
+
+    .spec-val {
+      font: 700 12px/1 var(--f);
+    }
+
+    .rep-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .rep-label {
+      font: 400 10px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .rep-score {
+      font: 700 11px/1 var(--m);
+    }
+
+    .rep-bar {
+      height: 4px;
+      background: var(--sur);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .rep-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--grn), var(--cyan2));
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      margin-bottom: 12px;
+    }
+
+    .price-val {
+      font: 800 16px/1 var(--d);
+      color: var(--grn2);
+    }
+
+    .price-meta {
+      font: 400 9px/1 var(--m);
+      color: var(--tx2);
+      margin-top: 2px;
+    }
+
+    .stake-info {
+      text-align: right;
+    }
+
+    .stake-val {
+      font: 700 12px/1 var(--m);
+      color: var(--acc2);
+    }
+
+    .stake-label {
+      font: 400 9px/1 var(--f);
+      color: var(--tx2);
+      margin-top: 1px;
+    }
+
+    .pcard-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-hire {
+      background: linear-gradient(135deg, var(--acc), var(--acc2));
+      color: #fff;
+      box-shadow: 0 3px 14px rgba(124, 58, 237, .3);
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .btn-stream {
+      background: rgba(6, 182, 212, .12);
+      color: var(--cyan2);
+      border: 1px solid rgba(6, 182, 212, .25);
+      border-radius: 8px;
+      padding: 8px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    /* Modals & Layout UI */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(124, 58, 237, .15);
+    }
+
+    .modal-title {
+      font: 800 18px/1 var(--d);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .modal-sub {
+      font: 400 12px/1 var(--f);
+      color: var(--tx2);
+      margin-bottom: 22px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      color: var(--tx2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all .18s;
+    }
+
+    .modal-close:hover {
+      background: var(--card2);
+      color: var(--tx);
+    }
+
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font: 700 10px/1 var(--m);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--tx2);
+      margin-bottom: 7px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 9px;
+      color: var(--tx);
+      font: 400 13px/1 var(--f);
+      padding: 11px 14px;
+      outline: none;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+
+    .priority-row {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .priority-btn {
+      flex: 1;
+      padding: 9px;
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      background: var(--sur);
+      color: var(--tx2);
+      font: 600 11px/1 var(--f);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .priority-btn.active-low {
+      border-color: var(--grn);
+      background: rgba(16, 185, 129, .1);
+      color: var(--grn2);
+    }
+
+    .priority-btn.active-med {
+      border-color: var(--gld);
+      background: rgba(245, 158, 11, .1);
+      color: var(--gld2);
+    }
+
+    .priority-btn.active-high {
+      border-color: var(--red);
+      background: rgba(239, 68, 68, .1);
+      color: #fca5a5;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--bdr);
+      margin-top: 6px;
+    }
+
+    .btn-submit {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--acc), var(--cyan));
+      color: #fff;
+      font: 700 13px/1 var(--f);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      padding: 12px 18px;
+      background: var(--sur);
+      color: var(--tx2);
+      font: 600 12px/1 var(--f);
+      border: 1px solid var(--bdr);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .tx-status {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .tx-spinner {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid var(--bdr);
+      border-top-color: var(--acc2);
+      animation: spin 1s linear infinite;
+      margin-bottom: 14px;
+    }
+
+    .tx-success {
+      font-size: 40px;
+      margin-bottom: 14px;
+    }
+
+    .tx-title {
+      font: 700 16px/1 var(--d);
+      margin-bottom: 6px;
+    }
+
+    .tx-msg {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .fee-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(240, 185, 11, .06);
+      border: 1px solid rgba(240, 185, 11, .18);
+      border-radius: 10px;
+      font: 400 11px/1.5 var(--f);
+      color: var(--tx2);
+      margin-bottom: 18px;
+    }
+
+    .fee-val {
+      font: 700 13px/1 var(--m);
+      color: var(--bnb);
+    }
   </style>
 </head>
 
@@ -1751,6 +2222,7 @@
       <nav class="tc">
         <button class="nt active" onclick="sw('dashboard',this)">Dashboard</button>
         <button class="nt" onclick="sw('farms',this)">DePIN Farm</button>
+        <button class="nt" onclick="sw('marketplace',this)" style="color:var(--cyan2)">Compute Marketplace</button>
         <button class="nt" onclick="sw('agents',this)">AI Agents</button>
         <button class="nt" onclick="sw('wallet',this)">Wallet</button>
         <button class="nt" onclick="sw('terminal',this)">Terminal+AI</button>
@@ -1868,6 +2340,26 @@
           <div class="slb">Total Value Staked</div>
         </div>
       </div>
+      <!-- ⭐ NEW: MARKETPLACE CTA CARD ⭐ -->
+      <div
+        style="padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-top:24px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;box-shadow:0 4px 16px rgba(124,58,237,.15);">
+        <div>
+          <div style="font:800 16px/1 var(--d);margin-bottom:6px;color:var(--cyan2);">⚡ Compute Marketplace is Live
+          </div>
+          <div style="font:400 13px/1.5 var(--f);color:var(--tx2);max-width:500px;">Rent out your idle GPU/CPU capacity
+            directly on-chain. Monetize hardware while farming to earn up to <strong style="color:var(--gld2)">5x more
+              USDC</strong>.</div>
+          <div style="margin-top:10px;font-size:11px;color:var(--tx2);">Current Demand: <span
+              style="color:var(--grn2)">High • 342 Open Jobs</span></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="tbtn"
+            style="background:linear-gradient(135deg,var(--acc),var(--cyan));color:#fff;border:none;padding:12px 20px;font-size:14px;font-weight:700;border-radius:8px;"
+            onclick="sw('marketplace', document.querySelector('button[onclick*=\\'marketplace\\']'))">Rent Spare
+            Capacity →</button>
+        </div>
+      </div>
+
       <div class="sl" style="margin-top: 24px;">EARNINGS ANALYTICS</div>
       <div class="chart-card" style="--cc-c: rgba(124, 92, 252, 0.2)">
         <div class="chart-legend">
@@ -1888,6 +2380,18 @@
       <div class="st">DePIN Farm Manager <span class="tkb"><span class="sd dg"></span> 6 protocols active</span></div>
       <div class="ss">Run all major DePIN protocols simultaneously · Hivello 2.0 on opBNB · All earnings in USDC +
         native tokens · One-click management</div>
+
+      <div class="fee-banner"
+        style="margin-bottom:18px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);color:var(--cyan2);justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span>⚡</span>
+          <span><strong>Spare capacity detected!</strong> You are running at 42% utilization. Earn extra USDC by renting
+            it out on the Marketplace.</span>
+        </div>
+        <button class="tbtn"
+          style="background:var(--cyan);color:#000;border:none;padding:5px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;"
+          onclick="sw('marketplace', document.querySelector('button[onclick*=\\'marketplace\\']'))">Rent Now</button>
+      </div>
 
       <div class="sr">
         <div class="sc">
@@ -2193,6 +2697,58 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- ════ MARKETPLACE ════ -->
+    <div class="pg" id="marketplace">
+      <div class="st">Compute Marketplace <span class="tkb"><span class="sd dg"></span> 147 Providers Live</span></div>
+      <div class="ss">For Providers: Monetize idle GPU/CPU capacities. For Clients: Rent global decentralized compute by
+        the second or per job.</div>
+
+      <div class="sr" style="margin-bottom:18px;">
+        <div class="sc">
+          <div class="si">💵</div>
+          <div class="sv" style="color:#fff">$84,210</div>
+          <div class="slb">Volume 24h</div>
+        </div>
+        <div class="sc">
+          <div class="si">⚙️</div>
+          <div class="sv" style="color:#fff">342</div>
+          <div class="slb">Open Jobs</div>
+        </div>
+        <div class="sc">
+          <div class="si">▶️</div>
+          <div class="sv" style="color:#fff">89</div>
+          <div class="slb">Active Streams</div>
+        </div>
+      </div>
+
+      <div class="fee-banner">
+        <span>📊</span>
+        <span>Platform fee: <span class="fee-val">2.5%</span> basis points · Auto-deducted · Distributed to $opbnb
+          stakers</span>
+        <button class="btn-hire" onclick="openModal('modal-job')"
+          style="margin-left:auto;max-width:120px;font-size:11px;padding:6px 12px;">⚙️ Post Job</button>
+        <button class="btn-stream" onclick="openModal('modal-stream')"
+          style="max-width:120px;font-size:11px;padding:6px 12px;">▶️ Open Stream</button>
+      </div>
+
+      <div class="filter-bar">
+        <label>Filter</label>
+        <select class="filter-sel" id="filt-gpu" onchange="filterProviders()">
+          <option value="">All GPUs</option>
+          <option value="RTX 4090">RTX 4090</option>
+          <option value="A100">A100</option>
+          <option value="H100">H100</option>
+        </select>
+        <select class="filter-sel" id="filt-sort" onchange="filterProviders()">
+          <option value="rep">Sort by Reputation</option>
+          <option value="price_asc">Price: Low → High</option>
+        </select>
+        <span id="filt-count" style="margin-left:auto;font:700 10px/1 var(--m);color:var(--tx2);">2 providers</span>
+      </div>
+
+      <div class="provider-grid" id="provider-grid"></div>
     </div>
 
     <div class="pg" id="agents">
@@ -2645,6 +3201,85 @@
         if (proofWallet) proofWallet.textContent = '0x7F3A...2B91';
       });
 
+      // MARKETPLACE LOGIC
+      const mProviders = [
+        { id: '0x7F3A', name: 'Kerala Node', loc: 'Kerala, India', emoji: '🇮🇳', gpu: 'RTX 4090', vram: '24 GB', cpu: '32 cores', ram: '64 GB', bw: '1 Gbps', rep: 94, staked: '12,450', uptime: 99.2, price: 0.005, jobs: 142, available: true, bg: 'linear-gradient(135deg,#7c3aed,#06b6d4)' },
+        { id: '0xA1B2', name: 'GPU Hub', loc: 'Frankfurt, Germany', emoji: '🇩🇪', gpu: 'A100', vram: '40 GB', cpu: '64 cores', ram: '128 GB', bw: '2 Gbps', rep: 88, staked: '8,500', uptime: 98.2, price: 0.008, jobs: 84, available: true, bg: 'linear-gradient(135deg,#059669,#06b6d4)' },
+        { id: '0x9C0D', name: 'SG Compute', loc: 'Singapore', emoji: '🇸🇬', gpu: 'H100', vram: '80 GB', cpu: '96 cores', ram: '256 GB', bw: '10 Gbps', rep: 97, staked: '21,000', uptime: 99.8, price: 0.012, jobs: 203, available: true, bg: 'linear-gradient(135deg,#d97706,#dc2626)' }
+      ];
+
+      function renderProviders(data = mProviders) {
+        const grid = document.getElementById('provider-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        data.forEach(p => {
+          grid.innerHTML += `
+            <div class="pcard">
+              <div class="pcard-head">
+                <div class="pcard-avatar" style="background:${p.bg}">${p.emoji}</div>
+                <div style="flex:1;min-width:0;">
+                  <div class="pcard-name">${p.name}</div>
+                  <div class="pcard-addr">${p.id}</div>
+                  <div class="pcard-loc">📍 ${p.loc}</div>
+                </div>
+                <div class="avail-dot"></div>
+              </div>
+              <div class="pcard-specs">
+                <div class="spec-box"><div class="spec-label">GPU</div><div class="spec-val">${p.gpu}</div></div>
+                <div class="spec-box"><div class="spec-label">VRAM</div><div class="spec-val">${p.vram}</div></div>
+              </div>
+              <div class="rep-row"><span class="rep-label">Reputation Score</span><span class="rep-score" style="color:var(--grn2)">${p.rep}/100</span></div>
+              <div class="rep-bar"><div class="rep-fill" style="width:${p.rep}%"></div></div>
+              <div class="price-row">
+                <div><div class="price-val">$${p.price.toFixed(3)}/s</div><div class="price-meta">≈ $${(p.price * 3600).toFixed(2)}/hr</div></div>
+                <div class="stake-info"><div class="stake-val">${p.staked}</div><div class="stake-label">Staked opBNB</div></div>
+              </div>
+              <div class="pcard-btns">
+                <button class="btn-hire" onclick="hireProvider('${p.id}')">⚙️ Hire (Job)</button>
+                <button class="btn-stream" onclick="streamProvider('${p.id}')">▶️ Stream</button>
+              </div>
+            </div>`;
+        });
+        document.getElementById('filt-count').innerText = data.length + ' providers';
+      }
+
+      function filterProviders() {
+        const gpu = document.getElementById('filt-gpu').value;
+        const s = mProviders.filter(p => gpu ? p.gpu.includes(gpu) : true);
+        renderProviders(s);
+      }
+
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+      function setPriority(e, b) { }
+      function hireProvider(id) { openModal('modal-job'); }
+      function streamProvider(id) {
+        document.getElementById('stream-provider').value = id;
+        openModal('modal-stream');
+      }
+
+      function submitJob() {
+        closeModal('modal-job'); openModal('modal-tx');
+        document.getElementById('tx-inner').innerHTML = `
+          <div class="tx-status"><div class="tx-spinner"></div><div class="tx-title">Approving USDC</div><div class="tx-msg">Confirm in wallet</div></div>`;
+        setTimeout(() => {
+          document.getElementById('tx-inner').innerHTML = `
+            <div class="tx-status"><div class="tx-success" style="font-size:30px">✅</div><div class="tx-title">Job Posted!</div><div class="tx-msg">Your job is now active on-chain.</div><button class="tbtn" style="margin-top:10px;background:var(--sur);" onclick="closeModal('modal-tx')">Close</button></div>`;
+          toast('⚙️', 'Marketplace', 'Compute Job Posted Successfully');
+        }, 1500);
+      }
+
+      function submitStream() {
+        closeModal('modal-stream'); openModal('modal-tx');
+        setTimeout(() => {
+          document.getElementById('tx-inner').innerHTML = `
+            <div class="tx-status"><div class="tx-success" style="font-size:30px">✅</div><div class="tx-title">Stream Opened!</div><div class="tx-msg">Paying provider per second.</div><button class="tbtn" style="margin-top:10px;background:var(--sur);" onclick="closeModal('modal-tx')">Close</button></div>`;
+          toast('▶️', 'Marketplace', 'Compute Stream Initiated');
+        }, 1500);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => { renderProviders(); });
+
       // Init charts
       const c = document.getElementById('earningsChart');
       if (c) {
@@ -2664,6 +3299,81 @@
         c.innerHTML = html;
       }
     </script>
+
+    <!-- Post Job Modal -->
+    <div class="overlay" id="modal-job" style="z-index:9999;">
+      <div class="modal">
+        <div class="modal-close" onclick="closeModal('modal-job')">✕</div>
+        <div class="modal-title"><span>⚙️</span> Post a Compute Job</div>
+        <div class="modal-sub">Escrow mode — USDC locked until job completion</div>
+
+        <div class="form-row">
+          <label class="form-label">Job Title</label>
+          <input class="form-input" placeholder="e.g. LLM Inference — LLaMA 3.1 70B" />
+        </div>
+        <div class="form-row">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" placeholder="Descriptive details..."></textarea>
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label class="form-label">GPU Needed</label>
+            <select class="form-select" id="job-gpu">
+              <option>RTX 4090</option>
+              <option>A100</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Budget (USDC)</label>
+            <input class="form-input" type="number" value="12.00" />
+          </div>
+        </div>
+        <div class="priority-row">
+          <div class="priority-btn" onclick="setPriority(this,'low')">Low</div>
+          <div class="priority-btn active-med" style="border-color:var(--gld);color:var(--gld2)"
+            onclick="setPriority(this,'med')">Medium</div>
+          <div class="priority-btn" onclick="setPriority(this,'high')">High</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-submit" onclick="submitJob()">⚡ Approve & Post Job</button>
+          <button class="btn-cancel" onclick="closeModal('modal-job')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stream Modal -->
+    <div class="overlay" id="modal-stream" style="z-index:9999;">
+      <div class="modal">
+        <div class="modal-close" onclick="closeModal('modal-stream')">✕</div>
+        <div class="modal-title"><span>▶️</span> Open Stream</div>
+        <div class="modal-sub">Streaming mode — pay per second in USDC</div>
+        <div class="form-row">
+          <label class="form-label">Provider ID</label>
+          <input class="form-input" id="stream-provider" value="0x7F3A" disabled />
+        </div>
+        <div class="form-row">
+          <label class="form-label">Deposit (USDC)</label>
+          <input class="form-input" id="stream-deposit" type="number" value="10.00" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-submit" style="background:var(--cyan);" onclick="submitStream()">▶️ Approve</button>
+          <button class="btn-cancel" onclick="closeModal('modal-stream')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TX Processing Modal -->
+    <div class="overlay" id="modal-tx" style="z-index:9999;">
+      <div class="modal" style="max-width:360px;text-align:center;">
+        <div id="tx-inner">
+          <div class="tx-status">
+            <div class="tx-spinner"></div>
+            <div class="tx-title">Processing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </body>
 
 </html>
