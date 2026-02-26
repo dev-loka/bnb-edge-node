@@ -1,4 +1,6 @@
-# Allow all well-known AI crawlers
+User-agent: *
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
@@ -9,10 +11,6 @@ User-agent: Google-Extended
 Allow: /
 
 User-agent: PerplexityBot
-Allow: /
-
-# Allow other bots
-User-agent: *
 Allow: /
 
 Sitemap: https://dev-loka.github.io/bnb-edge-node/sitemap.xml
