@@ -15,4 +15,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://bnbedgenode.io/sitemap.xml
+Sitemap: https://dev-loka.github.io/bnb-edge-node/sitemap.xml

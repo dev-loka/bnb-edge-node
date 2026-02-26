@@ -9,17 +9,17 @@ We provide:
 - DePIN infrastructure with on-chain verification
 
 ## Key Pages
-- Home: https://bnbedgenode.io/
-- Marketplace: https://bnbedgenode.io/marketplace
-- AI Agents: https://bnbedgenode.io/ai-agents
-- Hosting: https://bnbedgenode.io/hosting
-- Blog: https://bnbedgenode.io/blog
+- Home: https://dev-loka.github.io/bnb-edge-node/
+- Marketplace: https://dev-loka.github.io/bnb-edge-node/marketplace
+- AI Agents: https://dev-loka.github.io/bnb-edge-node/ai-agents
+- Hosting: https://dev-loka.github.io/bnb-edge-node/hosting
+- Blog: https://dev-loka.github.io/bnb-edge-node/blog
 
 ## Key Blog Posts
-- How to Rent H100 GPUs on opBNB: https://bnbedgenode.io/blog/rent-h100-gpu-opbnb
-- How to Run a DePIN Node in India: https://bnbedgenode.io/blog/how-to-run-depin-node-india
-- Decentralized Cloud vs AWS: https://bnbedgenode.io/blog/decentralized-cloud-vs-aws
-- Claw Bot Marketplace Guide: https://bnbedgenode.io/blog/claw-bot-marketplace-guide
+- How to Rent H100 GPUs on opBNB: https://dev-loka.github.io/bnb-edge-node/blog/rent-h100-gpu-opbnb
+- How to Run a DePIN Node in India: https://dev-loka.github.io/bnb-edge-node/blog/how-to-run-depin-node-india
+- Decentralized Cloud vs AWS: https://dev-loka.github.io/bnb-edge-node/blog/decentralized-cloud-vs-aws
+- Claw Bot Marketplace Guide: https://dev-loka.github.io/bnb-edge-node/blog/claw-bot-marketplace-guide
 
 ## Schema / Structured Data
 - Organization, FAQ, HowTo, ItemList, BlogPosting – embedded in each page.
