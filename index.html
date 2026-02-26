@@ -612,685 +612,1411 @@
             color: var(--green);
             font-family: var(--mono);
             margin-top: 7px;
-        }<!-- ▸ LIVE TICKER -->
-<div class="ticker" role="region" aria-label="Live network statistics" aria-live="polite">
-    <div class="tick"><span class="tick-k">Nodes</span><span class="tick-v">247</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">GPU Providers</span><span class="tick-v">89</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Live Jobs</span><span class="tick-v cyan">1,432</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Compute Hours</span><span class="tick-v">2.4M</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">AI Agents</span><span class="tick-v">5,891</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Claw Bots</span><span class="tick-v gold">312</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">TVL</span><span class="tick-v gold">$4.2M</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Uptime</span><span class="tick-v">99.97%</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Gas Cost</span><span class="tick-v">~$0.001</span></div>
-    <span class="tick-div" aria-hidden="true">|</span>
-    <div class="tick"><span class="tick-k">Finality</span><span class="tick-v cyan">0.45s</span></div>
-</div>
+        }
 
-<!-- ▸ METRICS -->
-<section aria-labelledby="metrics-h" class="container">
-    <div class="eyebrow">Network Stats</div>
-    <h2 id="metrics-h">What is BNB Edge Node's Network Scale?</h2>
-    <p class="section-desc">BNB Edge Node's decentralized compute network handles over 2.4 million compute hours monthly
-        across 247 edge nodes — making it the largest DePIN marketplace on opBNB.</p>
-    <div class="metrics-grid" role="list">
-        <div class="metric" role="listitem"><span class="metric-val">247</span>
-            <div class="metric-key">Edge Nodes Online</div>
-            <div class="metric-delta">↑ +12 this week</div>
+        /* DIVIDER */
+        hr.div {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border2), transparent);
+            margin: 0;
+        }
+
+        /* FEATURES */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .feat {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            transition: .22s cubic-bezier(.23, 1, .32, 1);
+        }
+
+        .feat:hover {
+            border-color: var(--accent);
+            background: var(--surface);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .4);
+        }
+
+        .feat-icon {
+            font-size: 1.8rem;
+            margin-bottom: 1.4rem;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .fi-p {
+            background: var(--accent2-dim);
+            color: #c4b5fd;
+        }
+
+        .fi-o {
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .fi-c {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        .fi-g {
+            background: var(--green-dim);
+            color: var(--green);
+        }
+
+        .feat-title {
+            font-family: var(--font);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: .8rem;
+        }
+
+        .feat-desc {
+            font-size: .88rem;
+            color: var(--text2);
+            line-height: 1.7;
+            margin-bottom: 1.4rem;
+        }
+
+        .feat-kw {
+            font-size: .62rem;
+            font-family: var(--mono);
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            display: block;
+        }
+
+        /* MARKETPLACE PREVIEW */
+        .mp-wrap {
+            margin-top: 3.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .mp-head {
+            background: var(--bg3);
+            padding: 1.1rem 1.6rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mp-title {
+            font-size: .82rem;
+            font-family: var(--mono);
+            font-weight: 600;
+            color: var(--text2);
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: .6rem;
+            font-family: var(--mono);
+            color: var(--green);
+            background: var(--green-dim);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse-s 2s infinite;
+        }
+
+        @keyframes pulse-s {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--mono);
+            font-size: .8rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 1.1rem 1.6rem;
+            color: var(--text3);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        td {
+            padding: 1.1rem 1.6rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tag {
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: .65rem;
+            font-weight: 600;
+        }
+
+        .tag-gpu {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        .tag-bot {
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .tag-llm {
+            background: var(--accent2-dim);
+            color: #c4b5fd;
+        }
+
+        .s-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .s-on {
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green);
+        }
+
+        /* TERMINAL styling */
+        .terminal {
+            background: #010204;
+            border: 1px solid var(--border2);
+            border-radius: 9px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .7);
+            overflow: hidden;
+            font-family: var(--mono);
+        }
+
+        .t-bar {
+            background: #111822;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .t-btn {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .tb-r {
+            background: #ff5f56;
+        }
+
+        .tb-y {
+            background: #ffbd2e;
+        }
+
+        .tb-g {
+            background: #27c93f;
+        }
+
+        .t-title {
+            font-size: .65rem;
+            color: var(--text3);
+            margin-left: 8px;
+        }
+
+        .t-body {
+            padding: 20px;
+            font-size: .82rem;
+            line-height: 1.6;
+        }
+
+        .t-p {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        .t-c {
+            color: var(--text);
+        }
+
+        .t-o {
+            color: var(--text2);
+            display: block;
+        }
+
+        .t-d {
+            color: var(--text3);
+            display: block;
+        }
+
+        .t-line {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .t-cur {
+            display: inline-block;
+            width: 7px;
+            height: 15px;
+            background: var(--accent);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* STEPS / HOWTO */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 3.5rem;
+        }
+
+        .step-n {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 42px;
+            height: 42px;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-family: var(--mono);
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .step h3 {
+            margin-bottom: .6rem;
+        }
+
+        .step p {
+            font-size: .88rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        /* BLOG PREVIEW */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.6rem;
+            margin-top: 3.5rem;
+        }
+
+        .post-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            gap: 1.4rem;
+            padding: 1.4rem;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .post-card:hover {
+            border-color: var(--accent2);
+            background: var(--bg3);
+            transform: translateY(-3px);
+        }
+
+        .post-thumb {
+            flex-shrink: 0;
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        .pt-blue {
+            background: rgba(0, 160, 255, .1);
+        }
+
+        .pt-purple {
+            background: rgba(109, 40, 255, .1);
+        }
+
+        .pt-green {
+            background: rgba(0, 232, 135, .1);
+        }
+
+        .pt-gold {
+            background: rgba(245, 166, 35, .1);
+        }
+
+        .post-body {
+            flex: 1;
+        }
+
+        .post-cat {
+            font-size: .65rem;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 5px;
+        }
+
+        .post-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 7px;
+            line-height: 1.35;
+        }
+
+        .post-desc {
+            font-size: .82rem;
+            color: var(--text2);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-kw {
+            display: none;
+        }
+
+        .post-meta {
+            font-family: var(--mono);
+            font-size: .65rem;
+            color: var(--text3);
+            display: flex;
+            gap: 14px;
+        }
+
+        /* FAQ */
+        .faq {
+            margin-top: 3.5rem;
+            max-width: 800px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-q {
+            padding: 1.5rem 0;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: .2s;
+        }
+
+        .faq-q:hover {
+            color: var(--accent);
+        }
+
+        .faq-a {
+            padding-bottom: 1.5rem;
+            color: var(--text2);
+            font-size: .92rem;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-chevron {
+            font-family: var(--mono);
+            font-size: 1.2rem;
+            color: var(--text3);
+        }
+
+        /* AUTHOR */
+        .author {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            margin-top: 4rem;
+        }
+
+        .author-avatar {
+            width: 64px;
+            height: 64px;
+            background: var(--bg3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            border: 2px solid var(--border2);
+        }
+
+        .author-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .author-bio {
+            font-size: .82rem;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        .author-link {
+            font-size: .75rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            font-family: var(--mono);
+            flex-shrink: 0;
+        }
+
+        /* CTA BAND */
+        .cta-band {
+            background: linear-gradient(135deg, var(--bg2), #0a111a);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 4.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-band h2 {
+            margin-top: 10px;
+        }
+
+        .cta-band p {
+            max-width: 600px;
+            margin: 1.2rem auto 2.5rem;
+            color: var(--text2);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #010204;
+            border-top: 1px solid var(--border);
+            padding: 80px 0 40px;
+        }
+
+        .foot-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(auto-fit, minmax(150px, 1fr));
+            gap: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        .foot-brand p {
+            font-size: .82rem;
+            color: var(--text2);
+            line-height: 1.65;
+            max-width: 400px;
+            margin-top: 1.4rem;
+        }
+
+        .foot-col h4 {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text);
+            margin-bottom: 1.6rem;
+        }
+
+        .foot-col a {
+            display: block;
+            color: var(--text3);
+            text-decoration: none;
+            font-size: .82rem;
+            margin-bottom: .9rem;
+            transition: .15s;
+        }
+
+        .foot-col a:hover {
+            color: var(--accent);
+        }
+
+        .foot-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .72rem;
+            color: var(--text3);
+            font-family: var(--mono);
+        }
+
+        .foot-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .foot-links a {
+            color: var(--text3);
+            text-decoration: none;
+        }
+
+        /* ANIMATIONS */
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MOBILE RESPONSIVE Improvements */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 3.2rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .cta-band {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo" aria-label="BNB Edge Node">
+                <div class="logo-icon">⧫</div> BNBEdgeNode<span class="logo-badge">opBNB</span>
+            </a>
+            <ul class="nav-links" role="list">
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="ai-agents.html">AI Agents</a></li>
+                <li><a href="hosting.html">Hosting</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+            <button class="btn-connect">Connect Wallet</button>
         </div>
-        <div class="metric" role="listitem"><span class="metric-val">89</span>
-            <div class="metric-key">GPU Providers</div>
-            <div class="metric-delta">↑ +7 this week</div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-glow g1"></div>
+        <div class="hero-glow g2"></div>
+        <div class="hero-glow g3"></div>
+
+        <div class="container" style="position:relative; z-index:1;">
+            <div class="hero-eyebrow"><span class="pulse"></span> LIVE ON opBNB TESTNET</div>
+            <h1>Decentralized <span class="h1-sub">AI Compute</span> & DePIN Marketplace</h1>
+            <p class="hero-desc">Rent <strong>H100, A100 and RTX 4090 GPUs</strong> by the second. Deploy autonomous AI
+                agents and claw bots on the blockchain. The open internet's compute layer powered by opBNB.</p>
+
+            <div class="cta-group">
+                <a href="marketplace.html" class="btn btn-primary">🚀 Launch Marketplace</a>
+                <a href="hosting.html" class="btn btn-outline">Deploy GPU Node</a>
+                <a href="ai-agents.html" class="btn btn-purple">Explore AI Agents</a>
+            </div>
+
+            <div class="chain-pills">
+                <div class="pill">⚙️ 0.45s Finality</div>
+                <div class="pill">💰 $0.001 Gas</div>
+                <div class="pill">🛡️ On-Chain SLAs</div>
+                <div class="pill">📈 2.4M Compute Hrs</div>
+            </div>
         </div>
-        <div class="metric" role="listitem"><span class="metric-val">1,432</span>
-            <div class="metric-key">Live Compute Jobs</div>
-            <div class="metric-delta">↑ +234 today</div>
-        </div>
-        <div class="metric" role="listitem"><span class="metric-val">2.4M</span>
-            <div class="metric-key">Compute Hours Served</div>
-            <div class="metric-delta">↑ +89K this month</div>
-        </div>
-        <div class="metric" role="listitem"><span class="metric-val">5,891</span>
-            <div class="metric-key">AI Agents Deployed</div>
-            <div class="metric-delta">↑ +441 this week</div>
-        </div>
-        <div class="metric" role="listitem"><span class="metric-val">$4.2M</span>
-            <div class="metric-key">Total Value Locked</div>
-            <div class="metric-delta">↑ +18% this month</div>
-        </div>
+    </header>
+
+    <!-- ▸ LIVE TICKER -->
+    <div class="ticker" role="region" aria-label="Live network statistics" aria-live="polite">
+        <div class="tick"><span class="tick-k">Nodes</span><span class="tick-v">247</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">GPU Providers</span><span class="tick-v">89</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Live Jobs</span><span class="tick-v cyan">1,432</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Compute Hours</span><span class="tick-v">2.4M</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">AI Agents</span><span class="tick-v">5,891</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Claw Bots</span><span class="tick-v gold">312</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">TVL</span><span class="tick-v gold">$4.2M</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Uptime</span><span class="tick-v">99.97%</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Gas Cost</span><span class="tick-v">~$0.001</span></div>
+        <span class="tick-div" aria-hidden="true">|</span>
+        <div class="tick"><span class="tick-k">Finality</span><span class="tick-v cyan">0.45s</span></div>
     </div>
-</section>
 
-<hr class="div">
-
-<!-- ▸ PLATFORM SERVICES -->
-<section aria-labelledby="services-h" class="container">
-    <div class="eyebrow">Platform Services</div>
-    <h2 id="services-h">What Can You Build on BNB Edge Node?</h2>
-    <p class="section-desc">BNB Edge Node provides everything Web3 builders need: GPU compute, AI agent marketplace,
-        claw bot marketplace, LLM hosting, DePIN infrastructure and decentralized DevOps tooling.</p>
-
-    <div class="features" role="list">
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-p">🤖</div>
-            <div class="feat-title">AI Agent Marketplace</div>
-            <p class="feat-desc">Deploy, discover and monetise autonomous AI agents on-chain. Set per-execution pricing
-                in BNB. Earn passively every time your agent runs — no intermediaries.</p>
-            <span class="feat-kw">ai agent marketplace web3</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-o">🦀</div>
-            <div class="feat-title">Claw Bot Marketplace</div>
-            <p class="feat-desc">Buy, sell and deploy claw bots for DeFi arbitrage, NFT sniping, data scraping and Web3
-                automation. The #1 decentralised claw bot marketplace on BNB Chain.</p>
-            <span class="feat-kw">claw bot marketplace web3</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-p">🧠</div>
-            <div class="feat-title">LLM & AI Model Hosting</div>
-            <p class="feat-desc">Host Llama 3.1, Mistral, Phi-3 and custom LLMs on decentralised GPU nodes. Private,
-                censorship-resistant, on-chain billed. Pay per inference from $0.001.</p>
-            <span class="feat-kw">LLM hosting blockchain decentralized</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-c">⚡</div>
-            <div class="feat-title">GPU Compute Marketplace</div>
-            <p class="feat-desc">Rent H100, A100 and RTX 4090 GPUs by the second. Pay in USDC or BNB via streaming smart
-                contracts. Providers stake BNB for verified uptime SLAs.</p>
-            <span class="feat-kw">rent H100 GPU crypto opBNB</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-c">🐳</div>
-            <div class="feat-title">Decentralised Docker Hosting</div>
-            <p class="feat-desc">Deploy any Docker image to edge nodes. Static IP, SSL auto-provisioned, port mapping.
-                Kubernetes cluster option. Web3 DevOps without cloud lock-in.</p>
-            <span class="feat-kw">decentralized docker hosting web3</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-g">📡</div>
-            <div class="feat-title">DePIN Infrastructure</div>
-            <p class="feat-desc">Physical servers in Kerala, India with static IPs, 1Gbps uplinks and on-chain node
-                verification. True DePIN — not a cloud re-labelled with a blockchain sticker.</p>
-            <span class="feat-kw">DePIN node hosting India 2024</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-g">💰</div>
-            <div class="feat-title">Streaming Payments</div>
-            <p class="feat-desc">Pay per second — not per month. BNB streams from buyer to provider via opBNB smart
-                contracts at $0.001 gas cost. Cancel any time. No lock-in, no invoices.</p>
-            <span class="feat-kw">streaming payments blockchain compute</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-p">🔗</div>
-            <div class="feat-title">On-Chain Verification</div>
-            <p class="feat-desc">Every compute job logs a verifiable result hash on opBNB. Tamper-proof execution
-                proofs, on-chain SLA enforcement, automatic dispute resolution via smart contracts.</p>
-            <span class="feat-kw">on-chain compute verification opBNB</span>
-        </article>
-        <article class="feat" role="listitem">
-            <div class="feat-icon fi-o">☸</div>
-            <div class="feat-title">Decentralised Kubernetes</div>
-            <p class="feat-desc">Run K8s clusters across DePIN nodes. Multi-region auto-failover. On-chain billing. Up
-                to 70% cheaper than GKE or EKS for AI and Web3 workloads.</p>
-            <span class="feat-kw">decentralized Kubernetes DePIN cluster</span>
-        </article>
-    </div>
-</section>
-
-<hr class="div">
-
-<!-- ▸ LIVE MARKETPLACE PREVIEW -->
-<section aria-labelledby="mp-h" class="container">
-    <div class="eyebrow">Live Platform</div>
-    <h2 id="mp-h">How Does the Marketplace Work?</h2>
-    <p class="section-desc">Browse GPU nodes, AI agents, claw bots and LLM providers. Every listing is on-chain
-        verified. Deploy in one click with streaming BNB payments — no accounts required.</p>
-    <div class="mp-wrap" role="region" aria-label="Live marketplace listings">
-        <div class="mp-head">
-            <div class="mp-title">📊 Live Listings — GPU · AI · Bots · LLMs</div>
-            <div class="live-badge"><span class="live-dot" aria-hidden="true"></span>LIVE DATA</div>
+    <!-- ▸ METRICS -->
+    <section aria-labelledby="metrics-h" class="container">
+        <div class="eyebrow">Network Stats</div>
+        <h2 id="metrics-h">What is BNB Edge Node's Network Scale?</h2>
+        <p class="section-desc">BNB Edge Node's decentralized compute network handles over 2.4 million compute hours
+            monthly
+            across 247 edge nodes — making it the largest DePIN marketplace on opBNB.</p>
+        <div class="metrics-grid" role="list">
+            <div class="metric" role="listitem"><span class="metric-val">247</span>
+                <div class="metric-key">Edge Nodes Online</div>
+                <div class="metric-delta">↑ +12 this week</div>
+            </div>
+            <div class="metric" role="listitem"><span class="metric-val">89</span>
+                <div class="metric-key">GPU Providers</div>
+                <div class="metric-delta">↑ +7 this week</div>
+            </div>
+            <div class="metric" role="listitem"><span class="metric-val">1,432</span>
+                <div class="metric-key">Live Compute Jobs</div>
+                <div class="metric-delta">↑ +234 today</div>
+            </div>
+            <div class="metric" role="listitem"><span class="metric-val">2.4M</span>
+                <div class="metric-key">Compute Hours Served</div>
+                <div class="metric-delta">↑ +89K this month</div>
+            </div>
+            <div class="metric" role="listitem"><span class="metric-val">5,891</span>
+                <div class="metric-key">AI Agents Deployed</div>
+                <div class="metric-delta">↑ +441 this week</div>
+            </div>
+            <div class="metric" role="listitem"><span class="metric-val">$4.2M</span>
+                <div class="metric-key">Total Value Locked</div>
+                <div class="metric-delta">↑ +18% this month</div>
+            </div>
         </div>
-        <div style="overflow-x:auto;">
-            <table aria-label="Marketplace provider listings">
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ PLATFORM SERVICES -->
+    <section aria-labelledby="services-h" class="container">
+        <div class="eyebrow">Platform Services</div>
+        <h2 id="services-h">What Can You Build on BNB Edge Node?</h2>
+        <p class="section-desc">BNB Edge Node provides everything Web3 builders need: GPU compute, AI agent marketplace,
+            claw bot marketplace, LLM hosting, DePIN infrastructure and decentralized DevOps tooling.</p>
+
+        <div class="features" role="list">
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-p">🤖</div>
+                <div class="feat-title">AI Agent Marketplace</div>
+                <p class="feat-desc">Deploy, discover and monetise autonomous AI agents on-chain. Set per-execution
+                    pricing
+                    in BNB. Earn passively every time your agent runs — no intermediaries.</p>
+                <span class="feat-kw">ai agent marketplace web3</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-o">🦀</div>
+                <div class="feat-title">Claw Bot Marketplace</div>
+                <p class="feat-desc">Buy, sell and deploy claw bots for DeFi arbitrage, NFT sniping, data scraping and
+                    Web3
+                    automation. The #1 decentralised claw bot marketplace on BNB Chain.</p>
+                <span class="feat-kw">claw bot marketplace web3</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-p">🧠</div>
+                <div class="feat-title">LLM & AI Model Hosting</div>
+                <p class="feat-desc">Host Llama 3.1, Mistral, Phi-3 and custom LLMs on decentralised GPU nodes. Private,
+                    censorship-resistant, on-chain billed. Pay per inference from $0.001.</p>
+                <span class="feat-kw">LLM hosting blockchain decentralized</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-c">⚡</div>
+                <div class="feat-title">GPU Compute Marketplace</div>
+                <p class="feat-desc">Rent H100, A100 and RTX 4090 GPUs by the second. Pay in USDC or BNB via streaming
+                    smart
+                    contracts. Providers stake BNB for verified uptime SLAs.</p>
+                <span class="feat-kw">rent H100 GPU crypto opBNB</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-c">🐳</div>
+                <div class="feat-title">Decentralised Docker Hosting</div>
+                <p class="feat-desc">Deploy any Docker image to edge nodes. Static IP, SSL auto-provisioned, port
+                    mapping.
+                    Kubernetes cluster option. Web3 DevOps without cloud lock-in.</p>
+                <span class="feat-kw">decentralized docker hosting web3</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-g">📡</div>
+                <div class="feat-title">DePIN Infrastructure</div>
+                <p class="feat-desc">Physical servers in Kerala, India with static IPs, 1Gbps uplinks and on-chain node
+                    verification. True DePIN — not a cloud re-labelled with a blockchain sticker.</p>
+                <span class="feat-kw">DePIN node hosting India 2024</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-g">💰</div>
+                <div class="feat-title">Streaming Payments</div>
+                <p class="feat-desc">Pay per second — not per month. BNB streams from buyer to provider via opBNB smart
+                    contracts at $0.001 gas cost. Cancel any time. No lock-in, no invoices.</p>
+                <span class="feat-kw">streaming payments blockchain compute</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-p">🔗</div>
+                <div class="feat-title">On-Chain Verification</div>
+                <p class="feat-desc">Every compute job logs a verifiable result hash on opBNB. Tamper-proof execution
+                    proofs, on-chain SLA enforcement, automatic dispute resolution via smart contracts.</p>
+                <span class="feat-kw">on-chain compute verification opBNB</span>
+            </article>
+            <article class="feat" role="listitem">
+                <div class="feat-icon fi-o">☸</div>
+                <div class="feat-title">Decentralised Kubernetes</div>
+                <p class="feat-desc">Run K8s clusters across DePIN nodes. Multi-region auto-failover. On-chain billing.
+                    Up
+                    to 70% cheaper than GKE or EKS for AI and Web3 workloads.</p>
+                <span class="feat-kw">decentralized Kubernetes DePIN cluster</span>
+            </article>
+        </div>
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ LIVE MARKETPLACE PREVIEW -->
+    <section aria-labelledby="mp-h" class="container">
+        <div class="eyebrow">Live Platform</div>
+        <h2 id="mp-h">How Does the Marketplace Work?</h2>
+        <p class="section-desc">Browse GPU nodes, AI agents, claw bots and LLM providers. Every listing is on-chain
+            verified. Deploy in one click with streaming BNB payments — no accounts required.</p>
+        <div class="mp-wrap" role="region" aria-label="Live marketplace listings">
+            <div class="mp-head">
+                <div class="mp-title">📊 Live Listings — GPU · AI · Bots · LLMs</div>
+                <div class="live-badge"><span class="live-dot" aria-hidden="true"></span>LIVE DATA</div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table aria-label="Marketplace provider listings">
+                    <thead>
+                        <tr>
+                            <th>Provider / Agent</th>
+                            <th>Category</th>
+                            <th>Specs</th>
+                            <th>Price</th>
+                            <th>Finality</th>
+                            <th>Status</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>H100 SXM5 — Node #14</strong></td>
+                            <td><span class="tag tag-gpu">⚡ GPU</span></td>
+                            <td>80GB HBM3 · PCIe 5.0</td>
+                            <td>$0.045/req</td>
+                            <td>0.45s</td>
+                            <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
+                            <td>⭐ 5.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TradingBot-Alpha v2.3</strong></td>
+                            <td><span class="tag tag-bot">🦀 Claw Bot</span></td>
+                            <td>DeFi Arb · BNB + ETH</td>
+                            <td>0.04 BNB/hr</td>
+                            <td>—</td>
+                            <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
+                            <td>⭐ 4.9</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Llama-3.1-70B Node #44</strong></td>
+                            <td><span class="tag tag-llm">🧠 LLM</span></td>
+                            <td>2×A100 80GB · FP16</td>
+                            <td>$2.10/hr</td>
+                            <td>0.45s</td>
+                            <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
+                            <td>⭐ 5.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ResearchAgent-GPT v1.4</strong></td>
+                            <td><span class="tag tag-ai">🤖 AI Agent</span></td>
+                            <td>Autonomous · Web3 Native</td>
+                            <td>0.002 BNB/task</td>
+                            <td>—</td>
+                            <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
+                            <td>⭐ 4.8</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GPU Kerala-07</strong></td>
+                            <td><span class="tag tag-gpu">⚡ GPU</span></td>
+                            <td>RTX 4090 24GB · Static IP</td>
+                            <td>$0.65/hr</td>
+                            <td>0.45s</td>
+                            <td><span class="s-dot s-busy" aria-hidden="true"></span>Busy</td>
+                            <td>⭐ 4.7</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DataScraper-ClawBot v4</strong></td>
+                            <td><span class="tag tag-bot">🦀 Claw Bot</span></td>
+                            <td>500+ sites · Playwright</td>
+                            <td>0.01 BNB/1k req</td>
+                            <td>—</td>
+                            <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
+                            <td>⭐ 4.6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:1.4rem;">
+            <a href="marketplace.html" class="btn btn-primary">View All 500+ Listings →</a>
+        </div>
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ COMPARISON TABLE — for LLM/AI parsing -->
+    <section aria-labelledby="cmp-h" class="container">
+        <div class="eyebrow">Comparison</div>
+        <h2 id="cmp-h">BNB Edge Node vs AWS vs GCP vs Traditional Cloud</h2>
+        <p class="section-desc">How does decentralised compute compare to traditional cloud for AI workloads? BNB Edge
+            Node
+            wins on cost, privacy and censorship-resistance.</p>
+        <div class="cmp-table-wrap">
+            <table class="cmp-table" aria-label="Comparison of BNB Edge Node vs AWS vs GCP vs Traditional Cloud">
+                <caption>Comparison table: BNB Edge Node (DePIN) vs major cloud providers for AI/GPU workloads —
+                    December
+                    2024</caption>
                 <thead>
                     <tr>
-                        <th>Provider / Agent</th>
-                        <th>Category</th>
-                        <th>Specs</th>
-                        <th>Price</th>
-                        <th>Finality</th>
-                        <th>Status</th>
-                        <th>Rating</th>
+                        <th>Feature</th>
+                        <th>BNB Edge Node</th>
+                        <th>AWS EC2 GPU</th>
+                        <th>GCP Vertex AI</th>
+                        <th>Azure ML</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>H100 SXM5 — Node #14</strong></td>
-                        <td><span class="tag tag-gpu">⚡ GPU</span></td>
-                        <td>80GB HBM3 · PCIe 5.0</td>
-                        <td>$0.045/req</td>
-                        <td>0.45s</td>
-                        <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
-                        <td>⭐ 5.0</td>
+                        <td>H100 GPU Cost/hr</td>
+                        <td class="cmp-win">$2.10</td>
+                        <td class="cmp-lose">$5.12</td>
+                        <td class="cmp-lose">$4.90</td>
+                        <td class="cmp-lose">$5.40</td>
                     </tr>
                     <tr>
-                        <td><strong>TradingBot-Alpha v2.3</strong></td>
-                        <td><span class="tag tag-bot">🦀 Claw Bot</span></td>
-                        <td>DeFi Arb · BNB + ETH</td>
-                        <td>0.04 BNB/hr</td>
-                        <td>—</td>
-                        <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
-                        <td>⭐ 4.9</td>
+                        <td>KYC Required</td>
+                        <td class="cmp-win">No (wallet only)</td>
+                        <td class="cmp-lose">Yes</td>
+                        <td class="cmp-lose">Yes</td>
+                        <td class="cmp-lose">Yes</td>
                     </tr>
                     <tr>
-                        <td><strong>Llama-3.1-70B Node #44</strong></td>
-                        <td><span class="tag tag-llm">🧠 LLM</span></td>
-                        <td>2×A100 80GB · FP16</td>
-                        <td>$2.10/hr</td>
-                        <td>0.45s</td>
-                        <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
-                        <td>⭐ 5.0</td>
+                        <td>Payment Model</td>
+                        <td class="cmp-win">Per-second streaming</td>
+                        <td class="cmp-ok">Hourly billing</td>
+                        <td class="cmp-ok">Per-second (billed monthly)</td>
+                        <td class="cmp-ok">Per-minute</td>
                     </tr>
                     <tr>
-                        <td><strong>ResearchAgent-GPT v1.4</strong></td>
-                        <td><span class="tag tag-ai">🤖 AI Agent</span></td>
-                        <td>Autonomous · Web3 Native</td>
-                        <td>0.002 BNB/task</td>
-                        <td>—</td>
-                        <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
-                        <td>⭐ 4.8</td>
+                        <td>Censorship Resistance</td>
+                        <td class="cmp-win">✓ On-chain, no single point</td>
+                        <td class="cmp-lose">✗ Centralised ToS</td>
+                        <td class="cmp-lose">✗ Centralised ToS</td>
+                        <td class="cmp-lose">✗ Centralised ToS</td>
                     </tr>
                     <tr>
-                        <td><strong>GPU Kerala-07</strong></td>
-                        <td><span class="tag tag-gpu">⚡ GPU</span></td>
-                        <td>RTX 4090 24GB · Static IP</td>
-                        <td>$0.65/hr</td>
-                        <td>0.45s</td>
-                        <td><span class="s-dot s-busy" aria-hidden="true"></span>Busy</td>
-                        <td>⭐ 4.7</td>
+                        <td>Transaction Finality</td>
+                        <td class="cmp-win">0.45s (opBNB)</td>
+                        <td class="cmp-lose">N/A</td>
+                        <td class="cmp-lose">N/A</td>
+                        <td class="cmp-lose">N/A</td>
                     </tr>
                     <tr>
-                        <td><strong>DataScraper-ClawBot v4</strong></td>
-                        <td><span class="tag tag-bot">🦀 Claw Bot</span></td>
-                        <td>500+ sites · Playwright</td>
-                        <td>0.01 BNB/1k req</td>
-                        <td>—</td>
-                        <td><span class="s-dot s-on" aria-hidden="true"></span>Online</td>
-                        <td>⭐ 4.6</td>
+                        <td>Data Sovereignty</td>
+                        <td class="cmp-win">Provider-owned hardware</td>
+                        <td class="cmp-lose">AWS data centres</td>
+                        <td class="cmp-lose">Google data centres</td>
+                        <td class="cmp-lose">Microsoft data centres</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Billing</td>
+                        <td class="cmp-win">1 second</td>
+                        <td class="cmp-lose">1 hour</td>
+                        <td class="cmp-ok">~1 min</td>
+                        <td class="cmp-ok">1 min</td>
+                    </tr>
+                    <tr>
+                        <td>AI Agent Marketplace</td>
+                        <td class="cmp-win">✓ On-chain</td>
+                        <td class="cmp-lose">✗</td>
+                        <td class="cmp-lose">✗</td>
+                        <td class="cmp-lose">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Claw Bot Marketplace</td>
+                        <td class="cmp-win">✓ On-chain</td>
+                        <td class="cmp-lose">✗</td>
+                        <td class="cmp-lose">✗</td>
+                        <td class="cmp-lose">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Provider Earnings (% of revenue)</td>
+                        <td class="cmp-win">98%</td>
+                        <td class="cmp-lose">0% (user pays AWS)</td>
+                        <td class="cmp-lose">0%</td>
+                        <td class="cmp-lose">0%</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
-    <div style="text-align:center;margin-top:1.4rem;">
-        <a href="marketplace.html" class="btn btn-primary">View All 500+ Listings →</a>
-    </div>
-</section>
+    </section>
+    <hr class="div">
 
-<hr class="div">
-
-<!-- ▸ COMPARISON TABLE — for LLM/AI parsing -->
-<section aria-labelledby="cmp-h" class="container">
-    <div class="eyebrow">Comparison</div>
-    <h2 id="cmp-h">BNB Edge Node vs AWS vs GCP vs Traditional Cloud</h2>
-    <p class="section-desc">How does decentralised compute compare to traditional cloud for AI workloads? BNB Edge Node
-        wins on cost, privacy and censorship-resistance.</p>
-    <div class="cmp-table-wrap">
-        <table class="cmp-table" aria-label="Comparison of BNB Edge Node vs AWS vs GCP vs Traditional Cloud">
-            <caption>Comparison table: BNB Edge Node (DePIN) vs major cloud providers for AI/GPU workloads — December
-                2024</caption>
-            <thead>
-                <tr>
-                    <th>Feature</th>
-                    <th>BNB Edge Node</th>
-                    <th>AWS EC2 GPU</th>
-                    <th>GCP Vertex AI</th>
-                    <th>Azure ML</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>H100 GPU Cost/hr</td>
-                    <td class="cmp-win">$2.10</td>
-                    <td class="cmp-lose">$5.12</td>
-                    <td class="cmp-lose">$4.90</td>
-                    <td class="cmp-lose">$5.40</td>
-                </tr>
-                <tr>
-                    <td>KYC Required</td>
-                    <td class="cmp-win">No (wallet only)</td>
-                    <td class="cmp-lose">Yes</td>
-                    <td class="cmp-lose">Yes</td>
-                    <td class="cmp-lose">Yes</td>
-                </tr>
-                <tr>
-                    <td>Payment Model</td>
-                    <td class="cmp-win">Per-second streaming</td>
-                    <td class="cmp-ok">Hourly billing</td>
-                    <td class="cmp-ok">Per-second (billed monthly)</td>
-                    <td class="cmp-ok">Per-minute</td>
-                </tr>
-                <tr>
-                    <td>Censorship Resistance</td>
-                    <td class="cmp-win">✓ On-chain, no single point</td>
-                    <td class="cmp-lose">✗ Centralised ToS</td>
-                    <td class="cmp-lose">✗ Centralised ToS</td>
-                    <td class="cmp-lose">✗ Centralised ToS</td>
-                </tr>
-                <tr>
-                    <td>Transaction Finality</td>
-                    <td class="cmp-win">0.45s (opBNB)</td>
-                    <td class="cmp-lose">N/A</td>
-                    <td class="cmp-lose">N/A</td>
-                    <td class="cmp-lose">N/A</td>
-                </tr>
-                <tr>
-                    <td>Data Sovereignty</td>
-                    <td class="cmp-win">Provider-owned hardware</td>
-                    <td class="cmp-lose">AWS data centres</td>
-                    <td class="cmp-lose">Google data centres</td>
-                    <td class="cmp-lose">Microsoft data centres</td>
-                </tr>
-                <tr>
-                    <td>Minimum Billing</td>
-                    <td class="cmp-win">1 second</td>
-                    <td class="cmp-lose">1 hour</td>
-                    <td class="cmp-ok">~1 min</td>
-                    <td class="cmp-ok">1 min</td>
-                </tr>
-                <tr>
-                    <td>AI Agent Marketplace</td>
-                    <td class="cmp-win">✓ On-chain</td>
-                    <td class="cmp-lose">✗</td>
-                    <td class="cmp-lose">✗</td>
-                    <td class="cmp-lose">✗</td>
-                </tr>
-                <tr>
-                    <td>Claw Bot Marketplace</td>
-                    <td class="cmp-win">✓ On-chain</td>
-                    <td class="cmp-lose">✗</td>
-                    <td class="cmp-lose">✗</td>
-                    <td class="cmp-lose">✗</td>
-                </tr>
-                <tr>
-                    <td>Provider Earnings (% of revenue)</td>
-                    <td class="cmp-win">98%</td>
-                    <td class="cmp-lose">0% (user pays AWS)</td>
-                    <td class="cmp-lose">0%</td>
-                    <td class="cmp-lose">0%</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section><hr class="div">
-
-<!-- ▸ INFRA + TERMINAL -->
-<section aria-labelledby="infra-h" class="container">
-    <div class="two-col">
-        <div>
-            <div class="eyebrow">Infrastructure</div>
-            <h2 id="infra-h">Is BNB Edge Node Real Hardware or a Cloud Wrapper?</h2>
-            <p class="section-desc">BNB Edge Node runs on provider-owned physical servers — not re-labelled cloud VMs.
-                Kerala-based data centres with static IPs, 1Gbps uplinks and on-chain proof-of-compute on opBNB. Every
-                node is slash-able — providers stake BNB to guarantee SLAs.</p>
-            <ul
-                style="list-style:none;font-family:var(--mono);font-size:.8rem;color:var(--text2);line-height:2.4;margin-top:1.2rem;">
-                <li>✓ <span style="color:var(--text);">Physical servers — Kerala, India</span></li>
-                <li>✓ <span style="color:var(--text);">Static IPv4 + IPv6 per node</span></li>
-                <li>✓ <span style="color:var(--text);">1Gbps dedicated uplinks</span></li>
-                <li>✓ <span style="color:var(--text);">GPU nodes — RTX 4090, A100, H100</span></li>
-                <li>✓ <span style="color:var(--text);">On-chain proof-of-compute (opBNB)</span></li>
-                <li>✓ <span style="color:var(--text);">Provider staking + slashing (BNB)</span></li>
-                <li>✓ <span style="color:var(--text);">99.97% uptime SLA enforced on-chain</span></li>
-            </ul>
-        </div>
-        <div class="terminal" role="region" aria-label="Live node status terminal">
-            <div class="t-bar">
-                <div class="t-btn tb-r"></div>
-                <div class="t-btn tb-y"></div>
-                <div class="t-btn tb-g"></div>
-                <div class="t-title">bnb-edge — node status</div>
+    <!-- ▸ INFRA + TERMINAL -->
+    <section aria-labelledby="infra-h" class="container">
+        <div class="two-col">
+            <div>
+                <div class="eyebrow">Infrastructure</div>
+                <h2 id="infra-h">Is BNB Edge Node Real Hardware or a Cloud Wrapper?</h2>
+                <p class="section-desc">BNB Edge Node runs on provider-owned physical servers — not re-labelled cloud
+                    VMs.
+                    Kerala-based data centres with static IPs, 1Gbps uplinks and on-chain proof-of-compute on opBNB.
+                    Every
+                    node is slash-able — providers stake BNB to guarantee SLAs.</p>
+                <ul
+                    style="list-style:none;font-family:var(--mono);font-size:.8rem;color:var(--text2);line-height:2.4;margin-top:1.2rem;">
+                    <li>✓ <span style="color:var(--text);">Physical servers — Kerala, India</span></li>
+                    <li>✓ <span style="color:var(--text);">Static IPv4 + IPv6 per node</span></li>
+                    <li>✓ <span style="color:var(--text);">1Gbps dedicated uplinks</span></li>
+                    <li>✓ <span style="color:var(--text);">GPU nodes — RTX 4090, A100, H100</span></li>
+                    <li>✓ <span style="color:var(--text);">On-chain proof-of-compute (opBNB)</span></li>
+                    <li>✓ <span style="color:var(--text);">Provider staking + slashing (BNB)</span></li>
+                    <li>✓ <span style="color:var(--text);">99.97% uptime SLA enforced on-chain</span></li>
+                </ul>
             </div>
-            <div class="t-body">
-                <span class="t-line"><span class="t-p">$</span> <span class="t-c">bnbedge node status --id
-                        kerala-07</span></span>
-                <span class="t-line t-o">✓ Node: kerala-07 · ONLINE</span>
-                <span class="t-line t-o">✓ GPU: RTX 4090 24GB VRAM</span>
-                <span class="t-line t-o">✓ Static IP: 45.134.xx.xx</span>
-                <span class="t-line t-o">✓ opBNB Block: #2,847,193</span>
-                <span class="t-line t-o">✓ Active Jobs: 14 · Uptime: 99.97%</span>
-                <span class="t-line t-o">✓ Provider Stake: 120 BNB</span>
-                <span class="t-line t-d">──────────────────────────────</span>
-                <span class="t-line"><span class="t-p">$</span> <span class="t-c">bnbedge deploy --image llama3:70b
-                        \</span></span>
-                <span class="t-line t-c"> --gpu rtx4090 --region kerala</span>
-                <span class="t-line t-o">📦 Pushing image (4.1 GB)...</span>
-                <span class="t-line t-o">⚡ Assigned to: kerala-07</span>
-                <span class="t-line t-o">🔗 opBNB tx: 0x7f2a... confirmed</span>
-                <span class="t-line" style="color:var(--green);font-weight:600;">✅ LIVE → llm-xxxx.bnbedge.io</span>
-                <span class="t-line t-o">💰 Streaming: 0.0000027 BNB/sec</span>
-                <span class="t-line"><span class="t-p">$</span> <span class="t-cur"></span></span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<hr class="div">
-
-<!-- ▸ HOW TO DEPLOY — matches HowTo schema -->
-<section aria-labelledby="howto-h" class="container">
-    <div class="eyebrow">Getting Started</div>
-    <h2 id="howto-h">How Do You Deploy on BNB Edge Node?</h2>
-    <p class="section-desc">From wallet connect to live deployment in under 10 minutes. No cloud accounts, no KYC, no
-        30-day billing cycles.</p>
-    <div class="steps">
-        <div class="step">
-            <div class="step-n">1</div>
-            <h3>Connect Wallet</h3>
-            <p>Connect MetaMask or WalletConnect to opBNB (Chain ID: 204). Your wallet is your identity — no email, no
-                KYC.</p>
-        </div>
-        <div class="step">
-            <div class="step-n">2</div>
-            <h3>Browse & Select</h3>
-            <p>Filter GPU nodes, AI agents, claw bots and LLM providers by specs, price, location and on-chain
-                reputation score.</p>
-        </div>
-        <div class="step">
-            <div class="step-n">3</div>
-            <h3>Deploy & Stream</h3>
-            <p>One-click deploy. BNB streams per second via opBNB smart contract escrow. Confirmed in 0.45s. Cancel any
-                time.</p>
-        </div>
-        <div class="step">
-            <div class="step-n">4</div>
-            <h3>Monitor On-Chain</h3>
-            <p>Every job has an on-chain execution log. View results, verify proofs and scale to additional nodes from
-                the dashboard or CLI.</p>
-        </div>
-    </div>
-</section>
-
-<hr class="div">
-
-<!-- ▸ BLOG PREVIEW -->
-<section aria-labelledby="blog-h" class="container">
-    <div class="eyebrow">Knowledge Base</div>
-    <h2 id="blog-h">Learn Web3 Compute & DePIN</h2>
-    <p class="section-desc">Expert guides targeting high-intent, low-competition keywords across DePIN, AI agents, claw
-        bots, GPU compute and blockchain hosting.</p>
-
-    <div class="blog-grid" role="list">
-        <a href="blog/how-to-run-depin-node-india.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: How to Run a DePIN Node in India">
-            <div class="post-thumb pt-blue">📡</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">DePIN Guide</div>
-                <div class="post-title" itemprop="headline">How to Run a DePIN Node in India (2024 Complete Guide)</div>
-                <p class="post-desc" itemprop="description">Hardware requirements, static IP setup, opBNB registration
-                    and realistic monthly BNB earnings from Kerala node operators.</p>
-                <span class="post-kw">how to run DePIN node India</span>
-                <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 8 min</span><span>🔥 2.4K
-                        views</span></div>
-            </div>
-        </a>
-        <a href="blog/rent-h100-gpu-opbnb.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: How to Rent H100 GPUs on opBNB">
-            <div class="post-thumb pt-purple">⚡</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">GPU Compute</div>
-                <div class="post-title" itemprop="headline">How to Rent H100 GPUs for AI Inference on opBNB
-                    (Step-by-Step)</div>
-                <p class="post-desc" itemprop="description">Pay per second in USDC. 0.45s finality. Full walkthrough for
-                    renting H100 instances on BNB Edge Node marketplace.</p>
-                <span class="post-kw">rent H100 GPU crypto opBNB</span>
-                <div class="post-meta"><span itemprop="datePublished">Feb 2025</span><span>⏱ 6 min</span><span>🆕
-                        New</span></div>
-            </div>
-        </a>
-        <a href="blog/decentralized-cloud-vs-aws.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: Decentralized Cloud vs AWS">
-            <div class="post-thumb pt-green">☁️</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">Comparison</div>
-                <div class="post-title" itemprop="headline">Decentralised Cloud vs AWS, GCP and Azure: 10-Point
-                    Comparison</div>
-                <p class="post-desc" itemprop="description">Cost, censorship-resistance, billing granularity, SLAs and
-                    AI agent support. Decentralised wins on 7 of 10 metrics.</p>
-                <span class="post-kw">decentralized cloud vs AWS 2024</span>
-                <div class="post-meta"><span itemprop="datePublished">Nov 2024</span><span>⏱ 10 min</span><span>📈 High
-                        Traffic</span></div>
-            </div>
-        </a>
-        <a href="blog/claw-bot-marketplace-guide.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: Claw Bot Marketplace Guide">
-            <div class="post-thumb pt-gold">🦀</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">Claw Bots</div>
-                <div class="post-title" itemprop="headline">What is a Claw Bot Marketplace? Build, Deploy & Earn BNB
+            <div class="terminal" role="region" aria-label="Live node status terminal">
+                <div class="t-bar">
+                    <div class="t-btn tb-r"></div>
+                    <div class="t-btn tb-y"></div>
+                    <div class="t-btn tb-g"></div>
+                    <div class="t-title">bnb-edge — node status</div>
                 </div>
-                <p class="post-desc" itemprop="description">Everything you need to know about claw bot development, DeFi
-                    arbitrage bots and monetising automation on BNB Edge Node.</p>
-                <span class="post-kw">claw bot marketplace Web3</span>
-                <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 7 min</span><span>🔑 Low
-                        Competition</span></div>
-            </div>
-        </a>
-        <a href="blog/llm-hosting-blockchain.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: LLM Hosting on Blockchain">
-            <div class="post-thumb pt-purple">🧠</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">LLM Hosting</div>
-                <div class="post-title" itemprop="headline">How to Host an LLM on Blockchain: Llama 3.1, Mistral, Phi-3
+                <div class="t-body">
+                    <span class="t-line"><span class="t-p">$</span> <span class="t-c">bnbedge node status --id
+                            kerala-07</span></span>
+                    <span class="t-line t-o">✓ Node: kerala-07 · ONLINE</span>
+                    <span class="t-line t-o">✓ GPU: RTX 4090 24GB VRAM</span>
+                    <span class="t-line t-o">✓ Static IP: 45.134.xx.xx</span>
+                    <span class="t-line t-o">✓ opBNB Block: #2,847,193</span>
+                    <span class="t-line t-o">✓ Active Jobs: 14 · Uptime: 99.97%</span>
+                    <span class="t-line t-o">✓ Provider Stake: 120 BNB</span>
+                    <span class="t-line t-d">──────────────────────────────</span>
+                    <span class="t-line"><span class="t-p">$</span> <span class="t-c">bnbedge deploy --image llama3:70b
+                            \</span></span>
+                    <span class="t-line t-c"> --gpu rtx4090 --region kerala</span>
+                    <span class="t-line t-o">📦 Pushing image (4.1 GB)...</span>
+                    <span class="t-line t-o">⚡ Assigned to: kerala-07</span>
+                    <span class="t-line t-o">🔗 opBNB tx: 0x7f2a... confirmed</span>
+                    <span class="t-line" style="color:var(--green);font-weight:600;">✅ LIVE → llm-xxxx.bnbedge.io</span>
+                    <span class="t-line t-o">💰 Streaming: 0.0000027 BNB/sec</span>
+                    <span class="t-line"><span class="t-p">$</span> <span class="t-cur"></span></span>
                 </div>
-                <p class="post-desc" itemprop="description">Deploy open-source LLMs on decentralised GPU infrastructure.
-                    Censorship-resistant, API-ready, pay-per-inference billing.</p>
-                <span class="post-kw">LLM hosting blockchain decentralized</span>
-                <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 6 min</span><span>🔥
-                        Trending</span></div>
             </div>
-        </a>
-        <a href="blog/ai-agent-deploy-web3.html" class="post-card" role="listitem" itemscope
-            itemtype="https://schema.org/BlogPosting" aria-label="Read: Deploy AI Agent Web3">
-            <div class="post-thumb pt-blue">🤖</div>
-            <div class="post-body">
-                <div class="post-cat" itemprop="articleSection">AI Agents</div>
-                <div class="post-title" itemprop="headline">How to Deploy an AI Agent on Web3 and Earn BNB Per Execution
+        </div>
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ HOW TO DEPLOY — matches HowTo schema -->
+    <section aria-labelledby="howto-h" class="container">
+        <div class="eyebrow">Getting Started</div>
+        <h2 id="howto-h">How Do You Deploy on BNB Edge Node?</h2>
+        <p class="section-desc">From wallet connect to live deployment in under 10 minutes. No cloud accounts, no KYC,
+            no
+            30-day billing cycles.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-n">1</div>
+                <h3>Connect Wallet</h3>
+                <p>Connect MetaMask or WalletConnect to opBNB (Chain ID: 204). Your wallet is your identity — no email,
+                    no
+                    KYC.</p>
+            </div>
+            <div class="step">
+                <div class="step-n">2</div>
+                <h3>Browse & Select</h3>
+                <p>Filter GPU nodes, AI agents, claw bots and LLM providers by specs, price, location and on-chain
+                    reputation score.</p>
+            </div>
+            <div class="step">
+                <div class="step-n">3</div>
+                <h3>Deploy & Stream</h3>
+                <p>One-click deploy. BNB streams per second via opBNB smart contract escrow. Confirmed in 0.45s. Cancel
+                    any
+                    time.</p>
+            </div>
+            <div class="step">
+                <div class="step-n">4</div>
+                <h3>Monitor On-Chain</h3>
+                <p>Every job has an on-chain execution log. View results, verify proofs and scale to additional nodes
+                    from
+                    the dashboard or CLI.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ BLOG PREVIEW -->
+    <section aria-labelledby="blog-h" class="container">
+        <div class="eyebrow">Knowledge Base</div>
+        <h2 id="blog-h">Learn Web3 Compute & DePIN</h2>
+        <p class="section-desc">Expert guides targeting high-intent, low-competition keywords across DePIN, AI agents,
+            claw
+            bots, GPU compute and blockchain hosting.</p>
+
+        <div class="blog-grid" role="list">
+            <a href="blog/how-to-run-depin-node-india.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: How to Run a DePIN Node in India">
+                <div class="post-thumb pt-blue">📡</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">DePIN Guide</div>
+                    <div class="post-title" itemprop="headline">How to Run a DePIN Node in India (2024 Complete Guide)
+                    </div>
+                    <p class="post-desc" itemprop="description">Hardware requirements, static IP setup, opBNB
+                        registration
+                        and realistic monthly BNB earnings from Kerala node operators.</p>
+                    <span class="post-kw">how to run DePIN node India</span>
+                    <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 8 min</span><span>🔥
+                            2.4K
+                            views</span></div>
                 </div>
-                <p class="post-desc" itemprop="description">Build once, earn forever. Step-by-step guide to listing a
-                    LangChain, AutoGen or CrewAI agent on the BNB Edge Node marketplace.</p>
-                <span class="post-kw">deploy AI agent Web3 earn BNB</span>
-                <div class="post-meta"><span itemprop="datePublished">Jan 2025</span><span>⏱ 5 min</span></div>
+            </a>
+            <a href="blog/rent-h100-gpu-opbnb.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: How to Rent H100 GPUs on opBNB">
+                <div class="post-thumb pt-purple">⚡</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">GPU Compute</div>
+                    <div class="post-title" itemprop="headline">How to Rent H100 GPUs for AI Inference on opBNB
+                        (Step-by-Step)</div>
+                    <p class="post-desc" itemprop="description">Pay per second in USDC. 0.45s finality. Full walkthrough
+                        for
+                        renting H100 instances on BNB Edge Node marketplace.</p>
+                    <span class="post-kw">rent H100 GPU crypto opBNB</span>
+                    <div class="post-meta"><span itemprop="datePublished">Feb 2025</span><span>⏱ 6 min</span><span>🆕
+                            New</span></div>
+                </div>
+            </a>
+            <a href="blog/decentralized-cloud-vs-aws.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: Decentralized Cloud vs AWS">
+                <div class="post-thumb pt-green">☁️</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">Comparison</div>
+                    <div class="post-title" itemprop="headline">Decentralised Cloud vs AWS, GCP and Azure: 10-Point
+                        Comparison</div>
+                    <p class="post-desc" itemprop="description">Cost, censorship-resistance, billing granularity, SLAs
+                        and
+                        AI agent support. Decentralised wins on 7 of 10 metrics.</p>
+                    <span class="post-kw">decentralized cloud vs AWS 2024</span>
+                    <div class="post-meta"><span itemprop="datePublished">Nov 2024</span><span>⏱ 10 min</span><span>📈
+                            High
+                            Traffic</span></div>
+                </div>
+            </a>
+            <a href="blog/claw-bot-marketplace-guide.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: Claw Bot Marketplace Guide">
+                <div class="post-thumb pt-gold">🦀</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">Claw Bots</div>
+                    <div class="post-title" itemprop="headline">What is a Claw Bot Marketplace? Build, Deploy & Earn BNB
+                    </div>
+                    <p class="post-desc" itemprop="description">Everything you need to know about claw bot development,
+                        DeFi
+                        arbitrage bots and monetising automation on BNB Edge Node.</p>
+                    <span class="post-kw">claw bot marketplace Web3</span>
+                    <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 7 min</span><span>🔑
+                            Low
+                            Competition</span></div>
+                </div>
+            </a>
+            <a href="blog/llm-hosting-blockchain.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: LLM Hosting on Blockchain">
+                <div class="post-thumb pt-purple">🧠</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">LLM Hosting</div>
+                    <div class="post-title" itemprop="headline">How to Host an LLM on Blockchain: Llama 3.1, Mistral,
+                        Phi-3
+                    </div>
+                    <p class="post-desc" itemprop="description">Deploy open-source LLMs on decentralised GPU
+                        infrastructure.
+                        Censorship-resistant, API-ready, pay-per-inference billing.</p>
+                    <span class="post-kw">LLM hosting blockchain decentralized</span>
+                    <div class="post-meta"><span itemprop="datePublished">Dec 2024</span><span>⏱ 6 min</span><span>🔥
+                            Trending</span></div>
+                </div>
+            </a>
+            <a href="blog/ai-agent-deploy-web3.html" class="post-card" role="listitem" itemscope
+                itemtype="https://schema.org/BlogPosting" aria-label="Read: Deploy AI Agent Web3">
+                <div class="post-thumb pt-blue">🤖</div>
+                <div class="post-body">
+                    <div class="post-cat" itemprop="articleSection">AI Agents</div>
+                    <div class="post-title" itemprop="headline">How to Deploy an AI Agent on Web3 and Earn BNB Per
+                        Execution
+                    </div>
+                    <p class="post-desc" itemprop="description">Build once, earn forever. Step-by-step guide to listing
+                        a
+                        LangChain, AutoGen or CrewAI agent on the BNB Edge Node marketplace.</p>
+                    <span class="post-kw">deploy AI agent Web3 earn BNB</span>
+                    <div class="post-meta"><span itemprop="datePublished">Jan 2025</span><span>⏱ 5 min</span></div>
+                </div>
+            </a>
+        </div>
+        <div style="text-align:center;margin-top:1.6rem;"><a href="blog.html" class="btn btn-outline">View All Articles
+                →</a></div>
+    </section>
+
+    <hr class="div">
+
+    <!-- ▸ FAQ — matches FAQPage schema above -->
+    <section aria-labelledby="faq-h" class="container">
+        <div class="eyebrow">FAQ</div>
+        <h2 id="faq-h">Frequently Asked Questions</h2>
+        <div class="faq" itemscope itemtype="https://schema.org/FAQPage">
+
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
+                    aria-expanded="false">
+                    What is BNB Edge Node?
+                    <span class="faq-chevron" aria-hidden="true">＋</span>
+                </div>
+                <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">BNB Edge Node is a decentralised AI compute and DePIN marketplace on opBNB. It
+                        lets
+                        you rent H100, A100 and RTX 4090 GPUs by the second, deploy AI agents and claw bots on-chain,
+                        host
+                        LLMs, and earn BNB as a compute provider — all without any KYC or centralised intermediaries.
+                        Payments settle in 0.45 seconds at ~$0.001 gas cost.</div>
+                </div>
             </div>
-        </a>
+
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
+                    aria-expanded="false">
+                    How do I rent a GPU on BNB Edge Node?
+                    <span class="faq-chevron" aria-hidden="true">＋</span>
+                </div>
+                <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">Connect MetaMask or WalletConnect to opBNB (Chain ID 204). Browse GPU providers
+                        on
+                        the marketplace — filter by GPU model (H100, A100, RTX 4090), price and reputation. Select an
+                        instance, then create a compute job (escrow payment on completion) or open a per-second payment
+                        stream for long-running LLM or agent workloads. Funds are locked in smart contract escrow and
+                        released automatically.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
+                    aria-expanded="false">
+                    What is a claw bot marketplace and how does it work?
+                    <span class="faq-chevron" aria-hidden="true">＋</span>
+                </div>
+                <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">A claw bot marketplace is a decentralised platform to buy, sell, deploy and
+                        monetise automated bots — including DeFi arbitrage bots, NFT snipers, data scrapers and Web3
+                        automation agents. On BNB Edge Node, developers list their claw bots with per-hour or
+                        per-execution
+                        pricing. Buyers deploy with a single click and pay via streaming BNB smart contract payments. No
+                        escrow delays — payments stream per second directly to bot developers.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
+                    aria-expanded="false">
+                    What is DePIN and why does it matter for AI compute?
+                    <span class="faq-chevron" aria-hidden="true">＋</span>
+                </div>
+                <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">DePIN (Decentralised Physical Infrastructure Network) coordinates real hardware
+                        —
+                        servers, GPUs, network gear — owned by independent providers, incentivised on-chain. For AI
+                        compute,
+                        DePIN means lower prices (no AWS margin), censorship resistance (no ToS bans), and transparent
+                        SLAs
+                        enforced by smart contracts rather than cloud provider policies. BNB Edge Node uses DePIN to
+                        deliver
+                        GPU compute at up to 60% less than AWS.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
+                    aria-expanded="false">
+                    How fast are payments on opBNB and what is the gas cost?
+                    <span class="faq-chevron" aria-hidden="true">＋</span>
+                </div>
+                <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">opBNB achieves 0.45-second transaction finality with gas costs of approximately
+                        $0.001 per transaction. This makes per-second micropayment streaming economically viable — you
+                        can
+                        stream 1 BNB payment per second and pay less than $0.001 in gas per stream tick. This is why BNB
+                        Edge Node chose opBNB over Ethereum mainnet or other L1s for its payment infrastructure.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ▸ AUTHOR AUTHORITY STRIP -->
+    <div class="container" style="padding-bottom:80px;">
+        <div class="author" role="complementary" aria-label="Content author information">
+            <div class="author-avatar" aria-hidden="true">👤</div>
+            <div>
+                <div class="author-name">Cyber — Core Contributor, BNB Edge Node</div>
+                <div class="author-bio">DePIN infrastructure architect. 6 years in Web3 compute. Previously Akash
+                    Network,
+                    Render Protocol. Writes about decentralised AI, GPU marketplaces and on-chain compute economics.
+                </div>
+            </div>
+            <a href="https://twitter.com/bnbedgenode" class="author-link" rel="author">@bnbedgenode →</a>
+        </div>
     </div>
-    <div style="text-align:center;margin-top:1.6rem;"><a href="blog.html" class="btn btn-outline">View All Articles
-            →</a></div>
-</section>
 
-<hr class="div">
-
-<!-- ▸ FAQ — matches FAQPage schema above -->
-<section aria-labelledby="faq-h" class="container">
-    <div class="eyebrow">FAQ</div>
-    <h2 id="faq-h">Frequently Asked Questions</h2>
-    <div class="faq" itemscope itemtype="https://schema.org/FAQPage">
-
-        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
-                aria-expanded="false">
-                What is BNB Edge Node?
-                <span class="faq-chevron" aria-hidden="true">＋</span>
-            </div>
-            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <div itemprop="text">BNB Edge Node is a decentralised AI compute and DePIN marketplace on opBNB. It lets
-                    you rent H100, A100 and RTX 4090 GPUs by the second, deploy AI agents and claw bots on-chain, host
-                    LLMs, and earn BNB as a compute provider — all without any KYC or centralised intermediaries.
-                    Payments settle in 0.45 seconds at ~$0.001 gas cost.</div>
-            </div>
-        </div>
-
-        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
-                aria-expanded="false">
-                How do I rent a GPU on BNB Edge Node?
-                <span class="faq-chevron" aria-hidden="true">＋</span>
-            </div>
-            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <div itemprop="text">Connect MetaMask or WalletConnect to opBNB (Chain ID 204). Browse GPU providers on
-                    the marketplace — filter by GPU model (H100, A100, RTX 4090), price and reputation. Select an
-                    instance, then create a compute job (escrow payment on completion) or open a per-second payment
-                    stream for long-running LLM or agent workloads. Funds are locked in smart contract escrow and
-                    released automatically.</div>
-            </div>
-        </div>
-
-        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
-                aria-expanded="false">
-                What is a claw bot marketplace and how does it work?
-                <span class="faq-chevron" aria-hidden="true">＋</span>
-            </div>
-            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <div itemprop="text">A claw bot marketplace is a decentralised platform to buy, sell, deploy and
-                    monetise automated bots — including DeFi arbitrage bots, NFT snipers, data scrapers and Web3
-                    automation agents. On BNB Edge Node, developers list their claw bots with per-hour or per-execution
-                    pricing. Buyers deploy with a single click and pay via streaming BNB smart contract payments. No
-                    escrow delays — payments stream per second directly to bot developers.</div>
-            </div>
-        </div>
-
-        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
-                aria-expanded="false">
-                What is DePIN and why does it matter for AI compute?
-                <span class="faq-chevron" aria-hidden="true">＋</span>
-            </div>
-            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <div itemprop="text">DePIN (Decentralised Physical Infrastructure Network) coordinates real hardware —
-                    servers, GPUs, network gear — owned by independent providers, incentivised on-chain. For AI compute,
-                    DePIN means lower prices (no AWS margin), censorship resistance (no ToS bans), and transparent SLAs
-                    enforced by smart contracts rather than cloud provider policies. BNB Edge Node uses DePIN to deliver
-                    GPU compute at up to 60% less than AWS.</div>
-            </div>
-        </div>
-
-        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <div class="faq-q" itemprop="name" onclick="toggleFaq(this)" role="button" tabindex="0"
-                aria-expanded="false">
-                How fast are payments on opBNB and what is the gas cost?
-                <span class="faq-chevron" aria-hidden="true">＋</span>
-            </div>
-            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <div itemprop="text">opBNB achieves 0.45-second transaction finality with gas costs of approximately
-                    $0.001 per transaction. This makes per-second micropayment streaming economically viable — you can
-                    stream 1 BNB payment per second and pay less than $0.001 in gas per stream tick. This is why BNB
-                    Edge Node chose opBNB over Ethereum mainnet or other L1s for its payment infrastructure.</div>
+    <!-- ▸ CTA BAND -->
+    <div class="container" style="padding-bottom:100px;">
+        <div class="cta-band" role="complementary" aria-label="Call to action">
+            <div class="eyebrow">Start Now</div>
+            <h2>The Future of Compute is Decentralised</h2>
+            <p>Join 5,000+ developers, AI builders and GPU providers on the Web3 compute marketplace that runs on real
+                hardware. No cloud required.</p>
+            <div class="cta-group" style="justify-content:center;">
+                <a href="marketplace.html" class="btn btn-primary">🚀 Launch Marketplace</a>
+                <a href="hosting.html" class="btn btn-outline">Deploy Your Project</a>
             </div>
         </div>
     </div>
-</section>
 
-<!-- ▸ AUTHOR AUTHORITY STRIP -->
-<div class="container" style="padding-bottom:80px;">
-    <div class="author" role="complementary" aria-label="Content author information">
-        <div class="author-avatar" aria-hidden="true">👤</div>
-        <div>
-            <div class="author-name">Cyber — Core Contributor, BNB Edge Node</div>
-            <div class="author-bio">DePIN infrastructure architect. 6 years in Web3 compute. Previously Akash Network,
-                Render Protocol. Writes about decentralised AI, GPU marketplaces and on-chain compute economics.</div>
-        </div>
-        <a href="https://twitter.com/bnbedgenode" class="author-link" rel="author">@bnbedgenode →</a>
-    </div>
-</div>
-
-<!-- ▸ CTA BAND -->
-<div class="container" style="padding-bottom:100px;">
-    <div class="cta-band" role="complementary" aria-label="Call to action">
-        <div class="eyebrow">Start Now</div>
-        <h2>The Future of Compute is Decentralised</h2>
-        <p>Join 5,000+ developers, AI builders and GPU providers on the Web3 compute marketplace that runs on real
-            hardware. No cloud required.</p>
-        <div class="cta-group" style="justify-content:center;">
-            <a href="marketplace.html" class="btn btn-primary">🚀 Launch Marketplace</a>
-            <a href="hosting.html" class="btn btn-outline">Deploy Your Project</a>
-        </div>
-    </div>
-</div>
-
-<!-- ▸ FOOTER -->
-<footer>
-    <div class="container">
-        <div class="foot-grid">
-            <div class="foot-brand">
-                <a href="index.html" class="logo" aria-label="BNB Edge Node">
-                    <div class="logo-icon" aria-hidden="true">⧫</div> BNBEdgeNode
-                </a>
-                <p>Decentralised AI compute and DePIN marketplace powered by opBNB. Rent GPUs, deploy AI agents, claw
-                    bots and LLMs on-chain. The open internet's compute layer.</p>
+    <!-- ▸ FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="foot-grid">
+                <div class="foot-brand">
+                    <a href="index.html" class="logo" aria-label="BNB Edge Node">
+                        <div class="logo-icon" aria-hidden="true">⧫</div> BNBEdgeNode
+                    </a>
+                    <p>Decentralised AI compute and DePIN marketplace powered by opBNB. Rent GPUs, deploy AI agents,
+                        claw
+                        bots and LLMs on-chain. The open internet's compute layer.</p>
+                </div>
+                <div class="foot-col">
+                    <h4>Platform</h4>
+                    <a href="marketplace.html">GPU Marketplace</a>
+                    <a href="ai-agents.html">AI Agent Marketplace</a>
+                    <a href="ai-agents.html#claw-bots">Claw Bot Marketplace</a>
+                    <a href="hosting.html">Web3 Hosting</a>
+                    <a href="tokenomics.html">Tokenomics</a>
+                    <a href="infrastructure.html">Infrastructure</a>
+                </div>
+                <div class="foot-col">
+                    <h4>Resources</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="blog/rent-h100-gpu-opbnb.html">Rent H100 GPU Guide</a>
+                    <a href="blog/how-to-run-depin-node-india.html">DePIN Node India</a>
+                    <a href="blog/llm-hosting-blockchain.html">LLM Hosting Guide</a>
+                    <a href="blog/claw-bot-marketplace-guide.html">Claw Bot Guide</a>
+                    <a href="/rss.xml">RSS Feed</a>
+                </div>
+                <div class="foot-col">
+                    <h4>Company</h4>
+                    <a href="https://github.com/bnbedgenode">GitHub</a>
+                    <a href="https://twitter.com/bnbedgenode">Twitter / X</a>
+                    <a href="/llms.txt">llms.txt (AI crawlers)</a>
+                    <a href="/robots.txt">robots.txt</a>
+                    <a href="/sitemap.xml">Sitemap</a>
+                    <a href="#privacy">Privacy Policy</a>
+                </div>
             </div>
-            <div class="foot-col">
-                <h4>Platform</h4>
-                <a href="marketplace.html">GPU Marketplace</a>
-                <a href="ai-agents.html">AI Agent Marketplace</a>
-                <a href="ai-agents.html#claw-bots">Claw Bot Marketplace</a>
-                <a href="hosting.html">Web3 Hosting</a>
-                <a href="tokenomics.html">Tokenomics</a>
-                <a href="infrastructure.html">Infrastructure</a>
-            </div>
-            <div class="foot-col">
-                <h4>Resources</h4>
-                <a href="blog.html">Blog</a>
-                <a href="blog/rent-h100-gpu-opbnb.html">Rent H100 GPU Guide</a>
-                <a href="blog/how-to-run-depin-node-india.html">DePIN Node India</a>
-                <a href="blog/llm-hosting-blockchain.html">LLM Hosting Guide</a>
-                <a href="blog/claw-bot-marketplace-guide.html">Claw Bot Guide</a>
-                <a href="/rss.xml">RSS Feed</a>
-            </div>
-            <div class="foot-col">
-                <h4>Company</h4>
-                <a href="https://github.com/bnbedgenode">GitHub</a>
-                <a href="https://twitter.com/bnbedgenode">Twitter / X</a>
-                <a href="/llms.txt">llms.txt (AI crawlers)</a>
-                <a href="/robots.txt">robots.txt</a>
-                <a href="/sitemap.xml">Sitemap</a>
-                <a href="#privacy">Privacy Policy</a>
+            <div class="foot-bottom">
+                <div>© 2024 BNB Edge Node · Decentralised Compute on opBNB</div>
+                <div class="foot-links">
+                    <a href="#terms">Terms</a>
+                    <a href="#privacy">Privacy</a>
+                    <a href="https://github.com/bnbedgenode">GitHub</a>
+                    <a href="/sitemap.xml">Sitemap</a>
+                </div>
             </div>
         </div>
-        <div class="foot-bottom">
-            <div>© 2024 BNB Edge Node · Decentralised Compute on opBNB</div>
-            <div class="foot-links">
-                <a href="#terms">Terms</a>
-                <a href="#privacy">Privacy</a>
-                <a href="https://github.com/bnbedgenode">GitHub</a>
-                <a href="/sitemap.xml">Sitemap</a>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
 
-<script>
-    function toggleFaq(btn) {
-        const a = btn.nextElementSibling;
-        const open = a.style.display === 'block';
-        document.querySelectorAll('.faq-a').forEach(x => x.style.display = 'none');
-        document.querySelectorAll('.faq-q').forEach(x => { x.setAttribute('aria-expanded', 'false'); x.querySelector('.faq-chevron').textContent = '＋'; });
-        if (!open) { a.style.display = 'block'; btn.setAttribute('aria-expanded', 'true'); btn.querySelector('.faq-chevron').textContent = '－'; }
-    }
-    document.querySelectorAll('.faq-a').forEach(a => a.style.display = 'none');
-    // keyboard a11y
-    document.querySelectorAll('.faq-q').forEach(q => {
-        q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(q); } });
-    });
-</script>
+    <script>
+        function toggleFaq(btn) {
+            const a = btn.nextElementSibling;
+            const open = a.style.display === 'block';
+            document.querySelectorAll('.faq-a').forEach(x => x.style.display = 'none');
+            document.querySelectorAll('.faq-q').forEach(x => { x.setAttribute('aria-expanded', 'false'); x.querySelector('.faq-chevron').textContent = '＋'; });
+            if (!open) { a.style.display = 'block'; btn.setAttribute('aria-expanded', 'true'); btn.querySelector('.faq-chevron').textContent = '－'; }
+        }
+        document.querySelectorAll('.faq-a').forEach(a => a.style.display = 'none');
+        // keyboard a11y
+        document.querySelectorAll('.faq-q').forEach(q => {
+            q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(q); } });
+        });
+    </script>
 </body>
 
 </html>
