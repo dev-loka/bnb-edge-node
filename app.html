@@ -1,0 +1,4111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNB Edge Node OS v4.2 – Live Staking Demo</title>
+  <meta name="description"
+    content="BNB Edge Node OS: Decentralized AI worker registry secured by BNB staking. Live demo with on‑chain proof panel and staking flow.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ----- DESIGN TOKENS (v4.1) ----- */
+    :root {
+      --bg: #08080E;
+      --sur: #0E0E18;
+      --card: #131320;
+      --card2: #191928;
+      --bdr: #202035;
+      --bdr2: #2E2E50;
+      --acc: #7C5CFC;
+      --acc2: #9D7FFF;
+      --acc3: #C4B5FD;
+      --cyan: #00D4FF;
+      --grn: #30D158;
+      --grn2: #00FF87;
+      --gld: #FFD60A;
+      --org: #FF9F0A;
+      --red: #FF453A;
+      --pnk: #FF375F;
+      --blu: #2D7EFF;
+      --bnb: #F0B90B;
+      --teal: #00E5CC;
+      --tx: #F5F5F7;
+      --tx2: #8E8EA0;
+      --tx3: #36365A;
+      --f: 'DM Sans', sans-serif;
+      --m: 'DM Mono', monospace;
+      --r: 16px;
+      --rs: 12px;
+      --rx: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--tx);
+      font-family: var(--f);
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    button {
+      font-family: var(--f);
+      cursor: pointer
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: var(--f);
+      color: var(--tx);
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rx);
+      padding: 8px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--acc)
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bdr2);
+      border-radius: 3px
+    }
+
+    /* ----- BACKGROUND ----- */
+    .wp {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden
+    }
+
+    .wm {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 75% 50% at 15% 5%, rgba(124, 92, 252, .09) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 85% 90%, rgba(0, 212, 255, .07) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 30% at 60% 25%, rgba(240, 185, 11, .03) 0%, transparent 50%);
+      animation: mm 35s ease-in-out infinite alternate
+    }
+
+    @keyframes mm {
+      0% {
+        transform: scale(1)
+      }
+
+      100% {
+        transform: scale(1.05) translate(-2%, 1%)
+      }
+    }
+
+    .wg {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .013) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .013) 1px, transparent 1px);
+      background-size: 38px 38px
+    }
+
+    .ow {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh
+    }
+
+    /* ----- TOPBAR ----- */
+    .tb {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      height: 58px;
+      background: rgba(8, 8, 14, .92);
+      backdrop-filter: blur(28px) saturate(160%);
+      border-bottom: 1px solid var(--bdr)
+    }
+
+    .tl {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0
+    }
+
+    .ti {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #F0B90B, #D4960A);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(240, 185, 11, .28), 0 2px 8px rgba(0, 0, 0, .5)
+    }
+
+    .tn {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+      white-space: nowrap
+    }
+
+    .tv {
+      font-size: 10px;
+      color: var(--tx2);
+      font-family: var(--m)
+    }
+
+    .tc {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      gap: 2px;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 100px;
+      padding: 3px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none
+    }
+
+    .tc::-webkit-scrollbar {
+      display: none
+    }
+
+    .nt {
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--tx2);
+      transition: all .18s;
+      background: transparent;
+      border: none;
+      flex-shrink: 0
+    }
+
+    .nt:hover {
+      color: var(--tx)
+    }
+
+    .nt.active {
+      background: var(--card2);
+      color: var(--tx);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .4)
+    }
+
+    .tr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0
+    }
+
+    .tp {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 500
+    }
+
+    .sd {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pd 2s ease infinite
+    }
+
+    .dg {
+      background: var(--grn);
+      box-shadow: 0 0 6px var(--grn)
+    }
+
+    @keyframes pd {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .35
+      }
+    }
+
+    .elive {
+      font-family: var(--m);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--grn);
+      min-width: 56px;
+      transition: color .5s
+    }
+
+    .tbtn {
+      width: 32px;
+      height: 32px;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      color: var(--tx2)
+    }
+
+    .tbtn:hover {
+      background: var(--card2);
+      color: var(--tx);
+      border-color: var(--bdr2)
+    }
+
+    /* ----- PAGES & LAYOUT ----- */
+    .pg {
+      padding: 22px;
+      display: none
+    }
+
+    .pg.active {
+      display: block;
+      animation: fu .24s ease both
+    }
+
+    @keyframes fu {
+      from {
+        opacity: 0;
+        transform: translateY(7px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .st {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -.4px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap
+    }
+
+    .ss {
+      font-size: 13px;
+      color: var(--tx2);
+      margin-bottom: 20px;
+      line-height: 1.6
+    }
+
+    .sl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+      color: var(--tx2);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .sl::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--bdr)
+    }
+
+    .tkb {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: rgba(48, 209, 88, .1);
+      color: var(--grn);
+      border: 1px solid rgba(48, 209, 88, .2)
+    }
+
+    /* ========== PROOF PANEL (NEW) ========== */
+    .proof-panel {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rs);
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .proof-label {
+      font-size: 11px;
+      color: var(--tx2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .6px
+    }
+
+    .proof-value {
+      font-family: var(--m);
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .proof-badge {
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(48, 209, 88, .12);
+      color: var(--grn);
+      border: 1px solid rgba(48, 209, 88, .2)
+    }
+
+    .proof-link {
+      color: var(--cyan);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--cyan);
+      cursor: pointer;
+      font-family: var(--m);
+      font-size: 12px
+    }
+
+    .proof-link:hover {
+      opacity: .8
+    }
+
+    /* ========== STAKING DEMO CARD (NEW) ========== */
+    .staking-demo {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .staking-demo::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--bnb), transparent)
+    }
+
+    .staking-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px
+    }
+
+    .staking-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .staking-amount {
+      font-size: 24px;
+      font-weight: 800;
+      font-family: var(--m);
+      color: var(--bnb)
+    }
+
+    .staking-note {
+      font-size: 11px;
+      color: var(--tx2)
+    }
+
+    .staking-buttons {
+      display: flex;
+      gap: 10px
+    }
+
+    .btn-stake {
+      padding: 12px 24px;
+      border-radius: var(--rx);
+      font-weight: 700;
+      font-size: 14px;
+      border: none;
+      background: linear-gradient(135deg, var(--bnb), #FFD700);
+      color: #000;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-stake:hover {
+      opacity: .85;
+      transform: scale(1.02)
+    }
+
+    .btn-stake:disabled {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .staking-tx {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rx);
+      padding: 10px 14px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .tx-hash {
+      font-family: var(--m);
+      color: var(--cyan);
+      font-size: 13px
+    }
+
+    .tx-link {
+      color: var(--grn);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--grn);
+      cursor: pointer;
+      font-size: 12px
+    }
+
+    /* ----- NETWORK STATUS BAR ----- */
+    .nsbar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px
+    }
+
+    .nb {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid;
+      transition: all .2s;
+      cursor: default
+    }
+
+    .nb:hover {
+      transform: scale(1.03)
+    }
+
+    .nbon {
+      background: rgba(48, 209, 88, .07);
+      color: var(--grn);
+      border-color: rgba(48, 209, 88, .2)
+    }
+
+    .nbwrn {
+      background: rgba(255, 159, 10, .07);
+      color: var(--org);
+      border-color: rgba(255, 159, 10, .2)
+    }
+
+    .nboff {
+      background: rgba(255, 69, 58, .07);
+      color: var(--red);
+      border-color: rgba(255, 69, 58, .2)
+    }
+
+    /* ----- STAT CARDS ----- */
+    .sr {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
+      gap: 11px;
+      margin-bottom: 22px
+    }
+
+    .sc {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rs);
+      padding: 17px;
+      position: relative;
+      overflow: hidden;
+      transition: all .25s
+    }
+
+    .sc::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sc-c, rgba(255, 255, 255, .04)), transparent)
+    }
+
+    .sc:hover {
+      border-color: var(--bdr2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .5)
+    }
+
+    .si {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px
+    }
+
+    .si svg {
+      width: 20px;
+      height: 20px
+    }
+
+    .sv {
+      font-size: 23px;
+      font-weight: 700;
+      font-family: var(--m);
+      letter-spacing: -1px;
+      margin-bottom: 3px
+    }
+
+    .slb {
+      font-size: 11.5px;
+      color: var(--tx2)
+    }
+
+    .sch {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 100px
+    }
+
+    .up {
+      background: rgba(48, 209, 88, .14);
+      color: var(--grn)
+    }
+
+    .dn {
+      background: rgba(255, 69, 58, .12);
+      color: var(--red)
+    }
+
+    .sparkline {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 26px;
+      margin-top: 8px
+    }
+
+    .sparkline span {
+      flex: 1;
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+      opacity: .55;
+      transition: opacity .2s
+    }
+
+    .sparkline span:hover {
+      opacity: 1
+    }
+
+    .gn {
+      --sc-c: rgba(240, 185, 11, .2)
+    }
+
+    .gg {
+      --sc-c: rgba(48, 209, 88, .18)
+    }
+
+    .gp {
+      --sc-c: rgba(124, 92, 252, .2)
+    }
+
+    .go {
+      --sc-c: rgba(255, 159, 10, .15)
+    }
+
+    .gb {
+      --sc-c: rgba(45, 126, 255, .18)
+    }
+
+    .gc {
+      --sc-c: rgba(0, 212, 255, .15)
+    }
+
+    .gk {
+      --sc-c: rgba(255, 55, 95, .15)
+    }
+
+    .gt {
+      --sc-c: rgba(0, 229, 204, .15)
+    }
+
+    /* ----- APP GRID ----- */
+    .ag {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+      gap: 11px;
+      margin-bottom: 24px
+    }
+
+    .ac {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 18px 12px 14px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all .2s
+    }
+
+    .ac:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--bdr2);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .55)
+    }
+
+    .ac:active {
+      transform: scale(.97)
+    }
+
+    .al {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, .4);
+      overflow: hidden
+    }
+
+    .al svg {
+      width: 34px;
+      height: 34px
+    }
+
+    .an {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px
+    }
+
+    .asb {
+      font-size: 10px;
+      color: var(--tx2)
+    }
+
+    .ab {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 2px solid var(--card)
+    }
+
+    .ba {
+      background: var(--grn);
+      box-shadow: 0 0 7px var(--grn);
+      animation: pd 2s ease infinite
+    }
+
+    .bn {
+      background: var(--gld)
+    }
+
+    .boff {
+      background: var(--tx3)
+    }
+
+    /* ----- FARM CARDS ----- */
+    .fg {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px
+    }
+
+    .fc {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 17px;
+      position: relative;
+      overflow: hidden;
+      transition: all .28s
+    }
+
+    .fc::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--fc-c, rgba(255, 255, 255, .05)), transparent)
+    }
+
+    .fc:hover {
+      border-color: var(--bdr2);
+      box-shadow: 0 10px 34px rgba(0, 0, 0, .5);
+      transform: translateY(-2px)
+    }
+
+    .fct {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 13px
+    }
+
+    .fl {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3)
+    }
+
+    .fl svg {
+      width: 28px;
+      height: 28px
+    }
+
+    .fi {
+      flex: 1;
+      min-width: 0
+    }
+
+    .fn {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .fp {
+      font-size: 10.5px;
+      color: var(--tx2)
+    }
+
+    .fss {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 100px;
+      flex-shrink: 0
+    }
+
+    .sr2 {
+      background: rgba(48, 209, 88, .1);
+      color: var(--grn);
+      border: 1px solid rgba(48, 209, 88, .2)
+    }
+
+    .sp {
+      background: rgba(255, 159, 10, .1);
+      color: var(--org);
+      border: 1px solid rgba(255, 159, 10, .2)
+    }
+
+    .soff {
+      background: rgba(255, 69, 58, .08);
+      color: var(--red);
+      border: 1px solid rgba(255, 69, 58, .2)
+    }
+
+    .fm {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 12px
+    }
+
+    .mt {
+      background: var(--sur);
+      border-radius: var(--rx);
+      padding: 8px;
+      text-align: center
+    }
+
+    .mv {
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: var(--m);
+      margin-bottom: 2px
+    }
+
+    .mk {
+      font-size: 9px;
+      color: var(--tx2);
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .pb {
+      margin-bottom: 11px
+    }
+
+    .pl {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--tx2);
+      margin-bottom: 4px
+    }
+
+    .pt {
+      height: 4px;
+      background: var(--sur);
+      border-radius: 100px;
+      overflow: hidden
+    }
+
+    .pf {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 1s ease
+    }
+
+    .fa {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px
+    }
+
+    .fb {
+      flex: 1;
+      padding: 8px;
+      border-radius: var(--rx);
+      font-size: 12.5px;
+      font-weight: 600;
+      border: none;
+      transition: all .18s;
+      cursor: pointer
+    }
+
+    .bp {
+      background: linear-gradient(135deg, var(--acc), var(--blu));
+      color: #fff
+    }
+
+    .bp:hover {
+      opacity: .88;
+      transform: translateY(-1px)
+    }
+
+    .bs {
+      background: var(--sur);
+      color: var(--tx2);
+      border: 1px solid var(--bdr)
+    }
+
+    .bs:hover {
+      background: var(--card2);
+      color: var(--tx)
+    }
+
+    .bg {
+      background: rgba(48, 209, 88, .13);
+      color: var(--grn);
+      border: 1px solid rgba(48, 209, 88, .22)
+    }
+
+    .bg:hover {
+      background: rgba(48, 209, 88, .22)
+    }
+
+    .bd {
+      background: rgba(255, 69, 58, .1);
+      color: var(--red);
+      border: 1px solid rgba(255, 69, 58, .22)
+    }
+
+    .bd:hover {
+      background: rgba(255, 69, 58, .2)
+    }
+
+    .nmeta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--tx2);
+      margin-top: 9px;
+      padding-top: 9px;
+      border-top: 1px solid var(--bdr)
+    }
+
+    .drow {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--bdr);
+      color: var(--tx2)
+    }
+
+    .drow:last-child {
+      border-bottom: none
+    }
+
+    .drow span:last-child {
+      color: var(--tx);
+      font-weight: 600;
+      font-family: var(--m)
+    }
+
+    /* AGENT/WALLET/OTHER COMPONENTS */
+    .ags {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+      gap: 12px
+    }
+
+    .acard {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rs);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all .22s
+    }
+
+    .acard::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .05), transparent)
+    }
+
+    .acard:hover {
+      border-color: var(--bdr2);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, .45)
+    }
+
+    .at {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px
+    }
+
+    .av {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden
+    }
+
+    .av svg {
+      width: 24px;
+      height: 24px
+    }
+
+    .aid {
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: var(--m);
+      margin-bottom: 1px
+    }
+
+    .atp {
+      font-size: 10.5px;
+      color: var(--tx2)
+    }
+
+    .ar {
+      margin-left: auto;
+      text-align: right
+    }
+
+    .ars {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: var(--m)
+    }
+
+    .arl {
+      font-size: 9.5px;
+      color: var(--tx2)
+    }
+
+    .rbo {
+      height: 3px;
+      background: var(--sur);
+      border-radius: 100px;
+      margin-bottom: 10px;
+      overflow: hidden
+    }
+
+    .rbi {
+      height: 100%;
+      border-radius: 100px
+    }
+
+    .atgs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-bottom: 9px
+    }
+
+    .atg {
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 9.5px;
+      font-weight: 600;
+      background: var(--sur);
+      color: var(--tx2);
+      border: 1px solid var(--bdr)
+    }
+
+    .atga {
+      color: var(--acc3) !important;
+      border-color: rgba(124, 92, 252, .3) !important
+    }
+
+    .atgg {
+      color: var(--grn) !important;
+      border-color: rgba(48, 209, 88, .3) !important
+    }
+
+    .atgd {
+      color: var(--gld) !important;
+      border-color: rgba(255, 214, 10, .3) !important
+    }
+
+    .atgc {
+      color: var(--cyan) !important;
+      border-color: rgba(0, 212, 255, .3) !important
+    }
+
+    .amodel {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--tx2);
+      margin-bottom: 9px
+    }
+
+    .amodel svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0
+    }
+
+    .aec {
+      margin-left: auto;
+      font-family: var(--m);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--grn)
+    }
+
+    .aer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      padding-top: 9px;
+      border-top: 1px solid var(--bdr)
+    }
+
+    .task-feed {
+      margin-top: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 120px;
+      overflow-y: auto;
+      padding-right: 2px
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      background: var(--sur);
+      border-radius: var(--rx);
+      font-size: 11px;
+      border: 1px solid var(--bdr)
+    }
+
+    .task-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 9px
+    }
+
+    .task-status-live {
+      background: rgba(48, 209, 88, .15);
+      color: var(--grn)
+    }
+
+    .task-status-q {
+      background: rgba(255, 159, 10, .12);
+      color: var(--org)
+    }
+
+    .task-status-done {
+      background: rgba(142, 142, 160, .1);
+      color: var(--tx2)
+    }
+
+    /* WALLET & CHECKLIST */
+    .eg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .ec {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 20px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .ec::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ec-c, rgba(255, 255, 255, .05)), transparent)
+    }
+
+    .ec h3 {
+      font-size: 10.5px;
+      color: var(--tx2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      margin-bottom: 7px
+    }
+
+    .eb {
+      font-size: 31px;
+      font-weight: 700;
+      font-family: var(--m);
+      letter-spacing: -1.5px;
+      margin-bottom: 3px
+    }
+
+    .esb {
+      font-size: 11.5px;
+      color: var(--tx2);
+      margin-bottom: 14px;
+      line-height: 1.5
+    }
+
+    .tl2 {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 18px
+    }
+
+    .ti2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: var(--rx);
+      border: 1px solid var(--bdr);
+      transition: border-color .2s
+    }
+
+    .tin {
+      font-size: 13px;
+      font-weight: 600;
+      flex: 1
+    }
+
+    .tia {
+      font-family: var(--m);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right
+    }
+
+    .clg {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 7px
+    }
+
+    .cr {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rx);
+      transition: border-color .2s
+    }
+
+    .cbox {
+      width: 19px;
+      height: 19px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .cbok {
+      background: rgba(48, 209, 88, .14);
+      color: var(--grn);
+      border: 1.5px solid rgba(48, 209, 88, .3)
+    }
+
+    .cbwrn {
+      background: rgba(255, 69, 58, .1);
+      color: var(--red);
+      border: 1.5px solid rgba(255, 69, 58, .25)
+    }
+
+    .cbtdo {
+      background: rgba(255, 159, 10, .1);
+      color: var(--org);
+      border: 1.5px solid rgba(255, 159, 10, .25)
+    }
+
+    /* TERMINAL */
+    .term-win {
+      background: #07070f;
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 16px
+    }
+
+    .term-hdr {
+      padding: 10px 14px;
+      background: var(--sur);
+      border-bottom: 1px solid var(--bdr);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .term-body {
+      padding: 14px 16px;
+      min-height: 240px;
+      max-height: 380px;
+      overflow-y: auto;
+      font-family: var(--m);
+      font-size: 13px;
+      line-height: 1.75
+    }
+
+    .term-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--sur);
+      border-top: 1px solid var(--bdr)
+    }
+
+    .term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--tx);
+      font-family: var(--m);
+      font-size: 13px;
+      outline: none
+    }
+
+    .term-send {
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: var(--acc);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    /* ----- ANALYTICS (new) ----- */
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .chart-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cc-c, rgba(255, 255, 255, .05)), transparent)
+    }
+
+    .chart-area {
+      width: 100%;
+      overflow-x: auto
+    }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 120px;
+      padding: 0 4px
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      gap: 3px
+    }
+
+    .bar-wrap {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px
+    }
+
+    .bar {
+      border-radius: 3px 3px 0 0;
+      width: calc(50% - 2px);
+      transition: opacity .2s;
+      cursor: default;
+      min-height: 4px
+    }
+
+    .bar:hover {
+      opacity: .75
+    }
+
+    .bar-label {
+      font-size: 9px;
+      color: var(--tx2);
+      text-align: center;
+      font-family: var(--m);
+      white-space: nowrap
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap
+    }
+
+    .leg-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--tx2)
+    }
+
+    .leg-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px
+    }
+
+    /* TOASTS */
+    .toa {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      pointer-events: none;
+      max-width: 295px
+    }
+
+    .tst {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: var(--rs);
+      padding: 11px 14px;
+      width: 295px;
+      box-shadow: 0 14px 44px rgba(0, 0, 0, .7);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: tIn .3s cubic-bezier(.34, 1.56, .64, 1) both;
+      pointer-events: all
+    }
+
+    @keyframes tIn {
+      from {
+        transform: translateX(110%);
+        opacity: 0
+      }
+
+      to {
+        transform: none;
+        opacity: 1
+      }
+    }
+
+    /* OMEGA & NODES */
+    .opos {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      transition: all .22s
+    }
+
+    .node-globe {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 20px;
+      min-height: 160px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .npin {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--bdr)
+    }
+
+    /* COMPARISON TABLE */
+    .ctwrap {
+      overflow-x: auto;
+      border-radius: var(--rs);
+      border: 1px solid var(--bdr);
+      margin-top: 14px
+    }
+
+    .ctbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px
+    }
+
+    .ctbl th {
+      background: var(--sur);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--tx2);
+      border-bottom: 1px solid var(--bdr)
+    }
+
+    .ctbl td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .022);
+      vertical-align: middle;
+      white-space: nowrap
+    }
+
+    .cbnb td {
+      border-left: 2px solid var(--acc)
+    }
+
+    .bpill {
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700
+    }
+
+    .plive {
+      background: rgba(48, 209, 88, .14);
+      color: var(--grn)
+    }
+
+    .pdead {
+      background: rgba(255, 69, 58, .12);
+      color: var(--red)
+    }
+
+    @media(max-width:768px) {
+      .tb {
+        padding: 0 10px;
+        height: 52px
+      }
+
+      .pg {
+        padding: 14px
+      }
+
+      .SR {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    /* === MARKETPLACE CSS === */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filter-bar label {
+      font: 700 10px/1 var(--m);
+      letter-spacing: .8px;
+      color: var(--tx2);
+      text-transform: uppercase;
+    }
+
+    .filter-sel,
+    .filter-inp {
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 8px;
+      color: var(--tx);
+      font: 500 12px/1 var(--f);
+      padding: 7px 12px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .filter-sel:focus,
+    .filter-inp:focus {
+      border-color: var(--acc);
+    }
+
+    .filter-sel {
+      cursor: pointer;
+    }
+
+    .filter-inp {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .filter-inp::placeholder {
+      color: var(--tx3);
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .pcard {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 16px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: all .25s;
+    }
+
+    .pcard:hover {
+      border-color: var(--bdr2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, .1);
+    }
+
+    .pcard-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+
+    .pcard-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--pav-bg, linear-gradient(135deg, var(--acc), var(--cyan)));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .25);
+    }
+
+    .pcard-name {
+      font: 700 15px/1.2 var(--d);
+      margin-bottom: 2px;
+    }
+
+    .pcard-addr {
+      font: 400 10px/1 var(--m);
+      color: var(--cyan2);
+      margin-bottom: 3px;
+    }
+
+    .pcard-loc {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .avail-dot {
+      margin-left: auto;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--grn2);
+      box-shadow: 0 0 9px var(--grn);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .avail-dot.busy {
+      background: var(--red);
+      box-shadow: 0 0 9px var(--red);
+    }
+
+    .pcard-specs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .spec-box {
+      background: var(--sur);
+      border-radius: 8px;
+      padding: 9px;
+      border: 1px solid var(--bdr);
+    }
+
+    .spec-label {
+      font: 400 9px/1 var(--m);
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--tx2);
+      margin-bottom: 3px;
+    }
+
+    .spec-val {
+      font: 700 12px/1 var(--f);
+    }
+
+    .rep-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .rep-label {
+      font: 400 10px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .rep-score {
+      font: 700 11px/1 var(--m);
+    }
+
+    .rep-bar {
+      height: 4px;
+      background: var(--sur);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .rep-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--grn), var(--cyan2));
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      margin-bottom: 12px;
+    }
+
+    .price-val {
+      font: 800 16px/1 var(--d);
+      color: var(--grn2);
+    }
+
+    .price-meta {
+      font: 400 9px/1 var(--m);
+      color: var(--tx2);
+      margin-top: 2px;
+    }
+
+    .stake-info {
+      text-align: right;
+    }
+
+    .stake-val {
+      font: 700 12px/1 var(--m);
+      color: var(--acc2);
+    }
+
+    .stake-label {
+      font: 400 9px/1 var(--f);
+      color: var(--tx2);
+      margin-top: 1px;
+    }
+
+    .pcard-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-hire {
+      background: linear-gradient(135deg, var(--acc), var(--acc2));
+      color: #fff;
+      box-shadow: 0 3px 14px rgba(124, 58, 237, .3);
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .btn-stream {
+      background: rgba(6, 182, 212, .12);
+      color: var(--cyan2);
+      border: 1px solid rgba(6, 182, 212, .25);
+      border-radius: 8px;
+      padding: 8px;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    /* Modals & Layout UI */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--bdr2);
+      border-radius: 20px;
+      padding: 28px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(124, 58, 237, .15);
+    }
+
+    .modal-title {
+      font: 800 18px/1 var(--d);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .modal-sub {
+      font: 400 12px/1 var(--f);
+      color: var(--tx2);
+      margin-bottom: 22px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      color: var(--tx2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all .18s;
+    }
+
+    .modal-close:hover {
+      background: var(--card2);
+      color: var(--tx);
+    }
+
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font: 700 10px/1 var(--m);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--tx2);
+      margin-bottom: 7px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 9px;
+      color: var(--tx);
+      font: 400 13px/1 var(--f);
+      padding: 11px 14px;
+      outline: none;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+
+    .priority-row {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .priority-btn {
+      flex: 1;
+      padding: 9px;
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      background: var(--sur);
+      color: var(--tx2);
+      font: 600 11px/1 var(--f);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .priority-btn.active-low {
+      border-color: var(--grn);
+      background: rgba(16, 185, 129, .1);
+      color: var(--grn2);
+    }
+
+    .priority-btn.active-med {
+      border-color: var(--gld);
+      background: rgba(245, 158, 11, .1);
+      color: var(--gld2);
+    }
+
+    .priority-btn.active-high {
+      border-color: var(--red);
+      background: rgba(239, 68, 68, .1);
+      color: #fca5a5;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--bdr);
+      margin-top: 6px;
+    }
+
+    .btn-submit {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--acc), var(--cyan));
+      color: #fff;
+      font: 700 13px/1 var(--f);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      padding: 12px 18px;
+      background: var(--sur);
+      color: var(--tx2);
+      font: 600 12px/1 var(--f);
+      border: 1px solid var(--bdr);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .tx-status {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .tx-spinner {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid var(--bdr);
+      border-top-color: var(--acc2);
+      animation: spin 1s linear infinite;
+      margin-bottom: 14px;
+    }
+
+    .tx-success {
+      font-size: 40px;
+      margin-bottom: 14px;
+    }
+
+    .tx-title {
+      font: 700 16px/1 var(--d);
+      margin-bottom: 6px;
+    }
+
+    .tx-msg {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .fee-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      background: rgba(240, 185, 11, .06);
+      border: 1px solid rgba(240, 185, 11, .18);
+      border-radius: 10px;
+      font: 400 11px/1.5 var(--f);
+      color: var(--tx2);
+      margin-bottom: 18px;
+    }
+
+    .fee-val {
+      font: 700 13px/1 var(--m);
+      color: var(--bnb);
+    }
+
+    /* === CYBERPUNK THEME – UNCHANGED === */
+    :root {
+      --bg: #04040e;
+      --deep: #07071a;
+      --sur: #0d0d20;
+      --card: #101022;
+      --card2: #14142a;
+      --bdr: #1c1c38;
+      --bdr2: #2a2a50;
+      --acc: #7c3aed;
+      --acc2: #a855f7;
+      --cyan: #06b6d4;
+      --cyan2: #22d3ee;
+      --grn: #10b981;
+      --grn2: #34d399;
+      --gld: #f59e0b;
+      --gld2: #fcd34d;
+      --red: #ef4444;
+      --org: #f97316;
+      --bnb: #f0b90b;
+      --tx: #e8e8f5;
+      --tx2: #8888bb;
+      --tx3: #3a3a60;
+      --f: 'DM Sans', sans-serif;
+      --d: 'Syne', sans-serif;
+      --m: 'DM Mono', monospace;
+      --r: 14px;
+      --rs: 10px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.6)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        filter: brightness(1)
+      }
+
+      50% {
+        filter: brightness(1.2)
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0
+      }
+
+      100% {
+        background-position: 200% 0
+      }
+    }
+
+    @keyframes ripple {
+      0% {
+        box-shadow: 0 0 0 0 currentColor
+      }
+
+      100% {
+        box-shadow: 0 0 0 12px transparent
+      }
+    }
+
+    @keyframes ticker {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .nav-m {
+      display: flex;
+      gap: 3px;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 100px;
+      padding: 3px;
+      margin-bottom: 20px;
+    }
+
+    .nv {
+      flex: 1;
+      padding: 7px 14px;
+      border-radius: 100px;
+      font: 600 12px/1 var(--f);
+      color: var(--tx2);
+      cursor: pointer;
+      transition: all .18s;
+      text-align: center;
+    }
+
+    .nv:hover {
+      background: var(--card2);
+      color: var(--tx);
+    }
+
+    .nv.on {
+      background: linear-gradient(135deg, var(--acc), var(--acc2));
+      color: #fff;
+      box-shadow: 0 2px 14px rgba(124, 58, 237, .35);
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+      border-bottom: 1px solid var(--bdr);
+      height: 30px;
+      background: rgba(7, 7, 26, .7);
+      margin-bottom: 20px;
+    }
+
+    .ticker-inner {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      white-space: nowrap;
+      font: 600 10px/1 var(--m);
+      letter-spacing: .4px;
+      animation: ticker 24s linear infinite;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 20px;
+      border-right: 1px solid var(--bdr);
+      height: 100%;
+    }
+
+    .ticker-label {
+      color: var(--tx2);
+      font-size: 9px;
+    }
+
+    .page-m {
+      padding: 0 0 60px;
+    }
+
+    .page-title {
+      font: 800 24px/1.1 var(--d);
+      letter-spacing: -.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .page-sub {
+      font: 400 13px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .tag {
+      font: 700 9px/1 var(--m);
+      padding: 3px 9px;
+      border-radius: 100px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .tag-v {
+      background: rgba(124, 58, 237, .15);
+      color: var(--acc2);
+      border: 1px solid rgba(124, 58, 237, .25);
+    }
+
+    .tag-g {
+      background: rgba(16, 185, 129, .12);
+      color: var(--grn2);
+      border: 1px solid rgba(16, 185, 129, .22);
+    }
+
+    .tag-c {
+      background: rgba(6, 182, 212, .12);
+      color: var(--cyan2);
+      border: 1px solid rgba(6, 182, 212, .22);
+    }
+
+    .tag-y {
+      background: rgba(245, 158, 11, .12);
+      color: var(--gld2);
+      border: 1px solid rgba(245, 158, 11, .22);
+    }
+
+    .tag-r {
+      background: rgba(239, 68, 68, .12);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, .22);
+    }
+
+    .tag-b {
+      background: rgba(240, 185, 11, .12);
+      color: var(--bnb);
+      border: 1px solid rgba(240, 185, 11, .22);
+    }
+
+    .stats-row-m {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .4s ease both;
+    }
+
+    .stat-card-m::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--stat-line, linear-gradient(90deg, transparent, var(--acc), transparent));
+    }
+
+    .stat-val-m {
+      font: 800 22px/1 var(--d);
+      letter-spacing: -1px;
+      color: var(--stat-color, var(--tx));
+      margin-bottom: 3px;
+    }
+
+    .stat-lbl-m {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .stat-delta-m {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font: 700 8px/1 var(--m);
+      padding: 2px 7px;
+      border-radius: 100px;
+      background: rgba(16, 185, 129, .1);
+      color: var(--grn2);
+      border: 1px solid rgba(16, 185, 129, .18);
+    }
+
+    .filter-bar-m {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .provider-grid-m {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .pcard-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 16px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: all .25s;
+      animation: fadeUp .4s ease both;
+    }
+
+    .pcard-m:hover {
+      border-color: var(--bdr2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, .1);
+    }
+
+    .spec-box-m {
+      background: var(--sur);
+      border-radius: 8px;
+      padding: 9px;
+      border: 1px solid var(--bdr);
+    }
+
+    .price-row-m {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      margin-bottom: 12px;
+    }
+
+    .table-wrap-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .status-m {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      font: 700 9px/1 var(--m);
+      letter-spacing: .6px;
+    }
+
+    .earnings-grid-m {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    @media(max-width:768px) {
+      .earnings-grid-m {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .earn-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .chart-wrap-m {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      padding-bottom: 4px;
+    }
+
+    .chart-col-m {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chart-bar-m {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--acc), var(--cyan2));
+      opacity: .7;
+      transition: opacity .2s;
+      cursor: pointer;
+      min-height: 3px;
+    }
+
+    .mult-ring-m {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .staking-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wp">
+    <div class="wm"></div>
+    <div class="wg"></div>
+  </div>
+
+  <!-- SVG SYMBOL LIBRARY (Hivello 2.0 Style) -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-bnb" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#F0B90B" />
+      <path
+        d="M15.9 18.5L20 14.4l4.1 4.1 2.35-2.35L20 9.7l-6.45 6.45 2.35 2.35zM9.7 20l2.35-2.35 2.35 2.35-2.35 2.35L9.7 20zm6.2 1.5L20 25.6l4.1-4.1 2.35 2.35L20 30.3l-6.45-6.45 2.35-2.35zm8.05-1.5l2.35-2.35L28.65 20l-2.35 2.35L23.95 20zm-5.92 0h.01L20 18.1 17.9 20.2h-.01l.01.01L20 22.3l2.08-2.09v.01l-.01-.01z"
+        fill="#fff" />
+    </symbol>
+    <symbol id="i-grass" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#00C896" />
+      <path d="M20 28V13" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+      <path d="M20 13c-1-3-4-5-6-4s-2 5 2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" />
+      <path d="M20 13c1-3 4-5 6-4s2 5-2 8" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" />
+    </symbol>
+    <symbol id="i-theta" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#2AB8E6" /><text x="20" y="27" text-anchor="middle" font-size="20"
+        font-family="Georgia,serif" fill="white" font-weight="bold" font-style="italic">Θ</text>
+    </symbol>
+    <symbol id="i-storj" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#0065FF" />
+      <path d="M20 8l9.8 5.65v11.3L20 30.7 10.2 25.05V13.65L20 8zm0 2.6l-7.5 4.33v8.65L20 28.1l7.5-4.33v-8.65L20 10.6z"
+        fill="white" />
+    </symbol>
+    <symbol id="i-myst" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#A84CF5" />
+      <rect x="11" y="13" width="18" height="2.5" rx="1.25" fill="white" />
+    </symbol>
+    <symbol id="i-render" viewBox="0 0 40 40">
+      <rect width="40" height="40" rx="8" fill="#1C1C1C" />
+      <path d="M12 10h9a6 6 0 0 1 0 12h-3l5.5 8H19l-5.5-8H14v8H10V10h2zm2 4v6h7a3 3 0 0 0 0-6H14z" fill="#FF6B35" />
+    </symbol>
+    <symbol id="i-helium" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#474DFF" />
+      <path d="M13.5 9h4v9h5V9h4v22h-4v-9h-5v9h-4z" fill="white" />
+    </symbol>
+    <symbol id="i-openclaw" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#7C5CFC" />
+      <circle cx="20" cy="20" r="3.5" fill="white" />
+    </symbol>
+    <symbol id="i-claude" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#CC785C" />
+      <path d="M14.5 28.5l5.5-17 5.5 17" stroke="white" stroke-width="2.5" fill="none" />
+    </symbol>
+    <symbol id="i-gemini" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#1A73E8" />
+      <path d="M20 7c0 7.2 5.8 13 13 13-7.2 0-13 5.8-13 13 0-7.2-5.8-13-13-13 7.2 0 13-5.8 13-13z" fill="white" />
+    </symbol>
+    <symbol id="i-usdc" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#2775CA" />
+      <path
+        d="M21 29v2h-2.5v-2c-3.5-.5-5.5-2.7-5.5-5.5h2.5c0 1.7 1.5 3 4.5 3 3 0 4-1.1 4-2.5s-.8-2.2-4-3.1C16.2 20 14 18.4 14 15.5c0-2.6 2-4.6 4.5-5.1"
+        fill="white" />
+    </symbol>
+    <symbol id="i-erc" viewBox="0 0 40 40">
+      <rect width="40" height="40" rx="7" fill="#7C5CFC" /><text x="20" y="27" text-anchor="middle" font-size="8.5"
+        font-family="monospace" fill="#C4B5FD" font-weight="700">-8004</text>
+    </symbol>
+    <symbol id="i-opbnb" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="20" fill="#E8A500" /><text x="20" y="26" text-anchor="middle" font-size="12"
+        font-family="Arial" fill="white" font-weight="800">op</text>
+    </symbol>
+  </svg>
+
+  <div class="ow">
+    <header class="tb">
+      <div class="tl">
+        <div class="ti"><svg width="22" height="22" viewBox="0 0 40 40">
+            <use href="#i-bnb" />
+          </svg></div>
+        <div>
+          <div class="tn">BNB Edge Node OS</div>
+          <div class="tv">v4.2 · opBNB · Decentralized AI Worker Registry</div>
+        </div>
+      </div>
+      <nav class="tc">
+        <button class="nt active" onclick="sw('dashboard',this)">Dashboard</button>
+        <button class="nt" onclick="sw('farms',this)">DePIN Farm</button>
+        <button class="nt" onclick="sw('marketplace',this)" style="color:var(--cyan2)">Compute Marketplace</button>
+        <button class="nt" onclick="sw('agents',this)">AI Agents</button>
+        <button class="nt" onclick="sw('wallet',this)">Wallet</button>
+        <button class="nt" onclick="sw('terminal',this)">Terminal+AI</button>
+        <button class="nt" onclick="sw('openclaw',this)">OpenClaw</button>
+        <button class="nt" onclick="sw('models',this)">Model Hub</button>
+        <button class="nt" onclick="sw('omega',this)">Ω Portfolio</button>
+        <button class="nt" onclick="sw('nodes',this)">Nodes</button>
+      </nav>
+      <div class="tr">
+        <div class="tp">
+          <div class="sd dg"></div>
+          <span class="elive" id="le">+$0.000</span>
+          <span style="color:var(--tx2);font-size:11px">/hr</span>
+        </div>
+        <div class="tp" style="gap:5px">
+          <svg width="14" height="14" viewBox="0 0 40 40">
+            <use href="#i-opbnb" />
+          </svg>
+          <span style="font-size:11.5px">opBNB</span>
+          <div class="sd dg"></div>
+        </div>
+        <button class="tbtn" id="wb" onclick="cw()" title="Wallet">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M20 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+            <circle cx="16" cy="13" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ⭐ NEW: PROOF PANEL ⭐ -->
+    <div class="proof-panel">
+      <div class="proof-item">
+        <span class="proof-label">Network</span>
+        <span class="proof-value">opBNB Mainnet</span>
+        <span class="proof-badge">Chain ID 204</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Contract</span>
+        <a href="#" class="proof-link" onclick="explorerLink('0x7F3A...2B91'); return false;">0x7F3A...2B91</a>
+        <span class="proof-badge">Verified</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Last Tx</span>
+        <a href="#" class="proof-link" onclick="explorerLink('0x8a2f...c3d4'); return false;">0x8a2f...c3d4</a>
+        <span class="proof-value">2 mins ago</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Wallet</span>
+        <span class="proof-value" id="proof-wallet">0x7F3A...2B91</span>
+        <span class="proof-badge">Connected</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-label">Gas</span>
+        <span class="proof-value">0.001 BNB</span>
+      </div>
+    </div>
+
+    <div class="pg active" id="dashboard">
+      <div class="st">Decentralized AI Worker Registry <span class="tkb"><span class="sd dg"></span>Secured by BNB
+          Staking</span></div>
+      <div class="ss">BNB Edge Node OS v4.2 – Live on opBNB · Stake BNB to register AI workers and earn rewards. All
+        contracts verified on opBNBScan.</div>
+
+      <!-- ⭐ NEW: STAKING DEMO CARD ⭐ -->
+      <div class="staking-demo">
+        <div class="staking-row">
+          <div class="staking-info">
+            <div class="staking-amount" id="staked-amount">0.00 BNB</div>
+            <div class="staking-note">Your stake – rewards are earned per epoch</div>
+            <div style="font-size:13px; color:var(--tx2)">APY: 8% – 12% based on node performance</div>
+          </div>
+          <div class="staking-buttons">
+            <button class="btn-stake" id="stake-btn" onclick="stakeFlow()">Stake 0.1 BNB</button>
+            <button class="btn-stake" style="background:var(--sur); color:var(--tx2); border:1px solid var(--bdr);"
+              onclick="toast('ℹ️','Demo Info','This simulates a live staking transaction.')">Info</button>
+          </div>
+        </div>
+        <div id="tx-container" style="display: none;" class="staking-tx">
+          <span class="tx-hash" id="tx-hash">0x8f2d...a1b2</span>
+          <a href="#" class="tx-link" onclick="explorerLink('0x8f2d...a1b2'); return false;">View on opBNBScan ↗</a>
+          <span style="color:var(--grn); font-size:12px;">✓ Confirmed</span>
+        </div>
+      </div>
+      <div class="nsbar">
+        <div class="nb nbon">opBNB L2 ✓</div>
+        <div class="nb nbon">Grass ✓</div>
+        <div class="nb nbon">Theta ✓</div>
+        <div class="nb nbwrn">Render Sync</div>
+        <div class="nb nbon">38 Agents Active</div>
+      </div>
+      <div class="sr">
+        <div class="sc gn">
+          <div class="sch up">+12.4%</div>
+          <div class="si"><svg viewBox="0 0 40 40">
+              <use href="#i-usdc" />
+            </svg></div>
+          <div class="sv" id="total-earnings">$0.000</div>
+          <div class="slb">Earned Today (USDC)</div>
+          <div class="sparkline" id="spark1"></div>
+        </div>
+        <div class="sc gg">
+          <div class="si">🖥️</div>
+          <div class="sv" id="active-nodes">147</div>
+          <div class="slb">Active Nodes</div>
+        </div>
+        <div class="sc gp">
+          <div class="si">🤖</div>
+          <div class="sv" id="active-agents">38</div>
+          <div class="slb">AI Agents</div>
+        </div>
+        <div class="sc go">
+          <div class="si">💎</div>
+          <div class="sv" id="total-tvs">$4,821</div>
+          <div class="slb">Total Value Staked</div>
+        </div>
+      </div>
+      <!-- ⭐ NEW: MARKETPLACE CTA CARD ⭐ -->
+      <div
+        style="padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-top:24px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;box-shadow:0 4px 16px rgba(124,58,237,.15);">
+        <div>
+          <div style="font:800 16px/1 var(--d);margin-bottom:6px;color:var(--cyan2);">⚡ Compute Marketplace is Live
+          </div>
+          <div style="font:400 13px/1.5 var(--f);color:var(--tx2);max-width:500px;">Rent out your idle GPU/CPU capacity
+            directly on-chain. Monetize hardware while farming to earn up to <strong style="color:var(--gld2)">5x more
+              USDC</strong>.</div>
+          <div style="margin-top:10px;font-size:11px;color:var(--tx2);">Current Demand: <span
+              style="color:var(--grn2)">High • 342 Open Jobs</span></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="tbtn"
+            style="background:linear-gradient(135deg,var(--acc),var(--cyan));color:#fff;border:none;padding:12px 20px;font-size:14px;font-weight:700;border-radius:8px;"
+            onclick="sw('marketplace', document.querySelector(`button[onclick*='marketplace']`))">Rent Spare
+            Capacity →</button>
+        </div>
+      </div>
+
+      <div class="sl" style="margin-top: 24px;">EARNINGS ANALYTICS</div>
+      <div class="chart-card" style="--cc-c: rgba(124, 92, 252, 0.2)">
+        <div class="chart-legend">
+          <div class="leg-item">
+            <div class="leg-dot" style="background:var(--acc)"></div> Node Rewards
+          </div>
+          <div class="leg-item">
+            <div class="leg-dot" style="background:var(--cyan)"></div> AI Actions
+          </div>
+        </div>
+        <div class="chart-area">
+          <div class="bar-chart" id="earningsChart"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg" id="farms">
+      <div class="st">DePIN Farm Manager <span class="tkb"><span class="sd dg"></span> 6 protocols active</span></div>
+      <div class="ss">Run all major DePIN protocols simultaneously · Hivello 2.0 on opBNB · All earnings in USDC +
+        native tokens · One-click management</div>
+
+      <div class="fee-banner"
+        style="margin-bottom:18px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);color:var(--cyan2);justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span>⚡</span>
+          <span><strong>Spare capacity detected!</strong> You are running at 42% utilization. Earn extra USDC by renting
+            it out on the Marketplace.</span>
+        </div>
+        <button class="tbtn"
+          style="background:var(--cyan);color:#000;border:none;padding:5px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;"
+          onclick="sw('marketplace', document.querySelector(`button[onclick*='marketplace']`))">Rent Now</button>
+      </div>
+
+      <div class="sr">
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 40 40">
+              <use href="#i-usdc" />
+            </svg></div>
+          <div class="sv" style="color: #fff">$3.14</div>
+          <div class="slb">Earned Today</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg></div>
+          <div class="sv" style="color: #fff">5</div>
+          <div class="slb">Running Protocols</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg></div>
+          <div class="sv" style="color: #fff">$1,258</div>
+          <div class="slb">Projected Annual</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg></div>
+          <div class="sv" style="color: #fff">97.8%</div>
+          <div class="slb">Farm Uptime</div>
+        </div>
+      </div>
+
+      <div class="fg" id="farm-grid">
+        <!-- Grass Network -->
+        <div class="fc" style="--fc-c:rgba(0,200,150,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-grass" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Grass Network</div>
+              <div class="fp">Bandwidth DePIN · Residential IP · AI Training Data</div>
+            </div>
+            <div class="fss sr2"><span class="sd dg"></span> Running</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$1.24</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">12.4h</div>
+              <div class="mk">UPTIME</div>
+            </div>
+            <div class="mt">
+              <div class="mv" style="color:var(--cyan)">847</div>
+              <div class="mk">GRASS PTS</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>Bandwidth used</span><span>34 GB / 100 GB</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 34%; background: var(--cyan)"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Token price</span><span>GRASS $0.48</span></div>
+          <div class="drow"><span>Active peers</span><span>142 nodes</span></div>
+          <div class="drow"><span>Monthly estimate</span><span>$37.20</span></div>
+          <div class="fa">
+            <button class="fb bd">Stop</button>
+            <button class="fb bp">Details</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px">📍 New York, USA</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--cyan)">👥 18 peers</span>
+          </div>
+        </div>
+
+        <!-- Theta Edge Node -->
+        <div class="fc" style="--fc-c:rgba(42,184,230,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-theta" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Theta Edge Node</div>
+              <div class="fp">Video CDN · Compute DePIN · TFUEL rewards</div>
+            </div>
+            <div class="fss sr2"><span class="sd dg"></span> Running</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$0.88</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv" style="color:var(--tx)">2,341</div>
+              <div class="mk">TFUEL PTS</div>
+            </div>
+            <div class="mt">
+              <div class="mv" style="color:var(--tx)">67 GB</div>
+              <div class="mk">CACHE SERVED</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>Cache served</span><span>67 GB / 200 GB</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 33.5%; background: var(--tx)"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Token price</span><span>TFUEL $0.20</span></div>
+          <div class="drow"><span>Streams served</span><span>3,241 today</span></div>
+          <div class="drow"><span>Monthly estimate</span><span>$26.40</span></div>
+          <div class="fa">
+            <button class="fb bd">Stop</button>
+            <button class="fb bp">Details</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px">📍 Frankfurt, DE</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--cyan)">👥 8 peers</span>
+          </div>
+        </div>
+
+        <!-- Storj Node -->
+        <div class="fc" style="--fc-c:rgba(0,101,255,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-storj" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Storj Node</div>
+              <div class="fp">Decentralized Storage · S3-compatible · IPFS</div>
+            </div>
+            <div class="fss sr2"><span class="sd dg"></span> Running</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$0.62</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">$18.60</div>
+              <div class="mk">MONTHLY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">312 GB</div>
+              <div class="mk">USED</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>Storage used</span><span>312 GB / 500 GB</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 62.4%; background: #0065FF"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Token price</span><span>STORJ $0.80</span></div>
+          <div class="drow"><span>Objects stored</span><span>1.24M files</span></div>
+          <div style="height: 29px"></div> <!-- empty spacer -->
+          <div class="fa">
+            <button class="fb bd">Stop</button>
+            <button class="fb bp">Details</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px">📍 Tokyo, JP</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--org)">📦 156 files</span>
+          </div>
+        </div>
+
+        <!-- Mysterium VPN Node -->
+        <div class="fc" style="--fc-c:rgba(168,76,245,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-myst" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Mysterium VPN Node</div>
+              <div class="fp">Bandwidth · Privacy DePIN · MYST rewards</div>
+            </div>
+            <div class="fss sr2"><span class="sd dg"></span> Running</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$0.41</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">22.1 GB</div>
+              <div class="mk">ROUTED</div>
+            </div>
+            <div class="mt">
+              <div class="mv">0.78</div>
+              <div class="mk">MYST</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>Sessions today</span><span>43 active</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 80%; background: #A84CF5"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Token price</span><span>MYST $0.52</span></div>
+          <div class="drow"><span>Countries served</span><span>12 regions</span></div>
+          <div style="height: 29px"></div> <!-- empty spacer -->
+          <div class="fa">
+            <button class="fb bd">Stop</button>
+            <button class="fb bp">Details</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px">🔒 Privacy mode active</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--tx2)">43 sessions</span>
+          </div>
+        </div>
+
+        <!-- Render Node -->
+        <div class="fc" style="--fc-c:rgba(255,107,53,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-render" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Render Node</div>
+              <div class="fp">GPU Compute · AI Rendering · RNDR rewards</div>
+            </div>
+            <div class="fss sp"><span class="sd" style="background:var(--gld);box-shadow:0 0 6px var(--gld)"></span>
+              Syncing</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--gld)">$0.00</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">RTX 3070</div>
+              <div class="mk">GPU</div>
+            </div>
+            <div class="mt">
+              <div class="mv" style="color:var(--tx2)">Pending</div>
+              <div class="mk">JOBS</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>GPU utilization</span><span>0%</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 0%; background: var(--gld)"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Queue position</span><span>#47 / 200</span></div>
+          <div class="drow"><span>GPU VRAM</span><span>8 GB RTX 3070</span></div>
+          <div style="height: 29px"></div> <!-- empty spacer -->
+          <div class="fa">
+            <button class="fb bg">Activate</button>
+            <button class="fb bs">Configure</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px;color:var(--gld)">⏳ Awaiting first job</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--tx2)">RNDR $5.20</span>
+          </div>
+        </div>
+
+        <!-- Helium Mobile -->
+        <div class="fc" style="--fc-c:rgba(71,77,255,.18)">
+          <div class="fct">
+            <div class="fl"><svg viewBox="0 0 40 40">
+                <use href="#i-helium" />
+              </svg></div>
+            <div class="fi">
+              <div class="fn">Helium Mobile</div>
+              <div class="fp">Wireless DePIN · 5G Offload · HNT rewards</div>
+            </div>
+            <div class="fss sr2"><span class="sd dg"></span> Running</div>
+          </div>
+          <div class="fm">
+            <div class="mt">
+              <div class="mv" style="color:var(--grn)">$0.30</div>
+              <div class="mk">TODAY</div>
+            </div>
+            <div class="mt">
+              <div class="mv">12</div>
+              <div class="mk">WITNESSES</div>
+            </div>
+            <div class="mt">
+              <div class="mv" style="color:var(--cyan)">4.21</div>
+              <div class="mk">HNT</div>
+            </div>
+          </div>
+          <div class="pb">
+            <div class="pl"><span>Coverage beacons</span><span>18 / 24h</span></div>
+            <div class="pt">
+              <div class="pf" style="width: 75%; background: var(--cyan)"></div>
+            </div>
+          </div>
+          <div class="drow"><span>Token price</span><span>HNT $2.60</span></div>
+          <div class="drow"><span>Active devices</span><span>1,440 / hr</span></div>
+          <div class="drow"><span>Monthly estimate</span><span>$9.00</span></div>
+          <div class="fa">
+            <button class="fb bd">Stop</button>
+            <button class="fb bp">Details</button>
+          </div>
+          <div class="nmeta">
+            <span style="display:flex;align-items:center;gap:4px">📍 Miami, FL</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--cyan)">📡 12 antennas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ MARKETPLACE ════ -->
+    <div class="pg" id="marketplace">
+      <!-- Sub Navigation for Marketplace -->
+      <nav class="nav-m">
+        <div class="nv on" onclick="sm('m-overview',this)">Overview</div>
+        <div class="nv" onclick="sm('m-marketplace',this)">Marketplace</div>
+        <div class="nv" onclick="sm('m-jobs',this)">My Jobs</div>
+        <div class="nv" onclick="sm('m-streams',this)">My Streams</div>
+        <div class="nv" onclick="sm('m-earnings',this)">Earnings</div>
+        <div class="nv" onclick="sm('m-staking',this)">Staking</div>
+      </nav>
+
+      <!-- TICKER -->
+      <div class="ticker-wrap">
+        <div class="ticker-inner" id="ticker-inner"></div>
+      </div>
+
+      <!-- SECTION: OVERVIEW -->
+      <div class="m-page" id="m-overview">
+        <div class="page-header" style="margin-top:22px;">
+          <div class="page-title">Overview <span class="tag tag-g">● Live</span></div>
+          <div class="page-sub">Your position across BNB Edge Compute Marketplace · opBNB · Block #<span
+              id="block-num">8,841,293</span></div>
+        </div>
+
+        <div class="stats-row-m">
+          <div class="stat-card-m"
+            style="--stat-color:var(--grn2);--stat-line:linear-gradient(90deg,transparent,var(--grn),transparent);animation-delay:.05s">
+            <span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="ov-earned">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+            <div class="stat-delta-m">+$12.4</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--acc2);--stat-line:linear-gradient(90deg,transparent,var(--acc),transparent);animation-delay:.1s">
+            <span class="stat-icon">⚙️</span>
+            <div class="stat-val-m">12</div>
+            <div class="stat-lbl-m">Active Jobs</div>
+            <div class="stat-delta-m">+3</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--cyan2);--stat-line:linear-gradient(90deg,transparent,var(--cyan),transparent);animation-delay:.15s">
+            <span class="stat-icon">▶️</span>
+            <div class="stat-val-m">3</div>
+            <div class="stat-lbl-m">Live Streams</div>
+            <div class="stat-delta-m">$0.018/s</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--bnb);--stat-line:linear-gradient(90deg,transparent,var(--bnb),transparent);animation-delay:.2s">
+            <span class="stat-icon">🏅</span>
+            <div class="stat-val-m">94</div>
+            <div class="stat-lbl-m">Reputation Score</div>
+            <div class="stat-delta-m">↑ 2pts</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--gld2);--stat-line:linear-gradient(90deg,transparent,var(--gld),transparent);animation-delay:.25s">
+            <span class="stat-icon">💎</span>
+            <div class="stat-val-m" id="ov-staked">12,450 opbnb</div>
+            <div class="stat-lbl-m">Staked</div>
+            <div class="stat-delta-m">2.1× mult</div>
+          </div>
+          <div class="stat-card-m" style="--stat-color:var(--tx);animation-delay:.3s">
+            <span class="stat-icon">📊</span>
+            <div class="stat-val-m">99.2%</div>
+            <div class="stat-lbl-m">Uptime 30d</div>
+            <div class="stat-delta-m">PLATINUM</div>
+          </div>
+        </div>
+        <div
+          style="padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:22px;">
+          <div style="font:700 14px/1 var(--d);margin-bottom:12px;">Quick Actions</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; background:var(--acc); color:#fff; border:none;"
+              onclick="openModal('modal-job')">⚙️ Post Job</button>
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; background:var(--cyan); color:#000; border:none;"
+              onclick="openModal('modal-stream')">▶️ Open Stream</button>
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; border:1px solid var(--bnb); color:var(--bnb);"
+              onclick="sm('m-earnings',null)">💰 Withdraw Earnings</button>
+            <button class="tbtn" style="padding: 10px 20px; font-weight:700; border:1px solid var(--bdr);"
+              onclick="sm('m-staking',null)">💎 Manage Stake</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: MARKETPLACE MAIN -->
+      <div class="m-page" id="m-marketplace" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Compute Marketplace <span class="tag tag-c">147 Providers</span> <span
+              class="tag tag-g">● Live</span></div>
+          <div class="page-sub">Hire GPU/CPU providers · Pay USDC · Job escrow or per-second streaming</div>
+        </div>
+
+        <!-- fee banner -->
+        <div class="fee-banner"
+          style="margin-bottom: 20px; padding: 15px; background: rgba(240,185,11,0.05); border: 1px solid rgba(240,185,11,0.2); border-radius: 12px; display: flex; align-items: center; gap: 15px;">
+          <span>📊</span>
+          <span style="flex:1;">Platform fee: <strong style="color:var(--bnb)">2.5%</strong> · Distributed to stakers ·
+            opBNB TX cost: <strong style="color:var(--grn2)">$0.001</strong></span>
+          <button class="tbtn"
+            style="padding: 6px 15px; background:var(--acc); color:#fff; border:none; font-size:12px;"
+            onclick="openModal('modal-job')">⚙️ Post Job</button>
+          <button class="tbtn"
+            style="padding: 6px 15px; background:var(--cyan); color:#000; border:none; font-size:12px;"
+            onclick="openModal('modal-stream')">▶️ Open Stream</button>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar-m">
+          <label style="font:700 10px/1 var(--m); color:var(--tx2); text-transform:uppercase;">Filter</label>
+          <select class="filter-sel" id="filt-gpu-m" onchange="filterProvidersM()">
+            <option value="">All GPUs</option>
+            <option value="RTX 4090">RTX 4090</option>
+            <option value="A100">A100</option>
+            <option value="H100">H100</option>
+          </select>
+          <select class="filter-sel" id="filt-sort-m" onchange="filterProvidersM()">
+            <option value="rep">Reputation</option>
+            <option value="price_asc">Price: Low → High</option>
+          </select>
+          <span id="filt-count-m" style="font:700 10px/1 var(--m);color:var(--tx2);margin-left:auto;">12
+            providers</span>
+        </div>
+
+        <div class="provider-grid-m" id="provider-grid-m"></div>
+      </div>
+
+      <!-- SECTION: MY JOBS -->
+      <div class="m-page" id="m-jobs" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">My Jobs <span class="tag tag-y">12 Active</span></div>
+          <div class="page-sub">Escrow mode · USDC locked per job · Real-time status via WebSocket</div>
+        </div>
+        <div class="table-wrap-m">
+          <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+              <tr>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Job ID</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Title</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Status</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Escrowed</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-tbody-m"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: MY STREAMS -->
+      <div class="m-page" id="m-streams" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">My Streams <span class="tag tag-c">3 Live</span></div>
+          <div class="page-sub">Per-second USDC payments · Live drain counter · Extend or stop anytime</div>
+        </div>
+        <div class="table-wrap-m">
+          <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+              <tr>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Stream ID</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Rate</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Earned (Live)</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Status</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody id="streams-tbody-m"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: EARNINGS -->
+      <div class="m-page" id="m-earnings" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Earnings Dashboard <span class="tag tag-b">Provider Mode</span></div>
+          <div class="page-sub">USDC earned · Platform fees · Staking multiplier</div>
+        </div>
+        <div class="stats-row-m">
+          <div class="stat-card-m" style="--stat-color:var(--grn2)"><span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="earn-total-m">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+          </div>
+          <div class="stat-card-m" style="--stat-color:var(--acc2)"><span class="stat-icon">⏳</span>
+            <div class="stat-val-m" id="earn-pending-m">$42.80</div>
+            <div class="stat-lbl-m">Pending Withdrawal</div>
+          </div>
+        </div>
+        <div class="earnings-grid-m">
+          <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">30-Day Earnings Chart</div>
+            <div class="chart-wrap-m" id="earn-chart-m"></div>
+          </div>
+          <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">Withdrawal</div>
+            <div
+              style="background:var(--sur);border:1px solid var(--bdr);border-radius:9px;padding:13px;margin-bottom:13px;">
+              <div
+                style="display:flex;justify-content:space-between;font:400 11px/1 var(--f);color:var(--tx2);margin-bottom:5px;">
+                <span>Pending withdrawal</span>
+                <span style="font:700 13px/1 var(--m);color:var(--grn2);" id="pending-wd-m">$42.80 USDC</span>
+              </div>
+            </div>
+            <button class="tbtn"
+              style="width:100%; padding:12px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+              onclick="doWithdraw()">💰 Withdraw USDC</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: STAKING -->
+      <div class="m-page" id="m-staking" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Staking Vault <span class="tag tag-v">88% APY</span></div>
+          <div class="page-sub">Stake $opbnb → earn multiplier → earn more USDC</div>
+        </div>
+        <div class="staking-card-m">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div class="mult-ring-m">
+              <div
+                style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div style="font:800 16px/1 var(--d); color:var(--acc2)">88%</div>
+                <div style="font:400 8px/1 var(--m); color:var(--tx2)">APY</div>
+              </div>
+            </div>
+            <div>
+              <div style="font:700 14px/1 var(--d); margin-bottom:5px;">$opbnb Staking Vault</div>
+              <div style="font:400 11px/1.5 var(--f); color:var(--tx2);">The more you stake, the higher your
+                reputation multiplier and the more jobs you get assigned.</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+            <button class="tbtn"
+              style="padding:10px 20px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+              onclick="toast('⚔️','Staking','Stake more initiated')">⬆ Stake More</button>
+            <button class="tbtn" style="padding:10px 20px; border:1px solid var(--bdr); font-weight:700;"
+              onclick="toast('⏳','Staking','Unstake initiated')">⬇ Unstake</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg" id="agents">
+      <div class="st">AI Agent Registry <span class="tkb"><span class="sd dg"></span> 38 agents active</span></div>
+      <div class="ss">ERC-8004 sovereign on-chain agents · ClawWork economic protocol · 220 task types · 44 GDP sectors
+        · OpenClaw multi-channel (Telegram / WhatsApp / Discord)</div>
+
+      <div class="sr">
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="4"></circle>
+            </svg></div>
+          <div class="sv" style="color: #fff">37</div>
+          <div class="slb">Active Agents</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg></div>
+          <div class="sv" style="color: #fff">220</div>
+          <div class="slb">Task Types · 44 Sectors</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 40 40">
+              <use href="#i-usdc" />
+            </svg></div>
+          <div class="sv" style="color: #fff">$1,247</div>
+          <div class="slb">Agent Earnings (est. monthly)</div>
+        </div>
+        <div class="sc">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke="var(--tx)" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+              </path>
+            </svg></div>
+          <div class="sv" style="color: #fff">24</div>
+          <div class="slb">Soulbound Badges (ERC-5192)</div>
+        </div>
+      </div>
+
+      <div class="sl">ACTIVE AGENT ROSTER</div>
+
+      <div class="ags">
+        <!-- Agent 1 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av" style="background:#00C896; color:#fff"><svg viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" width="20" height="20">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg></div>
+            <div>
+              <div class="aid">AGENT-0x7F3A</div>
+              <div class="atp">ClawWork - Legal Research</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--grn)">94</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 94%; background: var(--grn)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#00C896;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              G</div>
+            <span style="color:#00C896">GPT-4o · 128k ctx</span>
+            <span class="aec">+$4.20/hr</span>
+          </div>
+          <div class="atgs">
+            <span class="atg">ERC-8004</span>
+            <span class="atg">PLATINUM SLA</span>
+            <span class="atg atgg">Earning</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg atgd" style="display:flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24"
+                fill="var(--gld)" width="10" height="10">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg> Gold Badge</span>
+          </div>
+          <div class="task-feed">
+            <div class="task-item">
+              <div class="task-icon task-status-live">▶</div>
+              <div style="flex:1">Contract review — opBNB ecosystem</div>
+              <div style="color:var(--grn);font-family:var(--m);font-weight:700">$0.42</div>
+            </div>
+            <div class="task-item">
+              <div class="task-icon task-status-q">⏳</div>
+              <div style="flex:1">IP claim draft</div>
+              <div style="color:var(--tx2)">queued</div>
+            </div>
+          </div>
+          <div style="flex: 1;"></div>
+          <div class="aer" style="margin-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">1,247</span>
+          </div>
+        </div>
+
+        <!-- Agent 2 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av"
+              style="background:#CC785C; color:#fff; font-weight:700; font-size:16px; font-family:var(--m);">A</div>
+            <div>
+              <div class="aid">AGENT-0x2C9E</div>
+              <div class="atp">ClawWork - Financial Modeling</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--cyan)">88</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 88%; background: var(--cyan)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#CC785C;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              A</div>
+            <span style="color:#CC785C">Claude 3.5 Sonnet</span>
+            <span class="aec" style="color:var(--grn)">+$3.80/hr</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg">ERC-8004</span>
+            <span class="atg">GOLD SLA</span>
+            <span class="atg atgg">Earning</span>
+          </div>
+          <div class="task-feed">
+            <div class="task-item">
+              <div class="task-icon task-status-live">▶</div>
+              <div style="flex:1">Code review</div>
+              <div style="color:var(--grn);font-family:var(--m);font-weight:700">$0.20</div>
+            </div>
+            <div class="task-item">
+              <div class="task-icon task-status-live">▶</div>
+              <div style="flex:1">DCF model — DePIN valuation</div>
+              <div style="color:var(--grn);font-family:var(--m);font-weight:700">$0.35</div>
+            </div>
+          </div>
+          <div style="flex: 1;"></div>
+          <div class="aer" style="margin-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">892</span>
+          </div>
+        </div>
+
+        <!-- Agent 3 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av" style="background:#1A73E8; color:#fff"><svg viewBox="0 0 24 24" fill="currentColor"
+                width="18" height="18">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg></div>
+            <div>
+              <div class="aid">AGENT-0xB81D</div>
+              <div class="atp">OpenClaw - Creative Design</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--gld)">76</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 76%; background: var(--gld)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#1A73E8;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              ✦</div>
+            <span style="color:#1A73E8">Gemini 2.0 Pro · 1M ctx</span>
+            <span class="aec" style="color:var(--org)">+$1.90/hr</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg">BAP-073</span>
+            <span class="atg">BASIC SLA</span>
+            <span class="atg" style="color:var(--grn);border-color:rgba(48,209,88,.3)">Active</span>
+          </div>
+          <div style="flex:1"></div>
+          <div class="aer" style="margin-top: auto; padding-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">441</span>
+          </div>
+        </div>
+
+        <!-- Agent 4 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av" style="background:#0065FF; color:#fff"><svg viewBox="0 0 24 24" fill="currentColor"
+                width="18" height="18">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg></div>
+            <div>
+              <div class="aid">AGENT-0xF4A2</div>
+              <div class="atp">ClawWork - Software Dev</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--grn)">97</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 97%; background: var(--grn)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#0065FF;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              L</div>
+            <span style="color:#0065FF">Llama 3.1 70B · local</span>
+            <span class="aec" style="color:var(--grn)">+$5.10/hr</span>
+          </div>
+          <div class="atgs">
+            <span class="atg">ERC-8004</span>
+            <span class="atg">PLATINUM SLA</span>
+            <span class="atg atgg">Earning</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg"
+              style="display:flex;align-items:center;gap:4px;color:#A9A9A9;border-color:rgba(169,169,169,.3)"><svg
+                viewBox="0 0 24 24" fill="#A9A9A9" width="10" height="10">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg> Platinum</span>
+          </div>
+          <div class="task-feed">
+            <div class="task-item">
+              <div class="task-icon task-status-live">▶</div>
+              <div style="flex:1">Solidity audit — StakingVault.sol</div>
+              <div style="color:var(--grn);font-family:var(--m);font-weight:700">$0.55</div>
+            </div>
+            <div class="task-item">
+              <div class="task-icon task-status-live">▶</div>
+              <div style="flex:1">API endpoint generation</div>
+              <div style="color:var(--grn);font-family:var(--m);font-weight:700">$0.28</div>
+            </div>
+          </div>
+          <div style="flex: 1;"></div>
+          <div class="aer" style="margin-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">2,014</span>
+          </div>
+        </div>
+
+        <!-- Agent 5 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av"
+              style="background:#FF6B35; color:#fff; font-weight:700; font-size:16px; font-family:var(--m);">M</div>
+            <div>
+              <div class="aid">AGENT-0xA3C7</div>
+              <div class="atp">ClawWork - Data Analysis</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--cyan)">82</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 82%; background: var(--cyan)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              M</div>
+            <span style="color:#FF6B35">Mistral-7B · quantized</span>
+            <span class="aec" style="color:var(--grn)">+$1.20/hr</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg">BAP-073</span>
+            <span class="atg">GOLD SLA</span>
+            <span class="atg atgg">Earning</span>
+          </div>
+          <div style="flex:1"></div>
+          <div class="aer" style="margin-top: auto; padding-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">664</span>
+          </div>
+        </div>
+
+        <!-- Agent 6 -->
+        <div class="acard" style="display: flex; flex-direction: column;">
+          <div class="at">
+            <div class="av"
+              style="background:#A84CF5; color:#fff; font-weight:700; font-size:16px; font-family:var(--m);">Q</div>
+            <div>
+              <div class="aid">AGENT-0xE6B3</div>
+              <div class="atp">OpenClaw - Medical Transcription</div>
+            </div>
+            <div class="ar">
+              <div class="ars" style="color:var(--grn)">91</div>
+              <div class="arl">Rep</div>
+            </div>
+          </div>
+          <div class="rbo">
+            <div class="rbi" style="width: 91%; background: var(--grn)"></div>
+          </div>
+          <div class="amodel">
+            <div
+              style="width:16px;height:16px;border-radius:50%;background:#A84CF5;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">
+              Q</div>
+            <span style="color:#A84CF5">Qwen 2.5-72B</span>
+            <span class="aec" style="color:var(--grn)">+$2.40/hr</span>
+          </div>
+          <div class="atgs">
+            <span class="atg">ERC-8004</span>
+            <span class="atg">PLATINUM SLA</span>
+            <span class="atg atgg">Earning</span>
+          </div>
+          <div class="atgs" style="margin-bottom: 12px;">
+            <span class="atg atgd" style="display:flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24"
+                fill="var(--gld)" width="10" height="10">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                </path>
+              </svg> Gold Badge</span>
+          </div>
+          <div style="flex:1"></div>
+          <div class="aer" style="margin-top: auto; padding-top: 12px;">
+            <span style="color:var(--tx2)">Tasks completed</span>
+            <span style="font-family:var(--m);font-weight:700;font-size:13px;color:var(--tx)">328</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pg" id="wallet">
+      <div class="st">Wallet & Staking <span class="tkb">88% APY</span></div>
+      <div class="eg">
+        <div class="ec">
+          <h3>Balance</h3>
+          <div class="eb" id="wallet-total-balance">$4,821.34</div>
+        </div>
+      </div>
+      <div class="clg">
+        <div class="cr">
+          <div class="cbox cbok">✓</div>
+          <div class="ctx">12 Solidity contracts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg" id="terminal">
+      <div class="st">Terminal <span class="tkb">AI Auto-Heal</span></div>
+      <div class="term-win">
+        <div class="term-body" id="termBody">
+          <div class="tline"><span class="tai">🤖 System:</span> Booting...</div>
+        </div>
+        <div class="term-input-row"><input class="term-input" id="termInput" onkeydown="termCmd(event)"><button
+            class="term-send" onclick="termRun()">Run</button></div>
+      </div>
+    </div>
+
+    <div class="pg" id="openclaw">
+      <div class="st">OpenClaw <span class="tkb">4 channels</span></div>
+      <div class="ocg">
+        <div class="occ">Telegram: @BNBEdgeBot</div>
+      </div>
+    </div>
+
+    <div class="pg" id="models">
+      <div class="st">Model Hub <span class="tkb">4 models</span></div>
+      <div class="mgrid">
+        <div class="mcard">GPT-4o · Active</div>
+        <div class="mcard">Claude 3.5 · Standby</div>
+      </div>
+    </div>
+
+    <div class="pg" id="omega">
+      <div class="st">Ω Portfolio <span class="tkb">$3.2M</span></div>
+      <div class="opos">Forrest Robotics · Factory Physical AI</div>
+    </div>
+
+    <div class="pg" id="nodes">
+      <div class="st">Node Network <span class="tkb">34 Countries</span></div>
+      <div class="node-globe">
+        <div class="npin">USA · 42 nodes</div>
+      </div>
+    </div>
+
+    <div class="toa" id="ta"></div>
+
+    <script>
+      function sw(id, b) {
+        document.querySelectorAll('.pg').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nt').forEach(n => n.classList.remove('active'));
+        document.getElementById(id).classList.add('active'); if (b) b.classList.add('active'); if (id === 'marketplace') sm('m-overview', document.querySelector('.nav-m .nv')); if (id === 'marketplace') sm('m-overview', document.querySelector('.nav-m .nv'));
+      }
+      function cw() { toast('⚡', 'Wallet', 'Connected: 0x7F...2B91'); }
+      function toast(i, t, m) {
+        const s = document.getElementById('ta');
+        const d = document.createElement('div'); d.className = 'tst';
+        d.innerHTML = `<div>${i}</div><div><b>${t}</b><br>${m}</div>`;
+        s.appendChild(d); setTimeout(() => d.remove(), 3000);
+      }
+      let ern = 0;
+      function update() {
+        ern += 0.002; document.getElementById('total-earnings').innerText = '$' + ern.toFixed(3);
+        document.getElementById('le').innerText = '+$' + (ern * 4).toFixed(3);
+      }
+      setInterval(update, 2000);
+
+      function termCmd(e) { if (e.key === 'Enter') termRun(); }
+      function termRun() {
+        const i = document.getElementById('termInput'); const b = document.getElementById('termBody');
+        const l = document.createElement('div'); l.innerText = '> ' + i.value;
+        const r = document.createElement('div'); r.style.color = 'var(--grn)'; r.innerText = 'OK: ' + i.value + ' executed.';
+        b.appendChild(l); b.appendChild(r); i.value = '';
+      }
+
+      // ========== EXPLORER LINK (opens opBNBscan) ==========
+      function explorerLink(txOrAddr) {
+        const base = 'https://opbnbscan.com/';
+        window.open(base + (txOrAddr.startsWith('0x') && txOrAddr.length > 42 ? 'tx/' : 'address/') + txOrAddr, '_blank');
+      }
+
+      // ========== STAKING DEMO FLOW ==========
+      function stakeFlow() {
+        const btn = document.getElementById('stake-btn');
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Confirming...';
+        toast('⏳', 'Staking', 'Waiting for wallet confirmation...');
+        setTimeout(() => {
+          // Simulate wallet popup and transaction
+          toast('🦊', 'MetaMask', 'Transaction submitted: 0x8f2d...a1b2');
+          setTimeout(() => {
+            const stakedEl = document.getElementById('staked-amount');
+            stakedEl.textContent = '0.10 BNB';
+            const txContainer = document.getElementById('tx-container');
+            if (txContainer) txContainer.style.display = 'flex';
+            const txHashEl = document.getElementById('tx-hash');
+            if (txHashEl) txHashEl.textContent = '0x8f2d...a1b2';
+            toast('✅', 'Stake Success', '0.1 BNB staked – rewards accruing');
+            btn.disabled = false;
+            btn.textContent = 'Stake 0.1 BNB';
+            // Update proof panel last tx
+            const lastTx = document.querySelector('.proof-panel .proof-item:nth-child(3) .proof-link');
+            if (lastTx) lastTx.textContent = '0x8f2d...a1b2';
+          }, 2000);
+        }, 1500);
+      }
+
+      // ========== SIMULATE WALLET CONNECTION ON LOAD ==========
+      document.addEventListener('DOMContentLoaded', () => {
+        // Simulate connected wallet
+        const proofWallet = document.getElementById('proof-wallet');
+        if (proofWallet) proofWallet.textContent = '0x7F3A...2B91';
+      });
+
+
+      const mState = {
+        providers: [
+          { id: '0x7F3A...2B91', name: 'Kerala Node', loc: 'Kerala, India', emoji: '🇮🇳', gpu: 'RTX 4090', vram: '24 GB', cpu: '32 cores', ram: '64 GB', bw: '1 Gbps', rep: 94, staked: '12,450', uptime: 99.2, price: 0.005, jobs: 142, available: true, bg: 'linear-gradient(135deg,#7c3aed,#06b6d4)' },
+          { id: '0xA1B2...C3D4', name: 'GPU Hub', loc: 'Frankfurt, Germany', emoji: '🇩🇪', gpu: 'A100', vram: '40 GB', cpu: '64 cores', ram: '128 GB', bw: '2 Gbps', rep: 88, staked: '8,500', uptime: 98.2, price: 0.008, jobs: 84, available: true, bg: 'linear-gradient(135deg,#059669,#06b6d4)' },
+          { id: '0x9C0D...E1F2', name: 'SG Compute', loc: 'Singapore', emoji: '🇸🇬', gpu: 'H100', vram: '80 GB', cpu: '96 cores', ram: '256 GB', bw: '10 Gbps', rep: 97, staked: '21,000', uptime: 99.8, price: 0.012, jobs: 203, available: true, bg: 'linear-gradient(135deg,#d97706,#dc2626)' }
+        ],
+        jobs: [
+          { id: '#JOB-2847', title: 'LLM Inference LLaMA 70B', status: 'running', escrowed: '$12.00' },
+          { id: '#JOB-2848', title: 'Stable Diffusion batch', status: 'assigned', escrowed: '$8.50' }
+        ],
+        streams: [
+          { id: '#STR-21983', provider: 'Kerala Node', rate: 0.005, earned: 1.24, status: 'active' }
+        ],
+        earnings: { total: 847.20, pending: 42.80 },
+        blockNum: 8841293,
+        tickerItems: [
+          { l: 'BNB', v: '$584', d: 'up', c: '+2.1%' },
+          { l: 'USDC', v: '$1.00', d: 'up', c: 'stable' },
+          { l: 'opBNB Gas', v: '$0.001', d: 'up', c: '' },
+          { l: 'Vol 24h', v: '$84.2K', d: 'up', c: '+18%' }
+        ]
+      };
+
+      function sm(id, el) {
+        document.querySelectorAll('.m-page').forEach(p => p.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        document.querySelectorAll('.nav-m .nv').forEach(n => n.classList.remove('on'));
+        if (el) el.classList.add('on');
+        if (id === 'm-marketplace') renderProvidersM();
+        if (id === 'm-jobs') renderJobsM();
+        if (id === 'm-streams') renderStreamsM();
+        if (id === 'm-earnings') renderChartM();
+      }
+
+      function renderProvidersM(data = mState.providers) {
+        const grid = document.getElementById('provider-grid-m');
+        if (!grid) return;
+        grid.innerHTML = '';
+        data.forEach(p => {
+          grid.innerHTML += `
+        <div class="pcard-m">
+          <div style="display:flex;gap:11px;margin-bottom:14px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:${p.bg};display:flex;align-items:center;justify-content:center;font-size:20px;">${p.emoji}</div>
+            <div style="flex:1;">
+              <div style="font:700 15px/1.2 var(--d);">${p.name}</div>
+              <div style="font:400 10px/1 var(--m);color:var(--cyan2);">${p.id}</div>
+            </div>
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--grn2);box-shadow:0 0 9px var(--grn);"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;">
+            <div class="spec-box-m"><div style="font:400 9px/1 var(--m);color:var(--tx2);">GPU</div><div style="font:700 12px/1 var(--f);">${p.gpu}</div></div>
+            <div class="spec-box-m"><div style="font:400 9px/1 var(--m);color:var(--tx2);">VRAM</div><div style="font:700 12px/1 var(--f);">${p.vram}</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font:700 11px/1 var(--m);">${p.rep}/100</div>
+          <div style="height:4px;background:var(--sur);border-radius:100px;margin:5px 0 12px;"><div style="height:100%;width:${p.rep}%;background:var(--grn);"></div></div>
+          <div class="price-row-m">
+            <div><div style="font:800 16px/1 var(--d);color:var(--grn2);">$${p.price}</div><div style="font:400 9px/1 var(--m);color:var(--tx2);">per second</div></div>
+            <div style="text-align:right;"><div style="font:700 12px/1 var(--m);color:var(--acc2);">${p.staked}</div><div style="font:400 9px/1 var(--f);color:var(--tx2);">Staked</div></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="tbtn" style="flex:1; padding:8px; background:var(--acc); color:#fff; border:none; font-weight:700;" onclick="hireProvider('${p.id}')">⚙️ Hire</button>
+            <button class="tbtn" style="flex:1; padding:8px; border:1px solid var(--bdr);" onclick="streamProvider('${p.id}')">▶️ Stream</button>
+          </div>
+        </div>`;
+        });
+        document.getElementById('filt-count-m').innerText = data.length + ' providers';
+      }
+
+      function renderJobsM() {
+        const tb = document.getElementById('jobs-tbody-m');
+        if (!tb) return;
+        tb.innerHTML = '';
+        mState.jobs.forEach(j => {
+          tb.innerHTML += `<tr>
+        <td style="padding:12px; font-family:var(--m); color:var(--acc2);">${j.id}</td>
+        <td style="padding:12px;">${j.title}</td>
+        <td style="padding:12px;"><span class="status-m" style="background:rgba(16,185,129,0.1); color:var(--grn2);">${j.status}</span></td>
+        <td style="padding:12px; font-family:var(--m); color:var(--grn2);">${j.escrowed}</td>
+        <td style="padding:12px;"><button class="tbtn" style="padding:4px 8px; font-size:10px;" onclick="toast('ℹ️','Job','Details for ${j.id}')">Details</button></td>
+      </tr>`;
+        });
+      }
+
+      function renderStreamsM() {
+        const tb = document.getElementById('streams-tbody-m');
+        if (!tb) return;
+        tb.innerHTML = '';
+        mState.streams.forEach(s => {
+          tb.innerHTML += `<tr>
+        <td style="padding:12px; font-family:var(--m); color:var(--cyan2);">${s.id}</td>
+        <td style="padding:12px;">$${s.rate}/s</td>
+        <td style="padding:12px; font-weight:700; color:var(--grn2);">$${s.earned}</td>
+        <td style="padding:12px;"><span class="status-m" style="background:rgba(6,182,212,0.1); color:var(--cyan2);">${s.status}</span></td>
+        <td style="padding:12px;"><button class="tbtn" style="padding:4px 8px; font-size:10px; background:var(--red); color:#fff; border:none;" onclick="toast('⏹️','Stream','Stopped')">Stop</button></td>
+      </tr>`;
+        });
+      }
+
+      function renderChartM() {
+        const wrap = document.getElementById('earn-chart-m');
+        if (!wrap) return;
+        wrap.innerHTML = '';
+        [18, 22, 19, 28, 31, 25, 34, 29, 36, 38, 27, 41, 35, 44, 38, 47, 42, 51, 45, 54].forEach(v => {
+          const col = document.createElement('div');
+          col.className = 'chart-col-m';
+          col.innerHTML = `<div class="chart-bar-m" style="height:${v}%"></div>`;
+          wrap.appendChild(col);
+        });
+      }
+
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+      function setPriority(e, b) {
+        document.querySelectorAll('.priority-btn').forEach(btn => {
+          btn.classList.remove('active-med');
+          btn.style.borderColor = 'var(--bdr)';
+          btn.style.color = 'var(--tx2)';
+        });
+        e.classList.add('active-med');
+        if (b === 'med') { e.style.borderColor = 'var(--gld)'; e.style.color = 'var(--gld2)'; }
+        if (b === 'high') { e.style.borderColor = 'var(--acc)'; e.style.color = 'var(--acc2)'; }
+        if (b === 'low') { e.style.borderColor = 'var(--grn)'; e.style.color = 'var(--grn2)'; }
+      }
+      function hireProvider(id) {
+        const p = mState.providers.find(x => x.id === id);
+        if (p) {
+          const gpuSelect = document.getElementById('job-gpu');
+          if (gpuSelect) {
+            let found = false;
+            Array.from(gpuSelect.options).forEach(opt => {
+              if (opt.text === p.gpu) found = true;
+            });
+            if (!found) {
+              const opt = document.createElement('option');
+              opt.text = p.gpu;
+              gpuSelect.add(opt);
+            }
+            gpuSelect.value = p.gpu;
+          }
+        }
+        openModal('modal-job');
+      }
+      function streamProvider(id) {
+        document.getElementById('stream-provider').value = id;
+        openModal('modal-stream');
+      }
+
+      function submitJob() {
+        closeModal('modal-job'); openModal('modal-tx');
+        document.getElementById('tx-inner').innerHTML = `
+          <div class="tx-status"><div class="tx-spinner"></div><div class="tx-title">Approving USDC</div><div class="tx-msg">Confirm in wallet</div></div>`;
+        setTimeout(() => {
+          document.getElementById('tx-inner').innerHTML = `
+            <div class="tx-status"><div class="tx-success" style="font-size:30px">✅</div><div class="tx-title">Job Posted!</div><div class="tx-msg">Your job is now active on-chain.</div><button class="tbtn" style="margin-top:10px;background:var(--sur);" onclick="closeModal('modal-tx')">Close</button></div>`;
+          toast('⚙️', 'Marketplace', 'Compute Job Posted Successfully');
+        }, 1500);
+      }
+
+      function submitStream() {
+        closeModal('modal-stream'); openModal('modal-tx');
+        setTimeout(() => {
+          document.getElementById('tx-inner').innerHTML = `
+            <div class="tx-status"><div class="tx-success" style="font-size:30px">✅</div><div class="tx-title">Stream Opened!</div><div class="tx-msg">Paying provider per second.</div><button class="tbtn" style="margin-top:10px;background:var(--sur);" onclick="closeModal('modal-tx')">Close</button></div>`;
+          toast('▶️', 'Marketplace', 'Compute Stream Initiated');
+        }, 1500);
+      }
+
+      function filterProvidersM() {
+        const gpu = document.getElementById('filt-gpu-m').value;
+        const sortSel = document.getElementById('filt-sort-m');
+        const sort = sortSel ? sortSel.value : '';
+
+        let s = mState.providers.filter(p => gpu ? p.gpu.includes(gpu) : true);
+
+        if (sort === 'rep') s.sort((a, b) => b.rep - a.rep);
+        else if (sort === 'price_asc') s.sort((a, b) => a.price - b.price);
+
+        renderProvidersM(s);
+      }
+
+      function renderTickerM() {
+        const tickerInner = document.getElementById('ticker-inner');
+        if (tickerInner) {
+          tickerInner.innerHTML = mState.tickerItems.map(i => `
+        <div class="ticker-item">
+          <span class="ticker-label">${i.l}</span>
+          <span>${i.v}</span>
+          <span style="color:var(--grn2)">${i.c}</span>
+        </div>`).join('');
+        }
+      }
+
+      // Update on Load
+      document.addEventListener('DOMContentLoaded', () => {
+        renderTickerM();
+        renderProvidersM();
+      });
+
+
+
+    </script>
+
+    <!-- Post Job Modal -->
+    <div class="overlay" id="modal-job" style="z-index:9999;">
+      <div class="modal">
+        <div class="modal-close" onclick="closeModal('modal-job')">✕</div>
+        <div class="modal-title"><span>⚙️</span> Post a Compute Job</div>
+        <div class="modal-sub">Escrow mode — USDC locked until job completion</div>
+
+        <div class="form-row">
+          <label class="form-label">Job Title</label>
+          <input class="form-input" placeholder="e.g. LLM Inference — LLaMA 3.1 70B" />
+        </div>
+        <div class="form-row">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" placeholder="Descriptive details..."></textarea>
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label class="form-label">GPU Needed</label>
+            <select class="form-select" id="job-gpu">
+              <option>RTX 4090</option>
+              <option>A100</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Budget (USDC)</label>
+            <input class="form-input" type="number" value="12.00" />
+          </div>
+        </div>
+        <div class="priority-row">
+          <div class="priority-btn" onclick="setPriority(this,'low')">Low</div>
+          <div class="priority-btn active-med" style="border-color:var(--gld);color:var(--gld2)"
+            onclick="setPriority(this,'med')">Medium</div>
+          <div class="priority-btn" onclick="setPriority(this,'high')">High</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-submit" onclick="submitJob()">⚡ Approve & Post Job</button>
+          <button class="btn-cancel" onclick="closeModal('modal-job')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stream Modal -->
+    <div class="overlay" id="modal-stream" style="z-index:9999;">
+      <div class="modal">
+        <div class="modal-close" onclick="closeModal('modal-stream')">✕</div>
+        <div class="modal-title"><span>▶️</span> Open Stream</div>
+        <div class="modal-sub">Streaming mode — pay per second in USDC</div>
+        <div class="form-row">
+          <label class="form-label">Provider ID</label>
+          <input class="form-input" id="stream-provider" value="0x7F3A" disabled />
+        </div>
+        <div class="form-row">
+          <label class="form-label">Deposit (USDC)</label>
+          <input class="form-input" id="stream-deposit" type="number" value="10.00" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-submit" style="background:var(--cyan);" onclick="submitStream()">▶️ Approve</button>
+          <button class="btn-cancel" onclick="closeModal('modal-stream')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TX Processing Modal -->
+    <div class="overlay" id="modal-tx" style="z-index:9999;">
+      <div class="modal" style="max-width:360px;text-align:center;">
+        <div id="tx-inner">
+          <div class="tx-status">
+            <div class="tx-spinner"></div>
+            <div class="tx-title">Processing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>
