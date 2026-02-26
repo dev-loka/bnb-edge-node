@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.25;
 
 import "@openzeppelin/contracts/governance/Governor.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
@@ -26,7 +26,12 @@ contract Governance is Governor, GovernorCountingSimple, GovernorVotes, Governor
         return 100_000 * 10**18; // 100k tokens to propose
     }
 
-    function quorum(uint256 blockNumber) public view override returns (uint256) {
+    function quorum(uint256 blockNumber)
+        public
+        view
+        override(Governor, GovernorVotesQuorumFraction)
+        returns (uint256)
+    {
         return super.quorum(blockNumber);
     }
 }

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.25;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -24,9 +24,9 @@ contract StakingVault is Ownable {
     event UnstakeRequested(address indexed user, uint256 amount);
     event Withdrawn(address indexed user, uint256 amount);
 
-    constructor(address _token, address _registry) Ownable(msg.sender) {
+    constructor(address _token, WorkerRegistry _registry) Ownable(msg.sender) {
         stakingToken = IERC20(_token);
-        registry = WorkerRegistry(_registry);
+        registry = _registry;
     }
 
     function stake(uint256 amount) external {
@@ -54,15 +54,14 @@ contract StakingVault is Ownable {
         uint256 currentEpoch = block.timestamp / EPOCH_DURATION;
         require(currentEpoch > stakes[msg.sender].lastEpochClaimed, "Already claimed");
         uint256 epochs = currentEpoch - stakes[msg.sender].lastEpochClaimed;
-        uint256 rep = registry.nodes[msg.sender].reputation;
+        uint256 rep = registry.reputationOf(msg.sender);
         uint256 baseReward = (stakes[msg.sender].amount * APY / 10000 * epochs) / 365;
         uint256 adjusted = baseReward * rep / 1000; // rep scaled
         stakingToken.transfer(msg.sender, adjusted);
         stakes[msg.sender].lastEpochClaimed = currentEpoch;
     }
 
-    function slash(address user, uint256 amount) external {
-        require(msg.sender == address(registry.slashing()), "Only slashing controller");
+    function slash(address user, uint256 amount) external onlyOwner {
         require(stakes[user].amount >= amount, "Amount exceeds stake");
         stakes[user].amount -= amount;
         stakingToken.transfer(msg.sender, amount);

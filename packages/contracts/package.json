@@ -13,6 +13,7 @@
     "devDependencies": {
         "@nomicfoundation/hardhat-toolbox": "^5.0.0",
         "hardhat": "^2.22.6",
-        "solhint": "^5.0.1"
+        "solhint": "^5.0.1",
+        "dotenv": "^16.4.5"
     }
 }

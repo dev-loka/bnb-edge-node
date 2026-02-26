@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.25;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -79,8 +79,8 @@ contract WorkerRegistry is Ownable {
         return baseMultiplier + stakeFactor + timeFactor + repFactor;
     }
 
-    function getTotalWorkers() external view returns (uint256) {
-        return workerList.length;
+    function reputationOf(address _worker) external view returns (uint256) {
+        return workers[_worker].reputation;
     }
 
     // Admin functions
