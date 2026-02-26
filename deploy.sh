@@ -15,8 +15,8 @@ IFS=$'\n\t'
 # 1. CONFIGURATION – EDIT THESE VARIABLES
 # -------------------------------------------------------------------
 SITE_DIR="."                      # where files will be written (current dir)
-REPO_URL=""                       # your GitHub repo, e.g., git@github.com:user/bnb-edge-node.git
-BRANCH="gh-pages"                 # deployment branch (use "main" for user sites)
+REPO_URL="git@github.com:bnbedgenode/bnb-edge-node.git" # your GitHub repo
+BRANCH="main"                     # deployment branch (use "main" for user sites)
 CUSTOM_DOMAIN="bnbedgenode.io"    # set to your domain, or leave empty for default github.io
 COMMIT_MSG="Deploy BNB Edge Node – $(date +'%Y-%m-%d %H:%M')"
 
