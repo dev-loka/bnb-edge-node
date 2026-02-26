@@ -1,0 +1,255 @@
+<!-- Sub Navigation for Marketplace -->
+<nav class="nav-m">
+    <div class="nv on" onclick="sm('m-overview',this)">Overview</div>
+    <div class="nv" onclick="sm('m-marketplace',this)">Marketplace</div>
+    <div class="nv" onclick="sm('m-jobs',this)">My Jobs</div>
+    <div class="nv" onclick="sm('m-streams',this)">My Streams</div>
+    <div class="nv" onclick="sm('m-earnings',this)">Earnings</div>
+    <div class="nv" onclick="sm('m-staking',this)">Staking</div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker-inner"></div>
+</div>
+
+<!-- SECTION: OVERVIEW -->
+<div class="m-page" id="m-overview">
+    <div class="page-header" style="margin-top:22px;">
+        <div class="page-title">Overview <span class="tag tag-g">● Live</span></div>
+        <div class="page-sub">Your position across BNB Edge Compute Marketplace · opBNB · Block #<span
+                id="block-num">8,841,293</span></div>
+    </div>
+
+    <div class="stats-row-m">
+        <div class="stat-card-m"
+            style="--stat-color:var(--grn2);--stat-line:linear-gradient(90deg,transparent,var(--grn),transparent);animation-delay:.05s">
+            <span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="ov-earned">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+            <div class="stat-delta-m">+$12.4</div>
+        </div>
+        <div class="stat-card-m"
+            style="--stat-color:var(--acc2);--stat-line:linear-gradient(90deg,transparent,var(--acc),transparent);animation-delay:.1s">
+            <span class="stat-icon">⚙️</span>
+            <div class="stat-val-m">12</div>
+            <div class="stat-lbl-m">Active Jobs</div>
+            <div class="stat-delta-m">+3</div>
+        </div>
+        <div class="stat-card-m"
+            style="--stat-color:var(--cyan2);--stat-line:linear-gradient(90deg,transparent,var(--cyan),transparent);animation-delay:.15s">
+            <span class="stat-icon">▶️</span>
+            <div class="stat-val-m">3</div>
+            <div class="stat-lbl-m">Live Streams</div>
+            <div class="stat-delta-m">$0.018/s</div>
+        </div>
+        <div class="stat-card-m"
+            style="--stat-color:var(--bnb);--stat-line:linear-gradient(90deg,transparent,var(--bnb),transparent);animation-delay:.2s">
+            <span class="stat-icon">🏅</span>
+            <div class="stat-val-m">94</div>
+            <div class="stat-lbl-m">Reputation Score</div>
+            <div class="stat-delta-m">↑ 2pts</div>
+        </div>
+        <div class="stat-card-m"
+            style="--stat-color:var(--gld2);--stat-line:linear-gradient(90deg,transparent,var(--gld),transparent);animation-delay:.25s">
+            <span class="stat-icon">💎</span>
+            <div class="stat-val-m" id="ov-staked">12,450 opbnb</div>
+            <div class="stat-lbl-m">Staked</div>
+            <div class="stat-delta-m">2.1× mult</div>
+        </div>
+        <div class="stat-card-m" style="--stat-color:var(--tx);animation-delay:.3s">
+            <span class="stat-icon">📊</span>
+            <div class="stat-val-m">99.2%</div>
+            <div class="stat-lbl-m">Uptime 30d</div>
+            <div class="stat-delta-m">PLATINUM</div>
+        </div>
+    </div>
+    <div style="padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:22px;">
+        <div style="font:700 14px/1 var(--d);margin-bottom:12px;">Quick Actions</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="tbtn"
+                style="padding: 10px 20px; font-weight:700; background:var(--acc); color:#fff; border:none;"
+                onclick="openModal('modal-job')">⚙️ Post Job</button>
+            <button class="tbtn"
+                style="padding: 10px 20px; font-weight:700; background:var(--cyan); color:#000; border:none;"
+                onclick="openModal('modal-stream')">▶️ Open Stream</button>
+            <button class="tbtn"
+                style="padding: 10px 20px; font-weight:700; border:1px solid var(--bnb); color:var(--bnb);"
+                onclick="sm('m-earnings',null)">💰 Withdraw Earnings</button>
+            <button class="tbtn" style="padding: 10px 20px; font-weight:700; border:1px solid var(--bdr);"
+                onclick="sm('m-staking',null)">💎 Manage Stake</button>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: MARKETPLACE MAIN -->
+<div class="m-page" id="m-marketplace" style="display:none;">
+    <div class="page-header">
+        <div class="page-title">Compute Marketplace <span class="tag tag-c">147 Providers</span> <span
+                class="tag tag-g">● Live</span></div>
+        <div class="page-sub">Hire GPU/CPU providers · Pay USDC · Job escrow or per-second streaming</div>
+    </div>
+
+    <!-- fee banner -->
+    <div class="fee-banner"
+        style="margin-bottom: 20px; padding: 15px; background: rgba(240,185,11,0.05); border: 1px solid rgba(240,185,11,0.2); border-radius: 12px; display: flex; align-items: center; gap: 15px;">
+        <span>📊</span>
+        <span style="flex:1;">Platform fee: <strong style="color:var(--bnb)">2.5%</strong> · Distributed to stakers ·
+            opBNB TX cost: <strong style="color:var(--grn2)">$0.001</strong></span>
+        <button class="tbtn" style="padding: 6px 15px; background:var(--acc); color:#fff; border:none; font-size:12px;"
+            onclick="openModal('modal-job')">⚙️ Post Job</button>
+        <button class="tbtn" style="padding: 6px 15px; background:var(--cyan); color:#000; border:none; font-size:12px;"
+            onclick="openModal('modal-stream')">▶️ Open Stream</button>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar-m">
+        <label style="font:700 10px/1 var(--m); color:var(--tx2); text-transform:uppercase;">Filter</label>
+        <select class="filter-sel" id="filt-gpu-m" onchange="filterProvidersM()">
+            <option value="">All GPUs</option>
+            <option value="RTX 4090">RTX 4090</option>
+            <option value="A100">A100</option>
+            <option value="H100">H100</option>
+        </select>
+        <select class="filter-sel" id="filt-sort-m" onchange="filterProvidersM()">
+            <option value="rep">Reputation</option>
+            <option value="price_asc">Price: Low → High</option>
+        </select>
+        <span id="filt-count-m" style="font:700 10px/1 var(--m);color:var(--tx2);margin-left:auto;">12 providers</span>
+    </div>
+
+    <div class="provider-grid-m" id="provider-grid-m"></div>
+</div>
+
+<!-- SECTION: MY JOBS -->
+<div class="m-page" id="m-jobs" style="display:none;">
+    <div class="page-header">
+        <div class="page-title">My Jobs <span class="tag tag-y">12 Active</span></div>
+        <div class="page-sub">Escrow mode · USDC locked per job · Real-time status via WebSocket</div>
+    </div>
+    <div class="table-wrap-m">
+        <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+                <tr>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Job ID</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Title</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Status</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Escrowed</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Actions</th>
+                </tr>
+            </thead>
+            <tbody id="jobs-tbody-m"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SECTION: MY STREAMS -->
+<div class="m-page" id="m-streams" style="display:none;">
+    <div class="page-header">
+        <div class="page-title">My Streams <span class="tag tag-c">3 Live</span></div>
+        <div class="page-sub">Per-second USDC payments · Live drain counter · Extend or stop anytime</div>
+    </div>
+    <div class="table-wrap-m">
+        <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+                <tr>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Stream ID</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Rate</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Earned (Live)</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Status</th>
+                    <th
+                        style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                        Actions</th>
+                </tr>
+            </thead>
+            <tbody id="streams-tbody-m"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SECTION: EARNINGS -->
+<div class="m-page" id="m-earnings" style="display:none;">
+    <div class="page-header">
+        <div class="page-title">Earnings Dashboard <span class="tag tag-b">Provider Mode</span></div>
+        <div class="page-sub">USDC earned · Platform fees · Staking multiplier</div>
+    </div>
+    <div class="stats-row-m">
+        <div class="stat-card-m" style="--stat-color:var(--grn2)"><span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="earn-total-m">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+        </div>
+        <div class="stat-card-m" style="--stat-color:var(--acc2)"><span class="stat-icon">⏳</span>
+            <div class="stat-val-m" id="earn-pending-m">$42.80</div>
+            <div class="stat-lbl-m">Pending Withdrawal</div>
+        </div>
+    </div>
+    <div class="earnings-grid-m">
+        <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">30-Day Earnings Chart</div>
+            <div class="chart-wrap-m" id="earn-chart-m"></div>
+        </div>
+        <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">Withdrawal</div>
+            <div
+                style="background:var(--sur);border:1px solid var(--bdr);border-radius:9px;padding:13px;margin-bottom:13px;">
+                <div
+                    style="display:flex;justify-content:space-between;font:400 11px/1 var(--f);color:var(--tx2);margin-bottom:5px;">
+                    <span>Pending withdrawal</span>
+                    <span style="font:700 13px/1 var(--m);color:var(--grn2);" id="pending-wd-m">$42.80 USDC</span>
+                </div>
+            </div>
+            <button class="tbtn"
+                style="width:100%; padding:12px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+                onclick="doWithdraw()">💰 Withdraw USDC</button>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: STAKING -->
+<div class="m-page" id="m-staking" style="display:none;">
+    <div class="page-header">
+        <div class="page-title">Staking Vault <span class="tag tag-v">88% APY</span></div>
+        <div class="page-sub">Stake $opbnb → earn multiplier → earn more USDC</div>
+    </div>
+    <div class="staking-card-m">
+        <div style="display:flex; align-items:center; gap:20px;">
+            <div class="mult-ring-m">
+                <div
+                    style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                    <div style="font:800 16px/1 var(--d); color:var(--acc2)">88%</div>
+                    <div style="font:400 8px/1 var(--m); color:var(--tx2)">APY</div>
+                </div>
+            </div>
+            <div>
+                <div style="font:700 14px/1 var(--d); margin-bottom:5px;">$opbnb Staking Vault</div>
+                <div style="font:400 11px/1.5 var(--f); color:var(--tx2);">The more you stake, the higher your
+                    reputation multiplier and the more jobs you get assigned.</div>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+            <button class="tbtn"
+                style="padding:10px 20px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+                onclick="toast('⚔️','Staking','Stake more initiated')">⬆ Stake More</button>
+            <button class="tbtn" style="padding:10px 20px; border:1px solid var(--bdr); font-weight:700;"
+                onclick="toast('⏳','Staking','Unstake initiated')">⬇ Unstake</button>
+        </div>
+    </div>
+</div>

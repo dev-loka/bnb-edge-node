@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment / Secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Hardhat build artifacts
+packages/contracts/artifacts/
+packages/contracts/cache/
+packages/contracts/typechain-types/
+
+# Deployment outputs (may contain deployer address)
+deployed-addresses.json
+edge-node-core-abi.json
+
+# OS / Editor
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/settings.json

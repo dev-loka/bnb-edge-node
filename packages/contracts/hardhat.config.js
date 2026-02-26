@@ -1,14 +1,19 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-verify");
-require("dotenv").config();
+require("dotenv").config({ path: require("path").resolve(__dirname, "../../.env") });
 
 module.exports = {
-    solidity: "0.8.20",
+    solidity: {
+        version: "0.8.25",
+        settings: {
+            evmVersion: "cancun",
+            optimizer: { enabled: true, runs: 200 },
+        },
+    },
     networks: {
         opbnbTestnet: {
             url: "https://opbnb-testnet-rpc.bnbchain.org",
             chainId: 5611,
-            accounts: [process.env.PRIVATE_KEY],
+            accounts: (process.env.PRIVATE_KEY && process.env.PRIVATE_KEY.length === 66) ? [process.env.PRIVATE_KEY] : [],
         },
     },
     etherscan: {

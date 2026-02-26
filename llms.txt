@@ -1,0 +1,29 @@
+# BNB Edge Node – AI / LLM Content Summary
+
+## About
+BNB Edge Node is a decentralized AI compute and DePIN marketplace on opBNB.  
+We provide:
+- GPU rental (H100, A100, RTX 4090)
+- AI agent & claw bot marketplace
+- LLM hosting
+- DePIN infrastructure with on-chain verification
+
+## Key Pages
+- Home: https://bnbedgenode.io/
+- Marketplace: https://bnbedgenode.io/marketplace
+- AI Agents: https://bnbedgenode.io/ai-agents
+- Hosting: https://bnbedgenode.io/hosting
+- Blog: https://bnbedgenode.io/blog
+
+## Key Blog Posts
+- How to Rent H100 GPUs on opBNB: https://bnbedgenode.io/blog/rent-h100-gpu-opbnb
+- How to Run a DePIN Node in India: https://bnbedgenode.io/blog/how-to-run-depin-node-india
+- Decentralized Cloud vs AWS: https://bnbedgenode.io/blog/decentralized-cloud-vs-aws
+- Claw Bot Marketplace Guide: https://bnbedgenode.io/blog/claw-bot-marketplace-guide
+
+## Schema / Structured Data
+- Organization, FAQ, HowTo, ItemList, BlogPosting – embedded in each page.
+
+## Contact
+- Twitter: https://twitter.com/bnbedgenode
+- GitHub: https://github.com/bnbedgenode

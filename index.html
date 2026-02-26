@@ -7,10 +7,10 @@
   <title>BNB Edge Node OS v4.2 – Live Staking Demo</title>
   <meta name="description"
     content="BNB Edge Node OS: Decentralized AI worker registry secured by BNB staking. Live demo with on‑chain proof panel and staking flow.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
+
   <style>
     /* ----- DESIGN TOKENS (v4.1) ----- */
     :root {
@@ -2136,6 +2136,433 @@
       font: 700 13px/1 var(--m);
       color: var(--bnb);
     }
+
+    /* === CYBERPUNK THEME – UNCHANGED === */
+    :root {
+      --bg: #04040e;
+      --deep: #07071a;
+      --sur: #0d0d20;
+      --card: #101022;
+      --card2: #14142a;
+      --bdr: #1c1c38;
+      --bdr2: #2a2a50;
+      --acc: #7c3aed;
+      --acc2: #a855f7;
+      --cyan: #06b6d4;
+      --cyan2: #22d3ee;
+      --grn: #10b981;
+      --grn2: #34d399;
+      --gld: #f59e0b;
+      --gld2: #fcd34d;
+      --red: #ef4444;
+      --org: #f97316;
+      --bnb: #f0b90b;
+      --tx: #e8e8f5;
+      --tx2: #8888bb;
+      --tx3: #3a3a60;
+      --f: 'DM Sans', sans-serif;
+      --d: 'Syne', sans-serif;
+      --m: 'DM Mono', monospace;
+      --r: 14px;
+      --rs: 10px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.6)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        filter: brightness(1)
+      }
+
+      50% {
+        filter: brightness(1.2)
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0
+      }
+
+      100% {
+        background-position: 200% 0
+      }
+    }
+
+    @keyframes ripple {
+      0% {
+        box-shadow: 0 0 0 0 currentColor
+      }
+
+      100% {
+        box-shadow: 0 0 0 12px transparent
+      }
+    }
+
+    @keyframes ticker {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .nav-m {
+      display: flex;
+      gap: 3px;
+      background: var(--sur);
+      border: 1px solid var(--bdr);
+      border-radius: 100px;
+      padding: 3px;
+      margin-bottom: 20px;
+    }
+
+    .nv {
+      flex: 1;
+      padding: 7px 14px;
+      border-radius: 100px;
+      font: 600 12px/1 var(--f);
+      color: var(--tx2);
+      cursor: pointer;
+      transition: all .18s;
+      text-align: center;
+    }
+
+    .nv:hover {
+      background: var(--card2);
+      color: var(--tx);
+    }
+
+    .nv.on {
+      background: linear-gradient(135deg, var(--acc), var(--acc2));
+      color: #fff;
+      box-shadow: 0 2px 14px rgba(124, 58, 237, .35);
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+      border-bottom: 1px solid var(--bdr);
+      height: 30px;
+      background: rgba(7, 7, 26, .7);
+      margin-bottom: 20px;
+    }
+
+    .ticker-inner {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      white-space: nowrap;
+      font: 600 10px/1 var(--m);
+      letter-spacing: .4px;
+      animation: ticker 24s linear infinite;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 20px;
+      border-right: 1px solid var(--bdr);
+      height: 100%;
+    }
+
+    .ticker-label {
+      color: var(--tx2);
+      font-size: 9px;
+    }
+
+    .page-m {
+      padding: 0 0 60px;
+    }
+
+    .page-title {
+      font: 800 24px/1.1 var(--d);
+      letter-spacing: -.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .page-sub {
+      font: 400 13px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .tag {
+      font: 700 9px/1 var(--m);
+      padding: 3px 9px;
+      border-radius: 100px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .tag-v {
+      background: rgba(124, 58, 237, .15);
+      color: var(--acc2);
+      border: 1px solid rgba(124, 58, 237, .25);
+    }
+
+    .tag-g {
+      background: rgba(16, 185, 129, .12);
+      color: var(--grn2);
+      border: 1px solid rgba(16, 185, 129, .22);
+    }
+
+    .tag-c {
+      background: rgba(6, 182, 212, .12);
+      color: var(--cyan2);
+      border: 1px solid rgba(6, 182, 212, .22);
+    }
+
+    .tag-y {
+      background: rgba(245, 158, 11, .12);
+      color: var(--gld2);
+      border: 1px solid rgba(245, 158, 11, .22);
+    }
+
+    .tag-r {
+      background: rgba(239, 68, 68, .12);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, .22);
+    }
+
+    .tag-b {
+      background: rgba(240, 185, 11, .12);
+      color: var(--bnb);
+      border: 1px solid rgba(240, 185, 11, .22);
+    }
+
+    .stats-row-m {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .4s ease both;
+    }
+
+    .stat-card-m::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--stat-line, linear-gradient(90deg, transparent, var(--acc), transparent));
+    }
+
+    .stat-val-m {
+      font: 800 22px/1 var(--d);
+      letter-spacing: -1px;
+      color: var(--stat-color, var(--tx));
+      margin-bottom: 3px;
+    }
+
+    .stat-lbl-m {
+      font: 400 11px/1 var(--f);
+      color: var(--tx2);
+    }
+
+    .stat-delta-m {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font: 700 8px/1 var(--m);
+      padding: 2px 7px;
+      border-radius: 100px;
+      background: rgba(16, 185, 129, .1);
+      color: var(--grn2);
+      border: 1px solid rgba(16, 185, 129, .18);
+    }
+
+    .filter-bar-m {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .provider-grid-m {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .pcard-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 16px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: all .25s;
+      animation: fadeUp .4s ease both;
+    }
+
+    .pcard-m:hover {
+      border-color: var(--bdr2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 58, 237, .1);
+    }
+
+    .spec-box-m {
+      background: var(--sur);
+      border-radius: 8px;
+      padding: 9px;
+      border: 1px solid var(--bdr);
+    }
+
+    .price-row-m {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--sur);
+      border-radius: 9px;
+      border: 1px solid var(--bdr);
+      margin-bottom: 12px;
+    }
+
+    .table-wrap-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .status-m {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      font: 700 9px/1 var(--m);
+      letter-spacing: .6px;
+    }
+
+    .earnings-grid-m {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    @media(max-width:768px) {
+      .earnings-grid-m {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .earn-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .chart-wrap-m {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      padding-bottom: 4px;
+    }
+
+    .chart-col-m {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chart-bar-m {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--acc), var(--cyan2));
+      opacity: .7;
+      transition: opacity .2s;
+      cursor: pointer;
+      min-height: 3px;
+    }
+
+    .mult-ring-m {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .staking-card-m {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
   </style>
 </head>
 
@@ -2355,7 +2782,7 @@
         <div style="display:flex;gap:10px;">
           <button class="tbtn"
             style="background:linear-gradient(135deg,var(--acc),var(--cyan));color:#fff;border:none;padding:12px 20px;font-size:14px;font-weight:700;border-radius:8px;"
-            onclick="sw('marketplace', document.querySelector('button[onclick*=\\'marketplace\\']'))">Rent Spare
+            onclick="sw('marketplace', document.querySelector(`button[onclick*='marketplace']`))">Rent Spare
             Capacity →</button>
         </div>
       </div>
@@ -2390,7 +2817,7 @@
         </div>
         <button class="tbtn"
           style="background:var(--cyan);color:#000;border:none;padding:5px 12px;font-size:11px;font-weight:700;border-radius:6px;cursor:pointer;"
-          onclick="sw('marketplace', document.querySelector('button[onclick*=\\'marketplace\\']'))">Rent Now</button>
+          onclick="sw('marketplace', document.querySelector(`button[onclick*='marketplace']`))">Rent Now</button>
       </div>
 
       <div class="sr">
@@ -2701,54 +3128,255 @@
 
     <!-- ════ MARKETPLACE ════ -->
     <div class="pg" id="marketplace">
-      <div class="st">Compute Marketplace <span class="tkb"><span class="sd dg"></span> 147 Providers Live</span></div>
-      <div class="ss">For Providers: Monetize idle GPU/CPU capacities. For Clients: Rent global decentralized compute by
-        the second or per job.</div>
+      <!-- Sub Navigation for Marketplace -->
+      <nav class="nav-m">
+        <div class="nv on" onclick="sm('m-overview',this)">Overview</div>
+        <div class="nv" onclick="sm('m-marketplace',this)">Marketplace</div>
+        <div class="nv" onclick="sm('m-jobs',this)">My Jobs</div>
+        <div class="nv" onclick="sm('m-streams',this)">My Streams</div>
+        <div class="nv" onclick="sm('m-earnings',this)">Earnings</div>
+        <div class="nv" onclick="sm('m-staking',this)">Staking</div>
+      </nav>
 
-      <div class="sr" style="margin-bottom:18px;">
-        <div class="sc">
-          <div class="si">💵</div>
-          <div class="sv" style="color:#fff">$84,210</div>
-          <div class="slb">Volume 24h</div>
+      <!-- TICKER -->
+      <div class="ticker-wrap">
+        <div class="ticker-inner" id="ticker-inner"></div>
+      </div>
+
+      <!-- SECTION: OVERVIEW -->
+      <div class="m-page" id="m-overview">
+        <div class="page-header" style="margin-top:22px;">
+          <div class="page-title">Overview <span class="tag tag-g">● Live</span></div>
+          <div class="page-sub">Your position across BNB Edge Compute Marketplace · opBNB · Block #<span
+              id="block-num">8,841,293</span></div>
         </div>
-        <div class="sc">
-          <div class="si">⚙️</div>
-          <div class="sv" style="color:#fff">342</div>
-          <div class="slb">Open Jobs</div>
+
+        <div class="stats-row-m">
+          <div class="stat-card-m"
+            style="--stat-color:var(--grn2);--stat-line:linear-gradient(90deg,transparent,var(--grn),transparent);animation-delay:.05s">
+            <span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="ov-earned">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+            <div class="stat-delta-m">+$12.4</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--acc2);--stat-line:linear-gradient(90deg,transparent,var(--acc),transparent);animation-delay:.1s">
+            <span class="stat-icon">⚙️</span>
+            <div class="stat-val-m">12</div>
+            <div class="stat-lbl-m">Active Jobs</div>
+            <div class="stat-delta-m">+3</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--cyan2);--stat-line:linear-gradient(90deg,transparent,var(--cyan),transparent);animation-delay:.15s">
+            <span class="stat-icon">▶️</span>
+            <div class="stat-val-m">3</div>
+            <div class="stat-lbl-m">Live Streams</div>
+            <div class="stat-delta-m">$0.018/s</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--bnb);--stat-line:linear-gradient(90deg,transparent,var(--bnb),transparent);animation-delay:.2s">
+            <span class="stat-icon">🏅</span>
+            <div class="stat-val-m">94</div>
+            <div class="stat-lbl-m">Reputation Score</div>
+            <div class="stat-delta-m">↑ 2pts</div>
+          </div>
+          <div class="stat-card-m"
+            style="--stat-color:var(--gld2);--stat-line:linear-gradient(90deg,transparent,var(--gld),transparent);animation-delay:.25s">
+            <span class="stat-icon">💎</span>
+            <div class="stat-val-m" id="ov-staked">12,450 opbnb</div>
+            <div class="stat-lbl-m">Staked</div>
+            <div class="stat-delta-m">2.1× mult</div>
+          </div>
+          <div class="stat-card-m" style="--stat-color:var(--tx);animation-delay:.3s">
+            <span class="stat-icon">📊</span>
+            <div class="stat-val-m">99.2%</div>
+            <div class="stat-lbl-m">Uptime 30d</div>
+            <div class="stat-delta-m">PLATINUM</div>
+          </div>
         </div>
-        <div class="sc">
-          <div class="si">▶️</div>
-          <div class="sv" style="color:#fff">89</div>
-          <div class="slb">Active Streams</div>
+        <div
+          style="padding:18px;background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:22px;">
+          <div style="font:700 14px/1 var(--d);margin-bottom:12px;">Quick Actions</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; background:var(--acc); color:#fff; border:none;"
+              onclick="openModal('modal-job')">⚙️ Post Job</button>
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; background:var(--cyan); color:#000; border:none;"
+              onclick="openModal('modal-stream')">▶️ Open Stream</button>
+            <button class="tbtn"
+              style="padding: 10px 20px; font-weight:700; border:1px solid var(--bnb); color:var(--bnb);"
+              onclick="sm('m-earnings',null)">💰 Withdraw Earnings</button>
+            <button class="tbtn" style="padding: 10px 20px; font-weight:700; border:1px solid var(--bdr);"
+              onclick="sm('m-staking',null)">💎 Manage Stake</button>
+          </div>
         </div>
       </div>
 
-      <div class="fee-banner">
-        <span>📊</span>
-        <span>Platform fee: <span class="fee-val">2.5%</span> basis points · Auto-deducted · Distributed to $opbnb
-          stakers</span>
-        <button class="btn-hire" onclick="openModal('modal-job')"
-          style="margin-left:auto;max-width:120px;font-size:11px;padding:6px 12px;">⚙️ Post Job</button>
-        <button class="btn-stream" onclick="openModal('modal-stream')"
-          style="max-width:120px;font-size:11px;padding:6px 12px;">▶️ Open Stream</button>
+      <!-- SECTION: MARKETPLACE MAIN -->
+      <div class="m-page" id="m-marketplace" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Compute Marketplace <span class="tag tag-c">147 Providers</span> <span
+              class="tag tag-g">● Live</span></div>
+          <div class="page-sub">Hire GPU/CPU providers · Pay USDC · Job escrow or per-second streaming</div>
+        </div>
+
+        <!-- fee banner -->
+        <div class="fee-banner"
+          style="margin-bottom: 20px; padding: 15px; background: rgba(240,185,11,0.05); border: 1px solid rgba(240,185,11,0.2); border-radius: 12px; display: flex; align-items: center; gap: 15px;">
+          <span>📊</span>
+          <span style="flex:1;">Platform fee: <strong style="color:var(--bnb)">2.5%</strong> · Distributed to stakers ·
+            opBNB TX cost: <strong style="color:var(--grn2)">$0.001</strong></span>
+          <button class="tbtn"
+            style="padding: 6px 15px; background:var(--acc); color:#fff; border:none; font-size:12px;"
+            onclick="openModal('modal-job')">⚙️ Post Job</button>
+          <button class="tbtn"
+            style="padding: 6px 15px; background:var(--cyan); color:#000; border:none; font-size:12px;"
+            onclick="openModal('modal-stream')">▶️ Open Stream</button>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar-m">
+          <label style="font:700 10px/1 var(--m); color:var(--tx2); text-transform:uppercase;">Filter</label>
+          <select class="filter-sel" id="filt-gpu-m" onchange="filterProvidersM()">
+            <option value="">All GPUs</option>
+            <option value="RTX 4090">RTX 4090</option>
+            <option value="A100">A100</option>
+            <option value="H100">H100</option>
+          </select>
+          <select class="filter-sel" id="filt-sort-m" onchange="filterProvidersM()">
+            <option value="rep">Reputation</option>
+            <option value="price_asc">Price: Low → High</option>
+          </select>
+          <span id="filt-count-m" style="font:700 10px/1 var(--m);color:var(--tx2);margin-left:auto;">12
+            providers</span>
+        </div>
+
+        <div class="provider-grid-m" id="provider-grid-m"></div>
       </div>
 
-      <div class="filter-bar">
-        <label>Filter</label>
-        <select class="filter-sel" id="filt-gpu" onchange="filterProviders()">
-          <option value="">All GPUs</option>
-          <option value="RTX 4090">RTX 4090</option>
-          <option value="A100">A100</option>
-          <option value="H100">H100</option>
-        </select>
-        <select class="filter-sel" id="filt-sort" onchange="filterProviders()">
-          <option value="rep">Sort by Reputation</option>
-          <option value="price_asc">Price: Low → High</option>
-        </select>
-        <span id="filt-count" style="margin-left:auto;font:700 10px/1 var(--m);color:var(--tx2);">2 providers</span>
+      <!-- SECTION: MY JOBS -->
+      <div class="m-page" id="m-jobs" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">My Jobs <span class="tag tag-y">12 Active</span></div>
+          <div class="page-sub">Escrow mode · USDC locked per job · Real-time status via WebSocket</div>
+        </div>
+        <div class="table-wrap-m">
+          <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+              <tr>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Job ID</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Title</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Status</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Escrowed</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobs-tbody-m"></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="provider-grid" id="provider-grid"></div>
+      <!-- SECTION: MY STREAMS -->
+      <div class="m-page" id="m-streams" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">My Streams <span class="tag tag-c">3 Live</span></div>
+          <div class="page-sub">Per-second USDC payments · Live drain counter · Extend or stop anytime</div>
+        </div>
+        <div class="table-wrap-m">
+          <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+            <thead style="background: var(--sur); border-bottom: 1px solid var(--bdr);">
+              <tr>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Stream ID</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Rate</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Earned (Live)</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Status</th>
+                <th style="padding:12px; text-align:left; color:var(--tx2); font-size:10px; text-transform:uppercase;">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody id="streams-tbody-m"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: EARNINGS -->
+      <div class="m-page" id="m-earnings" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Earnings Dashboard <span class="tag tag-b">Provider Mode</span></div>
+          <div class="page-sub">USDC earned · Platform fees · Staking multiplier</div>
+        </div>
+        <div class="stats-row-m">
+          <div class="stat-card-m" style="--stat-color:var(--grn2)"><span class="stat-icon">💵</span>
+            <div class="stat-val-m" id="earn-total-m">$847.20</div>
+            <div class="stat-lbl-m">Total USDC Earned</div>
+          </div>
+          <div class="stat-card-m" style="--stat-color:var(--acc2)"><span class="stat-icon">⏳</span>
+            <div class="stat-val-m" id="earn-pending-m">$42.80</div>
+            <div class="stat-lbl-m">Pending Withdrawal</div>
+          </div>
+        </div>
+        <div class="earnings-grid-m">
+          <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">30-Day Earnings Chart</div>
+            <div class="chart-wrap-m" id="earn-chart-m"></div>
+          </div>
+          <div class="earn-card-m">
+            <div style="font:700 14px/1 var(--d);margin-bottom:14px;">Withdrawal</div>
+            <div
+              style="background:var(--sur);border:1px solid var(--bdr);border-radius:9px;padding:13px;margin-bottom:13px;">
+              <div
+                style="display:flex;justify-content:space-between;font:400 11px/1 var(--f);color:var(--tx2);margin-bottom:5px;">
+                <span>Pending withdrawal</span>
+                <span style="font:700 13px/1 var(--m);color:var(--grn2);" id="pending-wd-m">$42.80 USDC</span>
+              </div>
+            </div>
+            <button class="tbtn"
+              style="width:100%; padding:12px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+              onclick="doWithdraw()">💰 Withdraw USDC</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: STAKING -->
+      <div class="m-page" id="m-staking" style="display:none;">
+        <div class="page-header">
+          <div class="page-title">Staking Vault <span class="tag tag-v">88% APY</span></div>
+          <div class="page-sub">Stake $opbnb → earn multiplier → earn more USDC</div>
+        </div>
+        <div class="staking-card-m">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div class="mult-ring-m">
+              <div
+                style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div style="font:800 16px/1 var(--d); color:var(--acc2)">88%</div>
+                <div style="font:400 8px/1 var(--m); color:var(--tx2)">APY</div>
+              </div>
+            </div>
+            <div>
+              <div style="font:700 14px/1 var(--d); margin-bottom:5px;">$opbnb Staking Vault</div>
+              <div style="font:400 11px/1.5 var(--f); color:var(--tx2);">The more you stake, the higher your
+                reputation multiplier and the more jobs you get assigned.</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
+            <button class="tbtn"
+              style="padding:10px 20px; background:var(--acc); color:#fff; border:none; font-weight:700;"
+              onclick="toast('⚔️','Staking','Stake more initiated')">⬆ Stake More</button>
+            <button class="tbtn" style="padding:10px 20px; border:1px solid var(--bdr); font-weight:700;"
+              onclick="toast('⏳','Staking','Unstake initiated')">⬇ Unstake</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="pg" id="agents">
@@ -3137,7 +3765,7 @@
       function sw(id, b) {
         document.querySelectorAll('.pg').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nt').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active'); if (b) b.classList.add('active');
+        document.getElementById(id).classList.add('active'); if (b) b.classList.add('active'); if (id === 'marketplace') sm('m-overview', document.querySelector('.nav-m .nv')); if (id === 'marketplace') sm('m-overview', document.querySelector('.nav-m .nv'));
       }
       function cw() { toast('⚡', 'Wallet', 'Connected: 0x7F...2B91'); }
       function toast(i, t, m) {
@@ -3201,58 +3829,149 @@
         if (proofWallet) proofWallet.textContent = '0x7F3A...2B91';
       });
 
-      // MARKETPLACE LOGIC
-      const mProviders = [
-        { id: '0x7F3A', name: 'Kerala Node', loc: 'Kerala, India', emoji: '🇮🇳', gpu: 'RTX 4090', vram: '24 GB', cpu: '32 cores', ram: '64 GB', bw: '1 Gbps', rep: 94, staked: '12,450', uptime: 99.2, price: 0.005, jobs: 142, available: true, bg: 'linear-gradient(135deg,#7c3aed,#06b6d4)' },
-        { id: '0xA1B2', name: 'GPU Hub', loc: 'Frankfurt, Germany', emoji: '🇩🇪', gpu: 'A100', vram: '40 GB', cpu: '64 cores', ram: '128 GB', bw: '2 Gbps', rep: 88, staked: '8,500', uptime: 98.2, price: 0.008, jobs: 84, available: true, bg: 'linear-gradient(135deg,#059669,#06b6d4)' },
-        { id: '0x9C0D', name: 'SG Compute', loc: 'Singapore', emoji: '🇸🇬', gpu: 'H100', vram: '80 GB', cpu: '96 cores', ram: '256 GB', bw: '10 Gbps', rep: 97, staked: '21,000', uptime: 99.8, price: 0.012, jobs: 203, available: true, bg: 'linear-gradient(135deg,#d97706,#dc2626)' }
-      ];
 
-      function renderProviders(data = mProviders) {
-        const grid = document.getElementById('provider-grid');
+      const mState = {
+        providers: [
+          { id: '0x7F3A...2B91', name: 'Kerala Node', loc: 'Kerala, India', emoji: '🇮🇳', gpu: 'RTX 4090', vram: '24 GB', cpu: '32 cores', ram: '64 GB', bw: '1 Gbps', rep: 94, staked: '12,450', uptime: 99.2, price: 0.005, jobs: 142, available: true, bg: 'linear-gradient(135deg,#7c3aed,#06b6d4)' },
+          { id: '0xA1B2...C3D4', name: 'GPU Hub', loc: 'Frankfurt, Germany', emoji: '🇩🇪', gpu: 'A100', vram: '40 GB', cpu: '64 cores', ram: '128 GB', bw: '2 Gbps', rep: 88, staked: '8,500', uptime: 98.2, price: 0.008, jobs: 84, available: true, bg: 'linear-gradient(135deg,#059669,#06b6d4)' },
+          { id: '0x9C0D...E1F2', name: 'SG Compute', loc: 'Singapore', emoji: '🇸🇬', gpu: 'H100', vram: '80 GB', cpu: '96 cores', ram: '256 GB', bw: '10 Gbps', rep: 97, staked: '21,000', uptime: 99.8, price: 0.012, jobs: 203, available: true, bg: 'linear-gradient(135deg,#d97706,#dc2626)' }
+        ],
+        jobs: [
+          { id: '#JOB-2847', title: 'LLM Inference LLaMA 70B', status: 'running', escrowed: '$12.00' },
+          { id: '#JOB-2848', title: 'Stable Diffusion batch', status: 'assigned', escrowed: '$8.50' }
+        ],
+        streams: [
+          { id: '#STR-21983', provider: 'Kerala Node', rate: 0.005, earned: 1.24, status: 'active' }
+        ],
+        earnings: { total: 847.20, pending: 42.80 },
+        blockNum: 8841293,
+        tickerItems: [
+          { l: 'BNB', v: '$584', d: 'up', c: '+2.1%' },
+          { l: 'USDC', v: '$1.00', d: 'up', c: 'stable' },
+          { l: 'opBNB Gas', v: '$0.001', d: 'up', c: '' },
+          { l: 'Vol 24h', v: '$84.2K', d: 'up', c: '+18%' }
+        ]
+      };
+
+      function sm(id, el) {
+        document.querySelectorAll('.m-page').forEach(p => p.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        document.querySelectorAll('.nav-m .nv').forEach(n => n.classList.remove('on'));
+        if (el) el.classList.add('on');
+        if (id === 'm-marketplace') renderProvidersM();
+        if (id === 'm-jobs') renderJobsM();
+        if (id === 'm-streams') renderStreamsM();
+        if (id === 'm-earnings') renderChartM();
+      }
+
+      function renderProvidersM(data = mState.providers) {
+        const grid = document.getElementById('provider-grid-m');
         if (!grid) return;
         grid.innerHTML = '';
         data.forEach(p => {
           grid.innerHTML += `
-            <div class="pcard">
-              <div class="pcard-head">
-                <div class="pcard-avatar" style="background:${p.bg}">${p.emoji}</div>
-                <div style="flex:1;min-width:0;">
-                  <div class="pcard-name">${p.name}</div>
-                  <div class="pcard-addr">${p.id}</div>
-                  <div class="pcard-loc">📍 ${p.loc}</div>
-                </div>
-                <div class="avail-dot"></div>
-              </div>
-              <div class="pcard-specs">
-                <div class="spec-box"><div class="spec-label">GPU</div><div class="spec-val">${p.gpu}</div></div>
-                <div class="spec-box"><div class="spec-label">VRAM</div><div class="spec-val">${p.vram}</div></div>
-              </div>
-              <div class="rep-row"><span class="rep-label">Reputation Score</span><span class="rep-score" style="color:var(--grn2)">${p.rep}/100</span></div>
-              <div class="rep-bar"><div class="rep-fill" style="width:${p.rep}%"></div></div>
-              <div class="price-row">
-                <div><div class="price-val">$${p.price.toFixed(3)}/s</div><div class="price-meta">≈ $${(p.price * 3600).toFixed(2)}/hr</div></div>
-                <div class="stake-info"><div class="stake-val">${p.staked}</div><div class="stake-label">Staked opBNB</div></div>
-              </div>
-              <div class="pcard-btns">
-                <button class="btn-hire" onclick="hireProvider('${p.id}')">⚙️ Hire (Job)</button>
-                <button class="btn-stream" onclick="streamProvider('${p.id}')">▶️ Stream</button>
-              </div>
-            </div>`;
+        <div class="pcard-m">
+          <div style="display:flex;gap:11px;margin-bottom:14px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:${p.bg};display:flex;align-items:center;justify-content:center;font-size:20px;">${p.emoji}</div>
+            <div style="flex:1;">
+              <div style="font:700 15px/1.2 var(--d);">${p.name}</div>
+              <div style="font:400 10px/1 var(--m);color:var(--cyan2);">${p.id}</div>
+            </div>
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--grn2);box-shadow:0 0 9px var(--grn);"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;">
+            <div class="spec-box-m"><div style="font:400 9px/1 var(--m);color:var(--tx2);">GPU</div><div style="font:700 12px/1 var(--f);">${p.gpu}</div></div>
+            <div class="spec-box-m"><div style="font:400 9px/1 var(--m);color:var(--tx2);">VRAM</div><div style="font:700 12px/1 var(--f);">${p.vram}</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font:700 11px/1 var(--m);">${p.rep}/100</div>
+          <div style="height:4px;background:var(--sur);border-radius:100px;margin:5px 0 12px;"><div style="height:100%;width:${p.rep}%;background:var(--grn);"></div></div>
+          <div class="price-row-m">
+            <div><div style="font:800 16px/1 var(--d);color:var(--grn2);">$${p.price}</div><div style="font:400 9px/1 var(--m);color:var(--tx2);">per second</div></div>
+            <div style="text-align:right;"><div style="font:700 12px/1 var(--m);color:var(--acc2);">${p.staked}</div><div style="font:400 9px/1 var(--f);color:var(--tx2);">Staked</div></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="tbtn" style="flex:1; padding:8px; background:var(--acc); color:#fff; border:none; font-weight:700;" onclick="hireProvider('${p.id}')">⚙️ Hire</button>
+            <button class="tbtn" style="flex:1; padding:8px; border:1px solid var(--bdr);" onclick="streamProvider('${p.id}')">▶️ Stream</button>
+          </div>
+        </div>`;
         });
-        document.getElementById('filt-count').innerText = data.length + ' providers';
+        document.getElementById('filt-count-m').innerText = data.length + ' providers';
       }
 
-      function filterProviders() {
-        const gpu = document.getElementById('filt-gpu').value;
-        const s = mProviders.filter(p => gpu ? p.gpu.includes(gpu) : true);
-        renderProviders(s);
+      function renderJobsM() {
+        const tb = document.getElementById('jobs-tbody-m');
+        if (!tb) return;
+        tb.innerHTML = '';
+        mState.jobs.forEach(j => {
+          tb.innerHTML += `<tr>
+        <td style="padding:12px; font-family:var(--m); color:var(--acc2);">${j.id}</td>
+        <td style="padding:12px;">${j.title}</td>
+        <td style="padding:12px;"><span class="status-m" style="background:rgba(16,185,129,0.1); color:var(--grn2);">${j.status}</span></td>
+        <td style="padding:12px; font-family:var(--m); color:var(--grn2);">${j.escrowed}</td>
+        <td style="padding:12px;"><button class="tbtn" style="padding:4px 8px; font-size:10px;" onclick="toast('ℹ️','Job','Details for ${j.id}')">Details</button></td>
+      </tr>`;
+        });
+      }
+
+      function renderStreamsM() {
+        const tb = document.getElementById('streams-tbody-m');
+        if (!tb) return;
+        tb.innerHTML = '';
+        mState.streams.forEach(s => {
+          tb.innerHTML += `<tr>
+        <td style="padding:12px; font-family:var(--m); color:var(--cyan2);">${s.id}</td>
+        <td style="padding:12px;">$${s.rate}/s</td>
+        <td style="padding:12px; font-weight:700; color:var(--grn2);">$${s.earned}</td>
+        <td style="padding:12px;"><span class="status-m" style="background:rgba(6,182,212,0.1); color:var(--cyan2);">${s.status}</span></td>
+        <td style="padding:12px;"><button class="tbtn" style="padding:4px 8px; font-size:10px; background:var(--red); color:#fff; border:none;" onclick="toast('⏹️','Stream','Stopped')">Stop</button></td>
+      </tr>`;
+        });
+      }
+
+      function renderChartM() {
+        const wrap = document.getElementById('earn-chart-m');
+        if (!wrap) return;
+        wrap.innerHTML = '';
+        [18, 22, 19, 28, 31, 25, 34, 29, 36, 38, 27, 41, 35, 44, 38, 47, 42, 51, 45, 54].forEach(v => {
+          const col = document.createElement('div');
+          col.className = 'chart-col-m';
+          col.innerHTML = `<div class="chart-bar-m" style="height:${v}%"></div>`;
+          wrap.appendChild(col);
+        });
       }
 
       function openModal(id) { document.getElementById(id).classList.add('open'); }
       function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-      function setPriority(e, b) { }
-      function hireProvider(id) { openModal('modal-job'); }
+      function setPriority(e, b) {
+        document.querySelectorAll('.priority-btn').forEach(btn => {
+          btn.classList.remove('active-med');
+          btn.style.borderColor = 'var(--bdr)';
+          btn.style.color = 'var(--tx2)';
+        });
+        e.classList.add('active-med');
+        if (b === 'med') { e.style.borderColor = 'var(--gld)'; e.style.color = 'var(--gld2)'; }
+        if (b === 'high') { e.style.borderColor = 'var(--acc)'; e.style.color = 'var(--acc2)'; }
+        if (b === 'low') { e.style.borderColor = 'var(--grn)'; e.style.color = 'var(--grn2)'; }
+      }
+      function hireProvider(id) {
+        const p = mState.providers.find(x => x.id === id);
+        if (p) {
+          const gpuSelect = document.getElementById('job-gpu');
+          if (gpuSelect) {
+            let found = false;
+            Array.from(gpuSelect.options).forEach(opt => {
+              if (opt.text === p.gpu) found = true;
+            });
+            if (!found) {
+              const opt = document.createElement('option');
+              opt.text = p.gpu;
+              gpuSelect.add(opt);
+            }
+            gpuSelect.value = p.gpu;
+          }
+        }
+        openModal('modal-job');
+      }
       function streamProvider(id) {
         document.getElementById('stream-provider').value = id;
         openModal('modal-stream');
@@ -3278,26 +3997,39 @@
         }, 1500);
       }
 
-      document.addEventListener('DOMContentLoaded', () => { renderProviders(); });
+      function filterProvidersM() {
+        const gpu = document.getElementById('filt-gpu-m').value;
+        const sortSel = document.getElementById('filt-sort-m');
+        const sort = sortSel ? sortSel.value : '';
 
-      // Init charts
-      const c = document.getElementById('earningsChart');
-      if (c) {
-        let html = '';
-        const days = ['Feb 12', 'Feb 13', 'Feb 14', 'Feb 15', 'Feb 16', 'Feb 17', 'Feb 18', 'Feb 19', 'Feb 20', 'Feb 21', 'Feb 22', 'Feb 23', 'Feb 24', 'Feb 25'];
-        days.forEach(d => {
-          const h1 = 30 + Math.random() * 50;
-          const h2 = 15 + Math.random() * 40;
-          html += `<div class="bar-group">
-            <div class="bar-wrap">
-              <div class="bar" style="height:${h1}%; background:var(--acc)"></div>
-              <div class="bar" style="height:${h2}%; background:var(--cyan)"></div>
-            </div>
-            <div class="bar-label">${d}</div>
-          </div>`;
-        });
-        c.innerHTML = html;
+        let s = mState.providers.filter(p => gpu ? p.gpu.includes(gpu) : true);
+
+        if (sort === 'rep') s.sort((a, b) => b.rep - a.rep);
+        else if (sort === 'price_asc') s.sort((a, b) => a.price - b.price);
+
+        renderProvidersM(s);
       }
+
+      function renderTickerM() {
+        const tickerInner = document.getElementById('ticker-inner');
+        if (tickerInner) {
+          tickerInner.innerHTML = mState.tickerItems.map(i => `
+        <div class="ticker-item">
+          <span class="ticker-label">${i.l}</span>
+          <span>${i.v}</span>
+          <span style="color:var(--grn2)">${i.c}</span>
+        </div>`).join('');
+        }
+      }
+
+      // Update on Load
+      document.addEventListener('DOMContentLoaded', () => {
+        renderTickerM();
+        renderProvidersM();
+      });
+
+
+
     </script>
 
     <!-- Post Job Modal -->

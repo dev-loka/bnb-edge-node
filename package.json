@@ -15,6 +15,7 @@
         "seed": "node scripts/seed.ts"
     },
     "devDependencies": {
+        "dotenv": "^17.3.1",
         "turbo": "^2.0.0"
     },
     "packageManager": "pnpm@9.0.0"
